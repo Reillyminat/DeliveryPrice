@@ -14,38 +14,39 @@ namespace DeliveryPrice
                                     IEnumerable<string> currencies)
         {
             decimal fullPrice = default;
-            if (Validation(destinations, clients, infantsIds, childrenIds, prices, currencies))
+            if (!IsDataValid(destinations, clients, infantsIds, childrenIds, prices, currencies))
             {
-                prices = ConvertPricesToUSD(prices, currencies);
-                CalculateDiscounts(destinations, clients, infantsIds, childrenIds, ref prices);
-                foreach (decimal pr in prices)
-                    fullPrice += pr;
+                return fullPrice;
             }
 
+            prices = ConvertPricesToUSD(prices, currencies);
+            CalculateDiscounts(destinations, clients, infantsIds, childrenIds, ref prices);
+            foreach (var value in prices)
+                fullPrice += value;
             return fullPrice;
         }
         private IEnumerable<decimal> ConvertPricesToUSD(IEnumerable<decimal> prices, IEnumerable<string> currencies)
         {
-            int iter = 0;
+            var iter = 0;
             List<decimal> modPrices = prices.ToList();
-            foreach (string cur in currencies)
+            foreach (var currency in currencies)
             {
-                if (cur == "EUR")
+                if (currency == "EUR")
                     modPrices[iter] *= 1.19m; //exchange rate dollar - euro
                 iter++;
             }
             return modPrices;
         }
-        private bool Validation(IEnumerable<string> destinations,
+        private bool IsDataValid(IEnumerable<string> destinations,
                                     IEnumerable<string> clients,
                                     IEnumerable<int> infantsIds,
                                     IEnumerable<int> childrenIds,
                                     IEnumerable<decimal> prices,
                                     IEnumerable<string> currencies)
         {
-            int checkCount = destinations.Count();
+            var checkCount = destinations.Count();
             if (checkCount == clients.Count() && checkCount == prices.Count()
-                && checkCount == currencies.Count() && infantsIds.Count() + childrenIds.Count() < checkCount)
+                && checkCount == currencies.Count() && infantsIds.Count() + childrenIds.Count() <= checkCount)
                 return true;
             return false;
         }
@@ -55,41 +56,40 @@ namespace DeliveryPrice
                                     IEnumerable<int> childrenIds,
                                     ref IEnumerable<decimal> prices)
         {
-            decimal[] modPrices = prices.ToArray();
-            int[] infId = infantsIds.ToArray();
-            int[] chId = childrenIds.ToArray();
+            decimal[] resultPrices = prices.ToArray();
+            int[] infantsIdArray = infantsIds.ToArray();
+            int[] childrensIdArray = childrenIds.ToArray();
 
-            //var merged = destinations.Zip(prices, (a, b) => Tuple.Create(a, b));
-
-            int iter = 0, infIter = 0, chIter = 0;
-            string prevAddr = "";
-            decimal percentDiscount = 1;
-            foreach (string dest in destinations)
+            int index = 0, infantsIterator = 0, childIterator = 0;
+            var prevAddr = "";
+            var percentDiscount = 1m;
+            foreach (var dest in destinations)
             {
                 if (dest.Contains("Wayne Street"))
-                    modPrices[iter] += 10;
+                    resultPrices[index] += 10;
 
                 if (dest.Contains("North Heather Street"))
-                    modPrices[iter] -= 5.36m;
+                    resultPrices[index] -= 5.36m;
 
-                if (chIter < chId.Length && chId[chIter] == iter)
+                if (childIterator < childrensIdArray.Length && childrensIdArray[childIterator] == index)
                 {
                     percentDiscount -= 0.25m;
-                    chIter++;
+                    childIterator++;
                 }
-                else if (infIter < infId.Length && infId[infIter] == iter)
+                else if (infantsIterator < infantsIdArray.Length && infantsIdArray[infantsIterator] == index)
                 {
                     percentDiscount -= 0.5m;
-                    infIter++;
+                    infantsIterator++;
                 }
                 if (dest.Contains(prevAddr))
                     percentDiscount -= 0.15m;
-                modPrices[iter] *= percentDiscount;
+
+                resultPrices[index] *= percentDiscount;
                 percentDiscount = 1;
-                prevAddr = dest.Substring(4);
-                iter++;
+                prevAddr = dest.Substring(dest.IndexOf(' '));
+                index++;
             }
-            prices = modPrices;
+            prices = resultPrices;
         }
         public decimal InvokePriceCalculatiion()
         {
