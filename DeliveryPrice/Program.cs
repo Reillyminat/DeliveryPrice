@@ -58,7 +58,7 @@ namespace DeliveryPrice
         private IEnumerable<decimal> ConvertPricesToUSD(IEnumerable<decimal> prices, IEnumerable<string> currencies)
         {
             var iter = 0;
-            List<decimal> modPrices = prices.ToList();
+            var modPrices = prices.ToList();
             foreach (var currency in currencies)
             {
                 if (currency == "EUR")
@@ -88,11 +88,11 @@ namespace DeliveryPrice
                                     IEnumerable<int> childrenIds,
                                     ref IEnumerable<decimal> prices)
         {
-            decimal[] resultPrices = prices.ToArray();
-            int[] infantsIdArray = infantsIds.ToArray();
-            int[] childrensIdArray = childrenIds.ToArray();
+            var resultPrices = prices.ToArray();
+            var infantsIdArray = infantsIds.ToArray();
+            var childrensIdArray = childrenIds.ToArray();
 
-            int index = 0;
+            var index = 0;
             var prevAddr = "";
             var percentOfTotalPrice = 1m;
             foreach (var address in destinations)
