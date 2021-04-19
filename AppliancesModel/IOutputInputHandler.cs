@@ -2,7 +2,7 @@
 {
     public interface IOutputInputHandler
     {
-        public void SelectApplianceToAdd(out int inputType, out int inputCount, string name);
+        public void SelectApplianceToAdd(out int inputType, out int inputCount);
 
         public void SetApplianceProperties(out string name, out int guarantee, out Dimensions dimensions, out decimal price, out string producingCountry);
 
@@ -11,10 +11,6 @@
         public void SetRefrigeratorProperties(out int totalVolume, out bool containsFreezer);
 
         public void SetKitchenStoveProperties(out bool combinedGasElectric, out bool containsOven);
-
-        public void ShowRightsError();
-
-        public void ShowStockRefresh();
 
         public void ShowStockNumbers(int washerCount, int refrigeratorCount, int kitchenStoveCount);
 

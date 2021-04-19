@@ -4,9 +4,8 @@ namespace AppliancesModel
 {
     public class ConsoleInputOutput : IOutputInputHandler
     {
-        public void SelectApplianceToAdd(out int inputType, out int inputCount, string name)
+        public void SelectApplianceToAdd(out int inputType, out int inputCount)
         {
-            Console.WriteLine("Welcome {0}!", name);
             Console.WriteLine("Select appliance to add:\n" +
                 "1. Washer.\n" +
                 "2. Refrigerator.\n" +
@@ -53,15 +52,6 @@ namespace AppliancesModel
             containsOven = CheckBoolInput("Input is it contains oven (true/false):");
         }
 
-        public void ShowRightsError()
-        {
-            Console.WriteLine("Insufficient rights.");
-        }
-
-        public void ShowStockRefresh()
-        {
-            Console.WriteLine("Stock added.");
-        }
         public void ShowStockNumbers(int washerCount, int refrigeratorCount, int kitchenStoveCount)
         {
             Console.WriteLine("Total {0} washers, {1} refrigerators, {2} kitchen stoves.", washerCount, refrigeratorCount, kitchenStoveCount);

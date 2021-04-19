@@ -7,7 +7,6 @@ namespace AppliancesModel
     {
         List<Appliances> complex;
         int id;
-        DateTime blackFriday = new DateTime(2015, 11, 26);
         IOutputInputHandler dataHandler;
         // Initial purchase of goods.
         public AppliancesDistribution()
@@ -23,29 +22,21 @@ namespace AppliancesModel
                 complex.Add(new KitchenStove(id++, "KitchenStove" + i, 12, new Dimensions(40 + i, 60 + i, 40 + i), 100 * i, "France", true, true));
         }
 
-        public decimal MakeAnOrder(string name, User person)
+        public decimal MakeAnOrder(string name)
         {
             var order = complex.Find(i => i.Name == name);
             if (order == null)
                 return 0;
-            var percentOfTotalPrice = 1m;
-
             complex.Remove(order);
-            if (DateTime.Today.Day == blackFriday.Day && DateTime.Today.Month == blackFriday.Month)
-                percentOfTotalPrice -= 0.15m;
-            if (DateTime.Today.Day == person.birthDate.Day && DateTime.Today.Month == person.birthDate.Month)
-                percentOfTotalPrice -= 0.1m;
-            return order.Price * percentOfTotalPrice;
+            return order.Price;
         }
 
-        public bool AddGoods(User person)
+        public bool AddGoods()
         {
             var id = 0;
-            if (person.administratorRights == true)
-            {
                 int inputType, inputCount;
 
-                dataHandler.SelectApplianceToAdd(out inputType, out inputCount, person.name);
+                dataHandler.SelectApplianceToAdd(out inputType, out inputCount);
                 for (int i = 0; i < inputCount; i++)
                 {
                     switch (inputType)
@@ -61,14 +52,7 @@ namespace AppliancesModel
                             break;
                     }
                 }
-                dataHandler.ShowStockRefresh();
                 return true;
-            }
-            else
-            {
-                dataHandler.ShowRightsError();
-                return false;
-            }
         }
 
         public void ShowStock()

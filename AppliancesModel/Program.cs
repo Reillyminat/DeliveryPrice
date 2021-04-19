@@ -8,13 +8,12 @@ namespace AppliancesModel
         static void Main(string[] args)
         {
             var startup = new AppliancesDistribution();
-            var owner = new User(0, true, new DateTime(1990, 04, 15), "Alex");
-            startup.AddGoods(owner);
+            startup.AddGoods();
             startup.ShowStock();
 
             Console.WriteLine("\nInput name of product you want to buy:");
             var productName = Console.ReadLine();
-            var orderPrice = startup.MakeAnOrder(productName, owner);
+            var orderPrice = startup.MakeAnOrder(productName);
 
             if (orderPrice != 0)
                 Console.WriteLine("To pay {0}.", orderPrice);
