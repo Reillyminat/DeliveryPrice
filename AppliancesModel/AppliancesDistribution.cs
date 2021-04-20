@@ -22,37 +22,38 @@ namespace AppliancesModel
                 complex.Add(new KitchenStove(id++, "KitchenStove" + i, 12, new Dimensions(40 + i, 60 + i, 40 + i), 100 * i, "France", true, true));
         }
 
-        public decimal MakeAnOrder(string name)
+        public Appliances MakeAnOrder()
         {
-            var order = complex.Find(i => i.Name == name);
+            var applianceName = dataHandler.GetApplianceName();
+            var order = complex.Find(i => i.Name == applianceName);
             if (order == null)
-                return 0;
+                return null;
             complex.Remove(order);
-            return order.Price;
+            return order;
         }
 
         public bool AddGoods()
         {
             var id = 0;
-                int inputType, inputCount;
+            int inputType, inputCount;
 
-                dataHandler.SelectApplianceToAdd(out inputType, out inputCount);
-                for (int i = 0; i < inputCount; i++)
+            dataHandler.SelectApplianceToAdd(out inputType, out inputCount);
+            for (int i = 0; i < inputCount; i++)
+            {
+                switch (inputType)
                 {
-                    switch (inputType)
-                    {
-                        case 1:
-                            complex.Add(new Washer(id++));
-                            break;
-                        case 2:
-                            complex.Add(new Refrigerator(id++));
-                            break;
-                        case 3:
-                            complex.Add(new KitchenStove(id++));
-                            break;
-                    }
+                    case 1:
+                        complex.Add(new Washer(id++));
+                        break;
+                    case 2:
+                        complex.Add(new Refrigerator(id++));
+                        break;
+                    case 3:
+                        complex.Add(new KitchenStove(id++));
+                        break;
                 }
-                return true;
+            }
+            return true;
         }
 
         public void ShowStock()

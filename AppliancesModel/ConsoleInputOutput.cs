@@ -76,5 +76,11 @@ namespace AppliancesModel
                 Console.WriteLine("Input true/false!");
             return input;
         }
+
+        public string GetApplianceName()
+        {
+            Console.WriteLine("Input appliance name you want to buy:");
+            return Console.ReadLine();
+        }
     }
 }

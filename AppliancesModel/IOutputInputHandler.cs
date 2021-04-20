@@ -4,6 +4,8 @@
     {
         public void SelectApplianceToAdd(out int inputType, out int inputCount);
 
+        public string GetApplianceName();
+
         public void SetApplianceProperties(out string name, out int guarantee, out Dimensions dimensions, out decimal price, out string producingCountry);
 
         public void SetWasherProperties(out int waterConsuming, out int maximumLoad);
