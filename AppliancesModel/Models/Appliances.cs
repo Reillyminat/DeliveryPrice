@@ -3,22 +3,23 @@
     public abstract class Appliances
     {
         public AppliancesStock Type { get; set; }
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Guarantee { get; set; }
-        public Dimensions Dimensions { get; set; }
-        public decimal Price { get; set; }
-        public string ProducingCountry { get; set; }
-        public IOutputInputHandler DataHandler { get; set; }
+        public int Id { get; private set; }
+        public string Name { get; private set; }
+        public int Amount { get; set; }
+        public int Guarantee { get; private set; }
+        public Dimensions Dimensions { get; private set; }
+        public decimal Price { get; private set; }
+        public string ProducingCountry { get; private set; }
+        public IOutputInputHandler DataHandler { get; private set; }
         public Appliances(int id)
         {
             string name, producingCountry;
-            int guarantee;
+            int guarantee, amount;
             decimal price;
             Dimensions dimensions;
 
             DataHandler = new ConsoleInputOutput();
-            DataHandler.SetApplianceProperties(out name, out guarantee, out dimensions, out price, out producingCountry);
+            DataHandler.SetApplianceProperties(out name, out guarantee, out dimensions, out price, out amount, out producingCountry);
             SetProperties();
 
             this.Id = id;
@@ -26,16 +27,18 @@
             this.Guarantee = guarantee;
             this.Dimensions = dimensions;
             this.Price = price;
+            this.Amount = amount;
             this.ProducingCountry = producingCountry;
         }
 
-        public Appliances(int id, string name, int guarantee, Dimensions dimensions, decimal price, string producingCountry)
+        public Appliances(int id, string name, int guarantee, Dimensions dimensions, decimal price, int amount, string producingCountry)
         {
             this.Id = id;
             this.Name = name;
             this.Guarantee = guarantee;
             this.Dimensions = dimensions;
             this.Price = price;
+            this.Amount = amount;
             this.ProducingCountry = producingCountry;
         }
 
@@ -51,8 +54,8 @@
         }
 
         public Washer(int id, string name, int guarantee, Dimensions dimensions, decimal price,
-            string producingCountry, int waterConsuming, int maximumLoad)
-            : base(id, name, guarantee, dimensions, price, producingCountry)
+            int amount, string producingCountry, int waterConsuming, int maximumLoad)
+            : base(id, name, guarantee, dimensions, price, amount, producingCountry)
         {
             Type = AppliancesStock.Washer;
             this.waterConsuming = waterConsuming;
@@ -78,8 +81,8 @@
         }
 
         public Refrigerator(int id, string name, int guarantee, Dimensions dimensions, decimal price,
-            string producingCountry, int totalVolume, bool containsFreezer)
-            : base(id, name, guarantee, dimensions, price, producingCountry)
+            int amount, string producingCountry, int totalVolume, bool containsFreezer)
+            : base(id, name, guarantee, dimensions, price, amount, producingCountry)
         {
             Type = AppliancesStock.Refrigerator;
             this.totalVolume = totalVolume;
@@ -104,8 +107,8 @@
             Type = AppliancesStock.KitchenStove;
         }
         public KitchenStove(int id, string name, int guarantee, Dimensions dimensions, decimal price,
-            string producingCountry, bool combinedGasElectric, bool containsOven)
-            : base(id, name, guarantee, dimensions, price, producingCountry)
+            int amount, string producingCountry, bool combinedGasElectric, bool containsOven)
+            : base(id, name, guarantee, dimensions, price, amount, producingCountry)
         {
             Type = AppliancesStock.KitchenStove;
             this.combinedGasElectric = combinedGasElectric;
