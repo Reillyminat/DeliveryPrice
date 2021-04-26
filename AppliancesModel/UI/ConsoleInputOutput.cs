@@ -1,10 +1,25 @@
-﻿using System;
+﻿using AppliancesModel.Contracts;
+using AppliancesModel.UI;
+using System;
 
 namespace AppliancesModel
 {
     public class ConsoleInputOutput : IOutputInputHandler
     {
-        public void RunMenu(AppliancesDistribution distribution)
+        private readonly IAppliancesDistribution distribution;
+
+        public ConsoleInputOutput(IAppliancesDistribution service)
+        {
+            try
+            {
+                distribution = service;
+            }
+            catch (NullReferenceException ex)
+            {
+                throw new Exception("Distribution service is null.", ex);
+            }
+        }
+        public void RunMenu(IAppliancesDistribution distribution)
         {
             var checkout = true;
             while (checkout)
@@ -22,10 +37,10 @@ namespace AppliancesModel
                         CheckAndBuy(distribution);
                         break;
                     case '2':
-                        distribution.AddGoods();
+                        SelectApplianceToAdd(distribution);
                         break;
                     case '3':
-                        distribution.ShowStock();
+                        ShowStockNumbers(distribution);
                         break;
                     case '4':
                         checkout = false;
@@ -36,8 +51,31 @@ namespace AppliancesModel
                 }
             }
         }
-        public void SelectApplianceToAdd(out int inputType, out int inputCount)
+
+        private void ShowStockNumbers(IAppliancesDistribution distribution)
         {
+            int washerCount, refrigeratorCount, kitchenStoveCount;
+            distribution.ShowStock(out washerCount, out refrigeratorCount, out kitchenStoveCount);
+            Console.WriteLine("Total {0} washers, {1} refrigerators, {2} kitchen stoves.", washerCount, refrigeratorCount, kitchenStoveCount);
+        }
+
+        private void CheckAndBuy(IAppliancesDistribution distribution)
+        {
+            Console.WriteLine("Input appliance name you want to buy:");
+            var order = distribution.CheckGoodsExistance(Console.ReadLine());
+
+            if (order != null)
+            {
+                Console.WriteLine("Input amount of goods you want to buy:");
+                var orderAmount = PropertiesManager.CheckIntInput("", 1, order.Amount);
+                Console.WriteLine("To pay {0}", distribution.RefreshStock(order, orderAmount)*order.Price);
+            }
+            else Console.WriteLine("Such goods not existance");
+        }
+
+        private void SelectApplianceToAdd(IAppliancesDistribution distribution)
+        {
+            int inputType, inputCount;
             Console.WriteLine("Select appliance to add:\n" +
                 "1. Washer.\n" +
                 "2. Refrigerator.\n" +
@@ -49,80 +87,5 @@ namespace AppliancesModel
             while (!int.TryParse(Console.ReadLine(), out inputCount) && inputCount > 0 && inputCount < 100)
                 Console.WriteLine("Input the number 1-100!");
         }
-
-        public void SetApplianceProperties(out string name, out int guarantee, out Dimensions dimensions, out decimal price, out int amount, out string producingCountry)
-        {
-            Console.WriteLine("Input name:");
-            name = Console.ReadLine();
-
-            guarantee = CheckIntInput("Input guarantee:", 0, 60);
-
-            Console.WriteLine("Input height, width, length separating each with enter:");
-            dimensions = new Dimensions(int.Parse(Console.ReadLine()), int.Parse(Console.ReadLine()), int.Parse(Console.ReadLine()));
-
-            amount = CheckIntInput("Input amount:", 0, 1000);
-            price = CheckIntInput("Input price:", 0, 10000);
-
-            Console.WriteLine("Input producing country:");
-            producingCountry = Console.ReadLine();
-        }
-
-        public void SetWasherProperties(out int waterConsuming, out int maximumLoad)
-        {
-            waterConsuming = CheckIntInput("Input water consuming value:", 20, 60);
-            maximumLoad = CheckIntInput("Input maximum load value:", 3, 10);
-        }
-
-        public void SetRefrigeratorProperties(out int totalVolume, out bool containsFreezer)
-        {
-            totalVolume = CheckIntInput("Input total volume value:", 100, 500);
-            containsFreezer = CheckBoolInput("Input is it contains freezer (true/false):");
-        }
-
-        public void SetKitchenStoveProperties(out bool combinedGasElectric, out bool containsOven)
-        {
-            combinedGasElectric = CheckBoolInput("Input is it combines gas and electric (true/false):");
-            containsOven = CheckBoolInput("Input is it contains oven (true/false):");
-        }
-
-        public void ShowStockNumbers(int washerCount, int refrigeratorCount, int kitchenStoveCount)
-        {
-            Console.WriteLine("Total {0} washers, {1} refrigerators, {2} kitchen stoves.", washerCount, refrigeratorCount, kitchenStoveCount);
-        }
-
-        public string GetApplianceName()
-        {
-            Console.WriteLine("Input appliance name you want to buy:");
-            return Console.ReadLine();
-        }
-
-        private void CheckAndBuy(AppliancesDistribution distribution)
-        {
-            var order = distribution.MakeAnOrder();
-            if (order == null)
-                Console.WriteLine("Out of stock.");
-            else
-                Console.WriteLine("To pay {0}", order.Price);
-        }
-        private int CheckIntInput(string article, int lowerBound, int upperBound)
-        {
-            int input;
-
-            Console.WriteLine(article);
-            while (!int.TryParse(Console.ReadLine(), out input) && input > lowerBound && input < upperBound)
-                Console.WriteLine("Input number {0} to {1}!", lowerBound, upperBound);
-            return input;
-        }
-
-        private bool CheckBoolInput(string article)
-        {
-            bool input;
-
-            Console.WriteLine(article);
-            while (!bool.TryParse(Console.ReadLine(), out input))
-                Console.WriteLine("Input true/false!");
-            return input;
-        }
-
     }
 }

@@ -8,15 +8,15 @@ namespace AppliancesModel
 {
     public class Dimensions
     {
-        float Height { get; set; }
-        float Width { get; set; }
-        float Length { get; set; }
+        public float Height { get; set; }
+        public float Width { get; set; }
+        public float Length { get; set; }
 
         public Dimensions(float height, float width, float length)
         {
-            this.Height = height;
-            this.Width = width;
-            this.Length = length;
+            Height = height;
+            Width = width;
+            Length = length;
         }
     }
 }

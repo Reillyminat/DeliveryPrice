@@ -1,85 +1,85 @@
-﻿using System;
+﻿using AppliancesModel.Contracts;
+using AppliancesModel.Models;
+using System;
 
 namespace AppliancesModel
 {
-    public class AppliancesDistribution
+    public class AppliancesDistribution : IAppliancesDistribution
     {
-        int id;
-        IOutputInputHandler dataHandler;
-        private readonly IStockData _stockContext;
+        private int id;
+        private readonly IStockData stockContext;
         public AppliancesDistribution(IStockData stock)
-        {
-            dataHandler = new ConsoleInputOutput();
-            id = 0;
-            _stockContext = stock;
-        }
-        public void InitializeModel()
         {
             try
             {
-                for (int i = 1; i < 4; i++)
-                    _stockContext.Stock.Add(new Washer(id++, "Washer" + i, 12, new Dimensions(60 + i, 40 + i, 40 + i), 100 * i, i, "Germany", 30 + i, 5 + i));
-                for (int i = 1; i < 4; i++)
-                    _stockContext.Stock.Add(new Refrigerator(id++, "Refrigerator" + i, 12, new Dimensions(80 + i, 60 + i, 40 + i), 100 * i, i, "Italy", 300 + i, true));
-                for (int i = 1; i < 4; i++)
-                    _stockContext.Stock.Add(new KitchenStove(id++, "KitchenStove" + i, 12, new Dimensions(40 + i, 60 + i, 40 + i), 100 * i, i, "France", true, true));
-
+                id = 0;
+                stockContext = stock;
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException ex)
             {
-
+                throw new Exception("Stock context is null", ex);
             }
         }
-        public Appliances MakeAnOrder()
+
+        public void InitializeModel()
         {
-            var applianceName = dataHandler.GetApplianceName();
-            foreach (Appliances goods in _stockContext.Stock)
+            for (int i = 1; i < 4; i++)
+                stockContext.Stock.Add(new Washer(id++, "Washer" + i, 12, new Dimensions(60 + i, 40 + i, 40 + i), 100 * i, i, "Germany", 30 + i, 5 + i));
+            for (int i = 1; i < 4; i++)
+                stockContext.Stock.Add(new Refrigerator(id++, "Refrigerator" + i, 12, new Dimensions(80 + i, 60 + i, 40 + i), 100 * i, i, "Italy", 300 + i, true));
+            for (int i = 1; i < 4; i++)
+                stockContext.Stock.Add(new KitchenStove(id++, "KitchenStove" + i, 12, new Dimensions(40 + i, 60 + i, 40 + i), 100 * i, i, "France", true, true));
+        }
+
+        public int RefreshStock(Appliances goods, int count)
+        {
+            if (goods.Amount == count)
+            {
+                stockContext.Stock.Remove(goods);
+                return goods.Amount;
+            }
+            else
+            {
+                goods.Amount -= count;
+                return count;
+            }
+        }
+
+        public Appliances CheckGoodsExistance(string applianceName)
+        {
+            foreach (Appliances goods in stockContext.Stock)
             {
                 if (goods.Name == applianceName)
-                    if (goods.Amount == 1)
-                    {
-                        _stockContext.Stock.Remove(goods);
-                        return goods;
-                    }
-                    else
-                    {
-                        goods.Amount--;
-                        return goods;
-                    }
+                    return goods;
             }
             return null;
         }
 
-        public bool AddGoods()
+        public void AddGoods(int inputType, int inputCount)
         {
-            var id = 0;
-            int inputType, inputCount;
-
-            dataHandler.SelectApplianceToAdd(out inputType, out inputCount);
             for (int i = 0; i < inputCount; i++)
             {
                 switch (inputType)
                 {
                     case 1:
-                        _stockContext.Stock.Add(new Washer(id++));
+                        stockContext.Stock.Add(new Washer(id++));
                         break;
                     case 2:
-                        _stockContext.Stock.Add(new Refrigerator(id++));
+                        stockContext.Stock.Add(new Refrigerator(id++));
                         break;
                     case 3:
-                        _stockContext.Stock.Add(new KitchenStove(id++));
+                        stockContext.Stock.Add(new KitchenStove(id++));
                         break;
                 }
             }
-
-            return true;
         }
 
-        public void ShowStock()
+        public void ShowStock(out int washerCount, out int refrigeratorCount, out int kitchenStoveCount)
         {
-            int washerCount = 0, refrigeratorCount = 0, kitchenStoveCount = 0;
-
-            foreach (Appliances item in _stockContext.Stock)
+            washerCount = 0;
+            refrigeratorCount = 0;
+            kitchenStoveCount = 0;
+            foreach (Appliances item in stockContext.Stock)
             {
                 Console.WriteLine("{0}, stock: {1}", item.Name, item.Amount);
                 switch (item.Type)
@@ -95,7 +95,6 @@ namespace AppliancesModel
                         break;
                 }
             }
-            dataHandler.ShowStockNumbers(washerCount, refrigeratorCount, kitchenStoveCount);
         }
     }
 }
