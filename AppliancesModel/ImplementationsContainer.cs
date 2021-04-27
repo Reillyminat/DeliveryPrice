@@ -26,7 +26,7 @@ namespace AppliancesModel
             {
                 if (key == null)
                     throw new ArgumentNullException(nameof(key));
-                return implementations != null && implementations.TryGetValue(key, out var result) ? result : null;
+                return implementations != null && implementations.TryGetValue(key, out var result) ? result : default;
             }
             set
             {
@@ -34,8 +34,9 @@ namespace AppliancesModel
                     throw new ArgumentNullException(nameof(key));
                 if (value == null)
                 {
-                    if (implementations != null && implementations.Remove(key))
+                    if (implementations != null)
                     {
+                        implementations.Remove(key);
                     }
                     return;
                 }
