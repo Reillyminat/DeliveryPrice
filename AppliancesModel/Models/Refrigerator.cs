@@ -4,8 +4,8 @@ namespace AppliancesModel.Models
 {
     public class Refrigerator : Appliances
     {
-        private int totalVolume;
-        private bool containsFreezer;
+        public int TotalVolume;
+        public bool ContainsFreezer;
         public Refrigerator(int id) : base(id)
         {
             Type = AppliancesStock.Refrigerator;
@@ -16,13 +16,17 @@ namespace AppliancesModel.Models
             : base(id, name, guarantee, dimensions, price, amount, producingCountry)
         {
             Type = AppliancesStock.Refrigerator;
-            this.totalVolume = totalVolume;
-            this.containsFreezer = containsFreezer;
+            TotalVolume = totalVolume;
+            ContainsFreezer = containsFreezer;
         }
 
         public override void SetProperties()
         {
+            int totalVolume;
+            bool containsFreezer;
             PropertiesManager.SetRefrigeratorProperties(out totalVolume, out containsFreezer);
+            TotalVolume = totalVolume;
+            ContainsFreezer = containsFreezer;
         }
     }
 }

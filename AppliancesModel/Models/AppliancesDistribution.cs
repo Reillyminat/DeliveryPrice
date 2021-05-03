@@ -74,27 +74,9 @@ namespace AppliancesModel
             }
         }
 
-        public void ShowStock(out int washerCount, out int refrigeratorCount, out int kitchenStoveCount)
+        public IStockData ShowStock()
         {
-            washerCount = 0;
-            refrigeratorCount = 0;
-            kitchenStoveCount = 0;
-            foreach (Appliances item in stockContext.Stock)
-            {
-                Console.WriteLine("{0}, stock: {1}", item.Name, item.Amount);
-                switch (item.Type)
-                {
-                    case AppliancesStock.Washer:
-                        washerCount += item.Amount;
-                        break;
-                    case AppliancesStock.Refrigerator:
-                        refrigeratorCount += item.Amount;
-                        break;
-                    case AppliancesStock.KitchenStove:
-                        kitchenStoveCount += item.Amount;
-                        break;
-                }
-            }
+            return stockContext;
         }
     }
 }

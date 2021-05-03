@@ -4,8 +4,9 @@ namespace AppliancesModel.Models
 {
     public class Washer : Appliances
     {
-        private int waterConsuming;
-        private int maximumLoad;
+        public int WaterConsuming{ get; set; }
+        public int MaximumLoad { get; set; }
+        public Washer() { }
         public Washer(int id) : base(id)
         {
             Type = AppliancesStock.Washer;
@@ -16,14 +17,16 @@ namespace AppliancesModel.Models
             : base(id, name, guarantee, dimensions, price, amount, producingCountry)
         {
             Type = AppliancesStock.Washer;
-            this.waterConsuming = waterConsuming;
-            this.maximumLoad = maximumLoad;
+            WaterConsuming = waterConsuming;
+            MaximumLoad = maximumLoad;
         }
 
         public override void SetProperties()
         {
-            int maximumLoad;
+            int waterConsuming, maximumLoad;
             PropertiesManager.SetWasherProperties(out waterConsuming, out maximumLoad);
+            WaterConsuming = waterConsuming;
+            MaximumLoad = maximumLoad;
         }
     }
 }
