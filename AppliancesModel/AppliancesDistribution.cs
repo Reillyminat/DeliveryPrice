@@ -11,7 +11,6 @@ namespace AppliancesModel
         // Initial purchase of goods.
         public AppliancesDistribution()
         {
-            dataHandler = new ConsoleInputOutput();
             id = 0;
             complex = new List<Appliances>();
             for (int i = 1; i < 4; i++)
