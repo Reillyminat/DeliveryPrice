@@ -10,14 +10,16 @@ namespace AppliancesModel
         private readonly IAppliancesDistribution distribution;
         private readonly IOrderManager orderManager;
         private readonly IUserManager userManager;
+        private readonly ILogger logger;
 
-        public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user)
+        public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user, ILogger logger)
         {
             try
             {
                 distribution = service;
                 orderManager = order;
                 userManager = user;
+                this.logger = logger;
             }
             catch (NullReferenceException ex)
             {
@@ -50,6 +52,7 @@ namespace AppliancesModel
                         break;
                     case '4':
                         checkout = false;
+                        logger.Dispose();
                         break;
                     default:
                         Console.WriteLine("Error. Press key 1-4.");
@@ -61,7 +64,7 @@ namespace AppliancesModel
         private void ShowStockNumbers()
         {
             int washerCount = 0, refrigeratorCount = 0, kitchenStoveCount = 0;
-            IStockData stock= distribution.ShowStock();
+            IStockData stock = distribution.ShowStock();
             foreach (Appliances item in stock.Stock)
             {
                 Console.WriteLine("{0}, stock: {1}", item.Name, item.Amount);
@@ -97,7 +100,7 @@ namespace AppliancesModel
                     orderManager.CreateShoppingBasket(person);
                     orderManager.AddItemToBasket(order, distribution.RefreshStock(order, orderAmount));
                     ShowBasket(orderManager.CurrentOrder);
-
+                    logger.AddLog(person.Name + " added to basket " + order.Type + ": " + order.Name);
                 }
                 else Console.WriteLine("Such goods not existance");
 
@@ -145,6 +148,7 @@ namespace AppliancesModel
                         return customer;
                     case '2':
                         InputOrderData(out name, out telephone, out address);
+                        logger.AddLog(name + " registered");
                         return userManager.AddUser(name, address, telephone);
                     case '3':
                         InputOrderData(out name, out telephone, out address);
@@ -187,6 +191,8 @@ namespace AppliancesModel
             Console.WriteLine("Input the number of such goods (different models).");
             while (!int.TryParse(Console.ReadLine(), out inputCount) && inputCount > 0 && inputCount < 100)
                 Console.WriteLine("Input the number 1-100!");
+            distribution.AddGoods(inputType, inputCount);
+            logger.AddLog(inputCount + " " + (AppliancesStock)inputType + " added to stock");
         }
     }
 }

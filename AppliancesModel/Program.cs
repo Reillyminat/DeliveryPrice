@@ -27,9 +27,12 @@ namespace AppliancesModel
             var appliancesDistribution = container.Get<IAppliancesDistribution>();
             appliancesDistribution.InitializeModel();
 
+            container.Set<ILogger>(new Logger());
+            var logger = container.Get<ILogger>();
+
             container.Set<IOrderManager>(new OrderManager(container.Get<IOrdersData>()));
             container.Set<IUserManager>(new UserManager(container.Get<IUserData>()));
-            container.Set<IOutputInputHandler>(new ConsoleInputOutput(container.Get<IAppliancesDistribution>(), container.Get<IOrderManager>(), container.Get<IUserManager>()));
+            container.Set<IOutputInputHandler>(new ConsoleInputOutput(container.Get<IAppliancesDistribution>(), container.Get<IOrderManager>(), container.Get<IUserManager>(), container.Get<ILogger>()));
 
             var presenter = container.Get<IOutputInputHandler>();
             presenter.RunMenu();

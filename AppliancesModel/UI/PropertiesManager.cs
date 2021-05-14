@@ -6,7 +6,7 @@ namespace AppliancesModel.UI
     {
         public static void SetApplianceProperties(out string name, out int guarantee, out Dimensions dimensions, out decimal price, out int amount, out string producingCountry)
         {
-            Console.WriteLine("Input name:");
+            Console.WriteLine("Input appliance name:");
             name = Console.ReadLine();
 
             guarantee = CheckIntInput("Input guarantee:", 0, 60);
