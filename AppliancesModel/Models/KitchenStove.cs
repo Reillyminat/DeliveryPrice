@@ -5,7 +5,9 @@ namespace AppliancesModel.Models
     public class KitchenStove : Appliances
     {
         public bool CombinedGasElectric { get; set; }
+
         public bool ContainsOven { get; set; }
+
         public KitchenStove() { }
 
         public KitchenStove(int id) : base(id)

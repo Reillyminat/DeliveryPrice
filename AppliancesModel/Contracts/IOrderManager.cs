@@ -11,5 +11,7 @@ namespace AppliancesModel.Contracts
         void AddItemToBasket(Appliances goods,int amount);
 
         void SetOrderData(string name, string address, string telephone);
+
+        void SaveOrdersState();
     }
 }

@@ -5,8 +5,11 @@ namespace AppliancesModel.Models
     public class Washer : Appliances
     {
         public int WaterConsuming{ get; set; }
+
         public int MaximumLoad { get; set; }
+
         public Washer() { }
+
         public Washer(int id) : base(id)
         {
             Type = AppliancesStock.Washer;

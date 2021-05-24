@@ -14,5 +14,7 @@ namespace AppliancesModel.Contracts
         User AddUser(string name, string address, string telephone);
 
         User SetGuestUser(string name, string address, string telephone);
+
+        void SaveUsersState();
     }
 }

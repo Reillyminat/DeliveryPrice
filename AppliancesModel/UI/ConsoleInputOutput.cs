@@ -2,6 +2,7 @@
 using AppliancesModel.Models;
 using AppliancesModel.UI;
 using System;
+using System.Collections.Generic;
 
 namespace AppliancesModel
 {
@@ -12,14 +13,14 @@ namespace AppliancesModel
         private readonly IUserManager userManager;
         private readonly ILogger logger;
 
-        public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user, ILogger logger)
+        public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user, ILogger loggerProcessing)
         {
             try
             {
                 distribution = service;
                 orderManager = order;
                 userManager = user;
-                this.logger = logger;
+                logger = loggerProcessing;
             }
             catch (NullReferenceException ex)
             {
@@ -52,6 +53,9 @@ namespace AppliancesModel
                         break;
                     case '4':
                         checkout = false;
+                        orderManager.SaveOrdersState();
+                        distribution.SaveStockState();
+                        userManager.SaveUsersState();
                         logger.Dispose();
                         break;
                     default:
@@ -63,25 +67,14 @@ namespace AppliancesModel
 
         private void ShowStockNumbers()
         {
-            int washerCount = 0, refrigeratorCount = 0, kitchenStoveCount = 0;
-            IStockData stock = distribution.ShowStock();
-            foreach (Appliances item in stock.Stock)
+            List<int> stockSummary;
+            var stock = distribution.ShowStock(out stockSummary);
+            Console.WriteLine("In stock:");
+            foreach (Appliances item in stock)
             {
-                Console.WriteLine("{0}, stock: {1}", item.Name, item.Amount);
-                switch (item.Type)
-                {
-                    case AppliancesStock.Washer:
-                        washerCount += item.Amount;
-                        break;
-                    case AppliancesStock.Refrigerator:
-                        refrigeratorCount += item.Amount;
-                        break;
-                    case AppliancesStock.KitchenStove:
-                        kitchenStoveCount += item.Amount;
-                        break;
-                }
+                Console.WriteLine("{0}: {1} ",item.Name,item.Amount);
             }
-            Console.WriteLine("Total {0} washers, {1} refrigerators, {2} kitchen stoves.", washerCount, refrigeratorCount, kitchenStoveCount);
+            Console.WriteLine("Total {0} washers, {1} refrigerators, {2} kitchen stoves.", stockSummary[0], stockSummary[1], stockSummary[2]);
         }
 
         private void CheckAndBuy()

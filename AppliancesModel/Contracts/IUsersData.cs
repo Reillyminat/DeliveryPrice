@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AppliancesModel.Contracts
 {
-    public interface IUserData
+    public interface IUsersData
     {
         ICollection<User> Users { get; set; }
     }

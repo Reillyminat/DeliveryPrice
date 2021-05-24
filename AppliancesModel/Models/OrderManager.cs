@@ -4,14 +4,17 @@ namespace AppliancesModel.Models
 {
     public class OrderManager : IOrderManager
     {
-        private IOrdersData ordersData;
-        private int id;
+        private readonly IOrdersData ordersData;
+
+        private readonly IDataSerialization dataSerializer;
+
         public Order CurrentOrder { get; set; }
 
-        public OrderManager(IOrdersData ordersData)
+        public OrderManager(IOrdersData data, IDataSerialization serializer)
         {
-            id = 0;
-            this.ordersData = ordersData;
+            ordersData = data;
+            dataSerializer = serializer;
+            CurrentOrder = ordersData.Order.Count == 0 ? default : ordersData.Order.Last();
         }
 
         public Order CreateShoppingBasket(User person)
@@ -19,14 +22,14 @@ namespace AppliancesModel.Models
             foreach (Order order in ordersData.Order)
                 if (order.Name == person.Name)
                     return order;
-            ordersData.Order.Add(new Order(id++, person.Address, person.Name, person.Telephone));
+            ordersData.Order.Add(new Order(ordersData.Id++, person.Address, person.Name, person.Telephone));
             CurrentOrder = ordersData.Order.Last();
             return CurrentOrder;
         }
 
         public void SetOrderData(string name, string address, string telephone)
         {
-            ordersData.Order.Add(new Order(id++, address, name, telephone));
+            ordersData.Order.Add(new Order(ordersData.Id++, address, name, telephone));
             CurrentOrder = ordersData.Order.Last();
         }
 
@@ -48,6 +51,11 @@ namespace AppliancesModel.Models
                 CurrentOrder.basket.Add(orderedAppliance);
             }
 
+        }
+
+        public void SaveOrdersState()
+        {
+            dataSerializer.SerializeToFile(ordersData);
         }
     }
 }

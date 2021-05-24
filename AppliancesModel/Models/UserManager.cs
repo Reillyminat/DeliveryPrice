@@ -5,13 +5,16 @@ namespace AppliancesModel.Models
 {
     public class UserManager : IUserManager
     {
-        private readonly IUserData users;
+        private readonly IUsersData usersData;
 
-        public UserManager(IUserData users)
+        private readonly IDataSerialization dataSerializer;
+
+        public UserManager(IUsersData users, IDataSerialization serializer)
         {
             try
             {
-                this.users = users;
+                usersData = users;
+                dataSerializer = serializer;
             }
             catch (NullReferenceException ex)
             {
@@ -22,12 +25,13 @@ namespace AppliancesModel.Models
         public User AddUser(string name, string address, string telephone)
         {
             var person = GetUser(name);
-            if (users.Users.Contains(person))
+            if (usersData.Users.Contains(person))
                 return person;
             person = new User();
             person.Name = name;
             person.Address = address;
             person.Telephone = telephone;
+            usersData.Users.Add(person);
             return person;
         }
 
@@ -42,10 +46,15 @@ namespace AppliancesModel.Models
 
         public User GetUser(string name)
         {
-            foreach (User person in users.Users)
+            foreach (User person in usersData.Users)
                 if (person.Name == name)
                     return person;
             return null;
+        }
+
+        public void SaveUsersState()
+        {
+            dataSerializer.SerializeToFile(usersData);
         }
     }
 }

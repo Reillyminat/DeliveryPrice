@@ -4,8 +4,12 @@ namespace AppliancesModel.Models
 {
     public class Refrigerator : Appliances
     {
-        public int TotalVolume;
-        public bool ContainsFreezer;
+        public int TotalVolume { get; set; }
+
+        public bool ContainsFreezer { get; set; }
+
+        public Refrigerator() { }
+
         public Refrigerator(int id) : base(id)
         {
             Type = AppliancesStock.Refrigerator;
