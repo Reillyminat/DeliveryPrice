@@ -9,5 +9,7 @@ namespace AppliancesModel
     public interface IStockData
     {
         ICollection<Appliances> Stock { get; set; }
+
+        int Id { get; set; }
     }
 }

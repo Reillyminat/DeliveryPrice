@@ -9,5 +9,7 @@ namespace AppliancesModel.Data
     public class StockData : IStockData
     {
         public ICollection<Appliances> Stock { get; set; }
+
+        public int Id { get; set; }
     }
 }

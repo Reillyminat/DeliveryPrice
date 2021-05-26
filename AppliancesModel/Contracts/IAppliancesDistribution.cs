@@ -16,6 +16,6 @@ namespace AppliancesModel.Contracts
 
         void AddGoods(int inputType, int inputCount);
 
-        void ShowStock(out int washerCount, out int refrigeratorCount, out int kitchenStoveCount);
+        IEnumerable<Appliances> ShowStock(out List<int> stockSummary);
     }
 }

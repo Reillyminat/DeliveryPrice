@@ -1,18 +1,18 @@
 ﻿using AppliancesModel.Contracts;
 using AppliancesModel.Models;
 using System;
+using System.Collections.Generic;
 
 namespace AppliancesModel
 {
     public class AppliancesDistribution : IAppliancesDistribution
     {
-        private int id;
         private readonly IStockData stockContext;
+
         public AppliancesDistribution(IStockData stock)
         {
             try
             {
-                id = 0;
                 stockContext = stock;
             }
             catch (NullReferenceException ex)
@@ -23,12 +23,15 @@ namespace AppliancesModel
 
         public void InitializeModel()
         {
-            for (int i = 1; i < 4; i++)
-                stockContext.Stock.Add(new Washer(id++, "Washer" + i, 12, new Dimensions(60 + i, 40 + i, 40 + i), 100 * i, i, "Germany", 30 + i, 5 + i));
-            for (int i = 1; i < 4; i++)
-                stockContext.Stock.Add(new Refrigerator(id++, "Refrigerator" + i, 12, new Dimensions(80 + i, 60 + i, 40 + i), 100 * i, i, "Italy", 300 + i, true));
-            for (int i = 1; i < 4; i++)
-                stockContext.Stock.Add(new KitchenStove(id++, "KitchenStove" + i, 12, new Dimensions(40 + i, 60 + i, 40 + i), 100 * i, i, "France", true, true));
+            if (stockContext.Stock.Count == 0)
+            {
+                for (int i = 1; i < 4; i++)
+                    stockContext.Stock.Add(new Washer(stockContext.Id++, "Washer" + i, 12, new Dimensions(60 + i, 40 + i, 40 + i), 100 * i, i, "Germany", 30 + i, 5 + i));
+                for (int i = 1; i < 4; i++)
+                    stockContext.Stock.Add(new Refrigerator(stockContext.Id++, "Refrigerator" + i, 12, new Dimensions(80 + i, 60 + i, 40 + i), 100 * i, i, "Italy", 300 + i, true));
+                for (int i = 1; i < 4; i++)
+                    stockContext.Stock.Add(new KitchenStove(stockContext.Id++, "KitchenStove" + i, 12, new Dimensions(40 + i, 60 + i, 40 + i), 100 * i, i, "France", true, true));
+            }
         }
 
         public int RefreshStock(Appliances goods, int count)
@@ -62,39 +65,38 @@ namespace AppliancesModel
                 switch (inputType)
                 {
                     case 1:
-                        stockContext.Stock.Add(new Washer(id++));
+                        stockContext.Stock.Add(new Washer(stockContext.Id++));
                         break;
                     case 2:
-                        stockContext.Stock.Add(new Refrigerator(id++));
+                        stockContext.Stock.Add(new Refrigerator(stockContext.Id++));
                         break;
                     case 3:
-                        stockContext.Stock.Add(new KitchenStove(id++));
+                        stockContext.Stock.Add(new KitchenStove(stockContext.Id++));
                         break;
                 }
             }
         }
 
-        public void ShowStock(out int washerCount, out int refrigeratorCount, out int kitchenStoveCount)
+        public IEnumerable<Appliances> ShowStock(out List<int> stockSummary)
         {
-            washerCount = 0;
-            refrigeratorCount = 0;
-            kitchenStoveCount = 0;
+            var stockNumbersDetail = stockContext.Stock;
+            stockSummary = new List<int>() { 0, 0, 0 };
             foreach (Appliances item in stockContext.Stock)
             {
-                Console.WriteLine("{0}, stock: {1}", item.Name, item.Amount);
                 switch (item.Type)
                 {
                     case AppliancesStock.Washer:
-                        washerCount += item.Amount;
+                        stockSummary[0]++;
                         break;
                     case AppliancesStock.Refrigerator:
-                        refrigeratorCount += item.Amount;
+                        stockSummary[1]++;
                         break;
                     case AppliancesStock.KitchenStove:
-                        kitchenStoveCount += item.Amount;
+                        stockSummary[2]++;
                         break;
                 }
             }
+            return stockNumbersDetail;
         }
     }
 }
