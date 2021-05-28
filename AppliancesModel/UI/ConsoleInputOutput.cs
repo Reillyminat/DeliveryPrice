@@ -165,13 +165,13 @@ namespace AppliancesModel
             {
                 Console.WriteLine("Enter your telephone number:\n");
                 telephone = Console.ReadLine();
-            } while (!OrderDataValidation.IsTelephoneNumberValid(telephone));
+            } while (!OrderValidator.IsTelephoneNumberValid(telephone));
 
             do
             {
                 Console.WriteLine("Enter your address in format: ул. <Название>, д. <Номер>, кв. <Номер>\n");
                 address = Console.ReadLine();
-            } while (!OrderDataValidation.IsAddressValid(address));
+            } while (!OrderValidator.IsAddressValid(address));
         }
 
         private void SelectApplianceToAdd()
