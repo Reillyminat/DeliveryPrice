@@ -8,14 +8,12 @@ namespace AppliancesModel.Contracts
 {
     public interface IAppliancesDistribution
     {
-        void InitializeModel();
+        int RefreshStock(Appliance goods, int count);
 
-        int RefreshStock(Appliances goods, int count);
+        Appliance CheckGoodsExistance(string applianceName);
 
-        Appliances CheckGoodsExistance(string applianceName);
+        IEnumerable<Appliance> AddGoods(int inputType, int inputCount);
 
-        void AddGoods(int inputType, int inputCount);
-
-        IEnumerable<Appliances> ShowStock(out List<int> stockSummary);
+        IEnumerable<Appliance> ShowStock(out List<int> stockSummary);
     }
 }

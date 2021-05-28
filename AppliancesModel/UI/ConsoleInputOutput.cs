@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Contracts;
+using AppliancesModel.Models;
 using AppliancesModel.UI;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,7 @@ namespace AppliancesModel
 
         public ConsoleInputOutput(IAppliancesDistribution service)
         {
-            try
-            {
-                distribution = service;
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new Exception("Distribution service is null.", ex);
-            }
+            distribution = service;
         }
         public void RunMenu(IAppliancesDistribution distribution)
         {
@@ -58,7 +52,7 @@ namespace AppliancesModel
             List<int> stockSummary;
             var stock = distribution.ShowStock(out stockSummary);
             Console.WriteLine("In stock:");
-            foreach (Appliances item in stock)
+            foreach (Appliance item in stock)
             {
                 Console.WriteLine("{0}: {1} ", item.Name, item.Amount);
             }
@@ -73,8 +67,8 @@ namespace AppliancesModel
             if (order != null)
             {
                 Console.WriteLine("Input amount of goods you want to buy:");
-                var orderAmount = PropertiesManager.CheckIntInput("", 1, order.Amount);
-                Console.WriteLine("To pay {0}", distribution.RefreshStock(order, orderAmount)*order.Price);
+                var orderAmount = OrderDataValidation.CheckIntInput("", 1, order.Amount);
+                Console.WriteLine("To pay {0}", distribution.RefreshStock(order, orderAmount) * order.Price);
             }
             else Console.WriteLine("Such goods not existance");
         }
@@ -93,7 +87,58 @@ namespace AppliancesModel
             while (!int.TryParse(Console.ReadLine(), out inputCount) && inputCount > 0 && inputCount < 100)
                 Console.WriteLine("Input the number 1-100!");
 
-            distribution.AddGoods(inputType, inputCount);
+            SetApplianceProperties(distribution.AddGoods(inputType, inputCount));
+        }
+
+        private void SetApplianceProperties(IEnumerable<Appliance> addedGoods)
+        {
+            foreach (Appliance goods in addedGoods)
+            {
+                Console.WriteLine("Input name:");
+                goods.Name = Console.ReadLine();
+
+                goods.Guarantee = OrderDataValidation.CheckIntInput("Input guarantee:", 0, 60);
+
+                Console.WriteLine("Input height, width, length separating each with enter:");
+                goods.Dimensions = new Dimensions(OrderDataValidation.CheckIntInput("",10,300), OrderDataValidation.CheckIntInput("", 10, 300),
+                    OrderDataValidation.CheckIntInput("", 10, 300));
+
+                goods.Amount = OrderDataValidation.CheckIntInput("Input amount:", 0, 1000);
+                goods.Price = OrderDataValidation.CheckIntInput("Input price:", 0, 10000);
+
+                Console.WriteLine("Input producing country:");
+                goods.ProducingCountry = Console.ReadLine();
+                switch (goods.Type)
+                {
+                    case AppliancesStock.Washer:
+                        SetWasherProperties((Washer)goods);
+                        break;
+                    case AppliancesStock.Refrigerator:
+                        SetRefrigeratorProperties((Refrigerator)goods);
+                        break;
+                    case AppliancesStock.KitchenStove:
+                        SetKitchenStoveProperties((KitchenStove)goods);
+                        break;
+                }
+            }
+        }
+
+        private void SetWasherProperties(Washer newWasher)
+        {
+            newWasher.WaterConsuming = OrderDataValidation.CheckIntInput("Input water consuming value:", 20, 60);
+            newWasher.MaximumLoad = OrderDataValidation.CheckIntInput("Input maximum load value:", 3, 10);
+        }
+
+        private void SetRefrigeratorProperties(Refrigerator newRefrigerator)
+        {
+            newRefrigerator.TotalVolume = OrderDataValidation.CheckIntInput("Input total volume value:", 100, 500);
+            newRefrigerator.ContainsFreezer = OrderDataValidation.CheckBoolInput("Input is it contains freezer (true/false):");
+        }
+
+        private void SetKitchenStoveProperties(KitchenStove newKitchenStove)
+        {
+            newKitchenStove.CombinedGasElectric = OrderDataValidation.CheckBoolInput("Input is it combines gas and electric (true/false):");
+            newKitchenStove.ContainsOven = OrderDataValidation.CheckBoolInput("Input is it contains oven (true/false):");
         }
     }
 }
