@@ -67,7 +67,7 @@ namespace AppliancesModel
             if (order != null)
             {
                 Console.WriteLine("Input amount of goods you want to buy:");
-                var orderAmount = OrderDataValidation.CheckIntInput("", 1, order.Amount);
+                var orderAmount = OrderValidator.CheckIntInput("", 1, order.Amount);
                 Console.WriteLine("To pay {0}", distribution.RefreshStock(order, orderAmount) * order.Price);
             }
             else Console.WriteLine("Such goods not existance");
@@ -97,14 +97,14 @@ namespace AppliancesModel
                 Console.WriteLine("Input name:");
                 goods.Name = Console.ReadLine();
 
-                goods.Guarantee = OrderDataValidation.CheckIntInput("Input guarantee:", 0, 60);
+                goods.Guarantee = OrderValidator.CheckIntInput("Input guarantee:", 0, 60);
 
                 Console.WriteLine("Input height, width, length separating each with enter:");
-                goods.Dimensions = new Dimensions(OrderDataValidation.CheckIntInput("",10,300), OrderDataValidation.CheckIntInput("", 10, 300),
-                    OrderDataValidation.CheckIntInput("", 10, 300));
+                goods.Dimensions = new Dimensions(OrderValidator.CheckIntInput("",10,300), OrderValidator.CheckIntInput("", 10, 300),
+                    OrderValidator.CheckIntInput("", 10, 300));
 
-                goods.Amount = OrderDataValidation.CheckIntInput("Input amount:", 0, 1000);
-                goods.Price = OrderDataValidation.CheckIntInput("Input price:", 0, 10000);
+                goods.Amount = OrderValidator.CheckIntInput("Input amount:", 0, 1000);
+                goods.Price = OrderValidator.CheckIntInput("Input price:", 0, 10000);
 
                 Console.WriteLine("Input producing country:");
                 goods.ProducingCountry = Console.ReadLine();
@@ -125,20 +125,20 @@ namespace AppliancesModel
 
         private void SetWasherProperties(Washer newWasher)
         {
-            newWasher.WaterConsuming = OrderDataValidation.CheckIntInput("Input water consuming value:", 20, 60);
-            newWasher.MaximumLoad = OrderDataValidation.CheckIntInput("Input maximum load value:", 3, 10);
+            newWasher.WaterConsuming = OrderValidator.CheckIntInput("Input water consuming value:", 20, 60);
+            newWasher.MaximumLoad = OrderValidator.CheckIntInput("Input maximum load value:", 3, 10);
         }
 
         private void SetRefrigeratorProperties(Refrigerator newRefrigerator)
         {
-            newRefrigerator.TotalVolume = OrderDataValidation.CheckIntInput("Input total volume value:", 100, 500);
-            newRefrigerator.ContainsFreezer = OrderDataValidation.CheckBoolInput("Input is it contains freezer (true/false):");
+            newRefrigerator.TotalVolume = OrderValidator.CheckIntInput("Input total volume value:", 100, 500);
+            newRefrigerator.ContainsFreezer = OrderValidator.CheckBoolInput("Input is it contains freezer (true/false):");
         }
 
         private void SetKitchenStoveProperties(KitchenStove newKitchenStove)
         {
-            newKitchenStove.CombinedGasElectric = OrderDataValidation.CheckBoolInput("Input is it combines gas and electric (true/false):");
-            newKitchenStove.ContainsOven = OrderDataValidation.CheckBoolInput("Input is it contains oven (true/false):");
+            newKitchenStove.CombinedGasElectric = OrderValidator.CheckBoolInput("Input is it combines gas and electric (true/false):");
+            newKitchenStove.ContainsOven = OrderValidator.CheckBoolInput("Input is it contains oven (true/false):");
         }
     }
 }
