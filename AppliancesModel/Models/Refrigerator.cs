@@ -11,7 +11,8 @@
             Type = AppliancesStock.Refrigerator;
         }
 
-        public Refrigerator(int id,
+        public Refrigerator(
+            int id,
             string name,
             int guarantee,
             Dimensions dimensions,

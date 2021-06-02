@@ -11,7 +11,8 @@
             Type = AppliancesStock.Washer;
         }
 
-        public Washer(int id,
+        public Washer(
+            int id,
             string name,
             int guarantee,
             Dimensions dimensions,

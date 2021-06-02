@@ -23,7 +23,14 @@
             Id = id;
         }
 
-        public Appliance(int id, string name, int guarantee, Dimensions dimensions, decimal price, int amount, string producingCountry)
+        public Appliance(
+            int id,
+            string name,
+            int guarantee,
+            Dimensions dimensions,
+            decimal price,
+            int amount,
+            string producingCountry)
         {
             Id = id;
             Name = name;

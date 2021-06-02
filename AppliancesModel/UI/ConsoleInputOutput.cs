@@ -105,33 +105,33 @@ namespace AppliancesModel
 
         private void SetApplianceProperties(IEnumerable<Appliance> addedGoods)
         {
-            foreach (var goods in addedGoods)
+            foreach (var good in addedGoods)
             {
                 Console.WriteLine("Input name:");
-                goods.Name = Console.ReadLine();
+                good.Name = Console.ReadLine();
 
-                goods.Guarantee = OrderValidator.CheckIntInput("Input guarantee:", 0, 60);
+                good.Guarantee = OrderValidator.CheckIntInput("Input guarantee:", 0, 60);
 
                 Console.WriteLine("Input height, width, length separating each with enter:");
-                goods.Dimensions = new Dimensions(OrderValidator.CheckIntInput("", 10, 300), OrderValidator.CheckIntInput("", 10, 300),
+                good.Dimensions = new Dimensions(OrderValidator.CheckIntInput("", 10, 300), OrderValidator.CheckIntInput("", 10, 300),
                     OrderValidator.CheckIntInput("", 10, 300));
 
-                goods.Amount = OrderValidator.CheckIntInput("Input amount:", 0, 1000);
-                goods.Price = OrderValidator.CheckIntInput("Input price:", 0, 10000);
+                good.Amount = OrderValidator.CheckIntInput("Input amount:", 0, 1000);
+                good.Price = OrderValidator.CheckIntInput("Input price:", 0, 10000);
 
                 Console.WriteLine("Input producing country:");
-                goods.ProducingCountry = Console.ReadLine();
+                good.ProducingCountry = Console.ReadLine();
                 
-                switch (goods.Type)
+                switch (good.Type)
                 {
                     case AppliancesStock.Washer:
-                        SetWasherProperties((Washer)goods);
+                        SetWasherProperties((Washer)good);
                         break;
                     case AppliancesStock.Refrigerator:
-                        SetRefrigeratorProperties((Refrigerator)goods);
+                        SetRefrigeratorProperties((Refrigerator)good);
                         break;
                     case AppliancesStock.KitchenStove:
-                        SetKitchenStoveProperties((KitchenStove)goods);
+                        SetKitchenStoveProperties((KitchenStove)good);
                         break;
                 }
             }

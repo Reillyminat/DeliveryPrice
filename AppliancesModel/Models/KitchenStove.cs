@@ -11,7 +11,8 @@
             Type = AppliancesStock.KitchenStove;
         }
 
-        public KitchenStove(int id,
+        public KitchenStove(
+            int id,
             string name,
             int guarantee,
             Dimensions dimensions,
