@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AppliancesModel
 {
@@ -30,15 +27,15 @@ namespace AppliancesModel
             }
             set
             {
-                if(key==null)
+                if (key == null)
                     throw new ArgumentNullException(nameof(key));
+
                 if (value == null)
                 {
                     if (implementations != null)
                     {
                         implementations.Remove(key);
                     }
-                    return;
                 }
 
                 implementations[key] = value;

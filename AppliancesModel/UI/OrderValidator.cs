@@ -11,7 +11,7 @@ namespace AppliancesModel.UI
             Console.WriteLine(article);
             do
             {
-            Console.WriteLine("Input number {0} to {1}.", lowerBound, upperBound);
+                Console.WriteLine("Input number {0} to {1}.", lowerBound, upperBound);
                 int.TryParse(Console.ReadLine(), out input);
             }
             while (input < lowerBound || input > upperBound);

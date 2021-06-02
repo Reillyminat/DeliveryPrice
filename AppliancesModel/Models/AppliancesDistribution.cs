@@ -30,12 +30,7 @@ namespace AppliancesModel
 
         public Appliance CheckGoodsExistance(string applianceName)
         {
-            foreach (Appliance goods in stockContext.Stock)
-            {
-                if (goods.Name == applianceName)
-                    return goods;
-            }
-            return null;
+            return stockContext.Stock.FirstOrDefault(x => x.Name == applianceName);
         }
 
         public IEnumerable<Appliance> AddGoods(int inputType, int inputCount)
@@ -55,6 +50,7 @@ namespace AppliancesModel
                         break;
                 }
             }
+
             return stockContext.Stock.Where(s => s.Id > stockContext.Id - inputCount - 1);
         }
 
@@ -62,6 +58,7 @@ namespace AppliancesModel
         {
             var stockNumbersDetail = stockContext.Stock;
             stockSummary = new List<int>() { 0, 0, 0 };
+
             foreach (Appliance item in stockContext.Stock)
             {
                 switch (item.Type)

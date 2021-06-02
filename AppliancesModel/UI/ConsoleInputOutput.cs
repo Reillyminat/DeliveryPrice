@@ -14,6 +14,7 @@ namespace AppliancesModel
         {
             distribution = service;
         }
+
         public void RunMenu(IAppliancesDistribution distribution)
         {
             var checkout = true;
