@@ -11,8 +11,15 @@
             Type = AppliancesStock.KitchenStove;
         }
 
-        public KitchenStove(int id, string name, int guarantee, Dimensions dimensions, decimal price,
-            int amount, string producingCountry, bool combinedGasElectric, bool containsOven)
+        public KitchenStove(int id,
+            string name,
+            int guarantee,
+            Dimensions dimensions,
+            decimal price,
+            int amount,
+            string producingCountry,
+            bool combinedGasElectric,
+            bool containsOven)
             : base(id, name, guarantee, dimensions, price, amount, producingCountry)
         {
             Type = AppliancesStock.KitchenStove;
