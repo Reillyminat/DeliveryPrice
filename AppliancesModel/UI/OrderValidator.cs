@@ -9,6 +9,7 @@ namespace AppliancesModel.UI
             int input;
 
             Console.WriteLine(article);
+
             do
             {
                 Console.WriteLine("Input number {0} to {1}.", lowerBound, upperBound);
@@ -24,8 +25,12 @@ namespace AppliancesModel.UI
             bool input;
 
             Console.WriteLine(article);
+
             while (!bool.TryParse(Console.ReadLine(), out input))
+            {
                 Console.WriteLine("Input true/false!");
+            }
+
             return input;
         }
     }

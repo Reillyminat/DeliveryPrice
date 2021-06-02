@@ -1,6 +1,4 @@
-﻿using AppliancesModel.UI;
-
-namespace AppliancesModel.Models
+﻿namespace AppliancesModel.Models
 {
     public class Washer : Appliance
     {

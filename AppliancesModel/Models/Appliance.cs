@@ -1,6 +1,4 @@
-﻿using AppliancesModel.UI;
-
-namespace AppliancesModel
+﻿namespace AppliancesModel
 {
     public abstract class Appliance
     {

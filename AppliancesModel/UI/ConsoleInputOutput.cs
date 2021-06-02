@@ -18,6 +18,7 @@ namespace AppliancesModel
         public void RunMenu(IAppliancesDistribution distribution)
         {
             var checkout = true;
+
             while (checkout)
             {
                 Console.WriteLine("Select action:\n" +
@@ -27,6 +28,7 @@ namespace AppliancesModel
                     "4. Exit.\n");
                 var input = Console.ReadKey().KeyChar;
                 Console.WriteLine();
+
                 switch (input)
                 {
                     case '1':
@@ -50,13 +52,14 @@ namespace AppliancesModel
 
         private void ShowStockNumbers()
         {
-            List<int> stockSummary;
-            var stock = distribution.ShowStock(out stockSummary);
+            var stock = distribution.ShowStock(out var stockSummary);
             Console.WriteLine("In stock:");
-            foreach (Appliance item in stock)
+
+            foreach (var item in stock)
             {
                 Console.WriteLine("{0}: {1} ", item.Name, item.Amount);
             }
+
             Console.WriteLine("Total {0} washers, {1} refrigerators, {2} kitchen stoves.", stockSummary[0], stockSummary[1], stockSummary[2]);
         }
 
@@ -71,7 +74,10 @@ namespace AppliancesModel
                 var orderAmount = OrderValidator.CheckIntInput("", 1, order.Amount);
                 Console.WriteLine("To pay {0}", distribution.RefreshStock(order, orderAmount) * order.Price);
             }
-            else Console.WriteLine("Such goods not existance");
+            else
+            {
+                Console.WriteLine("Such goods not existance");
+            }
         }
 
         private void SelectApplianceToAdd()
@@ -81,19 +87,25 @@ namespace AppliancesModel
                 "1. Washer.\n" +
                 "2. Refrigerator.\n" +
                 "3. Kitchen stove.");
+
             while (!int.TryParse(Console.ReadLine(), out inputType) && inputType > 0 && inputType < 4)
+            {
                 Console.WriteLine("Input number 1-3!");
+            }
 
             Console.WriteLine("Input the number of such goods (different models).");
+
             while (!int.TryParse(Console.ReadLine(), out inputCount) && inputCount > 0 && inputCount < 100)
+            {
                 Console.WriteLine("Input the number 1-100!");
+            }
 
             SetApplianceProperties(distribution.AddGoods(inputType, inputCount));
         }
 
         private void SetApplianceProperties(IEnumerable<Appliance> addedGoods)
         {
-            foreach (Appliance goods in addedGoods)
+            foreach (var goods in addedGoods)
             {
                 Console.WriteLine("Input name:");
                 goods.Name = Console.ReadLine();
@@ -101,7 +113,7 @@ namespace AppliancesModel
                 goods.Guarantee = OrderValidator.CheckIntInput("Input guarantee:", 0, 60);
 
                 Console.WriteLine("Input height, width, length separating each with enter:");
-                goods.Dimensions = new Dimensions(OrderValidator.CheckIntInput("",10,300), OrderValidator.CheckIntInput("", 10, 300),
+                goods.Dimensions = new Dimensions(OrderValidator.CheckIntInput("", 10, 300), OrderValidator.CheckIntInput("", 10, 300),
                     OrderValidator.CheckIntInput("", 10, 300));
 
                 goods.Amount = OrderValidator.CheckIntInput("Input amount:", 0, 1000);

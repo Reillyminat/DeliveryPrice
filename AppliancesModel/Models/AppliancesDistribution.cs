@@ -59,7 +59,7 @@ namespace AppliancesModel
             var stockNumbersDetail = stockContext.Stock;
             stockSummary = new List<int>() { 0, 0, 0 };
 
-            foreach (Appliance item in stockContext.Stock)
+            foreach (var item in stockContext.Stock)
             {
                 switch (item.Type)
                 {

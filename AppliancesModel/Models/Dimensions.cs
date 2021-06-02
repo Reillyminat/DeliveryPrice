@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AppliancesModel
+﻿namespace AppliancesModel
 {
     public class Dimensions
     {
         public float Height { get; set; }
+
         public float Width { get; set; }
+
         public float Length { get; set; }
 
         public Dimensions(float height, float width, float length)
