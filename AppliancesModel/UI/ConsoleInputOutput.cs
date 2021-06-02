@@ -121,6 +121,7 @@ namespace AppliancesModel
 
                 Console.WriteLine("Input producing country:");
                 goods.ProducingCountry = Console.ReadLine();
+                
                 switch (goods.Type)
                 {
                     case AppliancesStock.Washer:
