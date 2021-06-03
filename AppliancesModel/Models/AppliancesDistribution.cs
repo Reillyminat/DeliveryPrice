@@ -1,37 +1,21 @@
 ﻿using AppliancesModel.Contracts;
+using AppliancesModel.Data;
 using AppliancesModel.Models;
-using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AppliancesModel
 {
     public class AppliancesDistribution : IAppliancesDistribution
     {
-        private int id;
-        private readonly IStockData stockContext;
-        public AppliancesDistribution(IStockData stock)
+        private readonly IAppliances stockContext;
+
+        public AppliancesDistribution(IAppliances stock)
         {
-            try
-            {
-                id = 0;
-                stockContext = stock;
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new Exception("Stock context is null", ex);
-            }
+            stockContext = stock;
         }
 
-        public void InitializeModel()
-        {
-            for (int i = 1; i < 4; i++)
-                stockContext.Stock.Add(new Washer(id++, "Washer" + i, 12, new Dimensions(60 + i, 40 + i, 40 + i), 100 * i, i, "Germany", 30 + i, 5 + i));
-            for (int i = 1; i < 4; i++)
-                stockContext.Stock.Add(new Refrigerator(id++, "Refrigerator" + i, 12, new Dimensions(80 + i, 60 + i, 40 + i), 100 * i, i, "Italy", 300 + i, true));
-            for (int i = 1; i < 4; i++)
-                stockContext.Stock.Add(new KitchenStove(id++, "KitchenStove" + i, 12, new Dimensions(40 + i, 60 + i, 40 + i), 100 * i, i, "France", true, true));
-        }
-
-        public int RefreshStock(Appliances goods, int count)
+        public int RefreshStock(Appliance goods, int count)
         {
             if (goods.Amount == count)
             {
@@ -45,38 +29,53 @@ namespace AppliancesModel
             }
         }
 
-        public Appliances CheckGoodsExistance(string applianceName)
+        public Appliance CheckGoodsExistance(string applianceName)
         {
-            foreach (Appliances goods in stockContext.Stock)
-            {
-                if (goods.Name == applianceName)
-                    return goods;
-            }
-            return null;
+            return stockContext.Stock.FirstOrDefault(x => x.Name == applianceName);
         }
 
-        public void AddGoods(int inputType, int inputCount)
+        public IEnumerable<Appliance> AddGoods(int inputType, int inputCount)
         {
             for (int i = 0; i < inputCount; i++)
             {
                 switch (inputType)
                 {
                     case 1:
-                        stockContext.Stock.Add(new Washer(id++));
+                        stockContext.Stock.Add(new Washer(stockContext.Id++));
                         break;
                     case 2:
-                        stockContext.Stock.Add(new Refrigerator(id++));
+                        stockContext.Stock.Add(new Refrigerator(stockContext.Id++));
                         break;
                     case 3:
-                        stockContext.Stock.Add(new KitchenStove(id++));
+                        stockContext.Stock.Add(new KitchenStove(stockContext.Id++));
                         break;
                 }
             }
+
+            return stockContext.Stock.Where(s => s.Id > stockContext.Id - inputCount - 1);
         }
 
-        public IStockData ShowStock()
+        public IEnumerable<Appliance> ShowStock(out List<int> stockSummary)
         {
-            return stockContext;
+            var stockNumbersDetail = stockContext.Stock;
+            stockSummary = new List<int>() { 0, 0, 0 };
+
+            foreach (var item in stockContext.Stock)
+            {
+                switch (item.Type)
+                {
+                    case AppliancesStock.Washer:
+                        stockSummary[0]++;
+                        break;
+                    case AppliancesStock.Refrigerator:
+                        stockSummary[1]++;
+                        break;
+                    case AppliancesStock.KitchenStove:
+                        stockSummary[2]++;
+                        break;
+                }
+            }
+            return stockNumbersDetail;
         }
     }
 }

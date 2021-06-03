@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace AppliancesModel
 {
-    public interface IStockData
+    public interface IAppliances
     {
-        ICollection<Appliances> Stock { get; set; }
+        ICollection<Appliance> Stock { get; set; }
+
+        int Id { get; set; }
+
+        void InitializeModel();
     }
 }

@@ -11,9 +11,9 @@ namespace AppliancesModel
         {
             var container = new ImplementationsContainer();
 
-            container.Set<IStockData>(new StockData());
-            var stockInfo = container.Get<IStockData>();
-            stockInfo.Stock = new List<Appliances>();
+            container.Set<IAppliances>(new Appliances(new List<Appliance>()));
+            var stockInfo = container.Get<IAppliances>();
+            stockInfo.InitializeModel();
 
             container.Set<IUserData>(new UserData());
             var usersInfo = container.Get<IUserData>();
@@ -23,9 +23,8 @@ namespace AppliancesModel
             var ordersInfo = container.Get<IOrdersData>();
             ordersInfo.Order = new List<Order>();
 
-            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IStockData>()));
+            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>()));
             var appliancesDistribution = container.Get<IAppliancesDistribution>();
-            appliancesDistribution.InitializeModel();
 
             container.Set<ILogger>(new Logger());
             var logger = container.Get<ILogger>();

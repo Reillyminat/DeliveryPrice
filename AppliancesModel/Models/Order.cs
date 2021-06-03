@@ -16,7 +16,7 @@ namespace AppliancesModel.Models
 
         public string Telephone { get; set; }
 
-        public ICollection<Appliances> basket;
+        public ICollection<Appliance> basket;
 
         public decimal Price { get; set; }
 
@@ -26,7 +26,7 @@ namespace AppliancesModel.Models
             Address = address;
             Name = name;
             Telephone = telephone;
-            basket = new List<Appliances>();
+            basket = new List<Appliance>();
             Price = 0;
         }
     }
