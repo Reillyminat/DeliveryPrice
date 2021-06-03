@@ -23,7 +23,7 @@ namespace AppliancesModel
             var ordersInfo = container.Get<IOrdersData>();
             ordersInfo.Order = new List<Order>();
 
-            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IStockData>()));
+            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>()));
             var appliancesDistribution = container.Get<IAppliancesDistribution>();
 
             container.Set<IOrderManager>(new OrderManager(container.Get<IOrdersData>()));

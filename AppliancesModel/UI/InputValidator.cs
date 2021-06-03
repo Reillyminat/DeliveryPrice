@@ -2,7 +2,7 @@
 
 namespace AppliancesModel.UI
 {
-    public static class OrderValidator
+    public static class InputValidator
     {
         public static int CheckIntInput(string article, int lowerBound, int upperBound)
         {

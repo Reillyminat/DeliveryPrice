@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Contracts;
+using AppliancesModel.Data;
 using AppliancesModel.Models;
 using System.Collections.Generic;
 using System.Linq;

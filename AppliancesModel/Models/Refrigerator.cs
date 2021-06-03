@@ -6,6 +6,8 @@
 
         public bool ContainsFreezer { get; set; }
 
+        public Refrigerator() { }
+
         public Refrigerator(int id) : base(id)
         {
             Type = AppliancesStock.Refrigerator;

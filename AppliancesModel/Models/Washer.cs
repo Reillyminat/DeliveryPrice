@@ -6,6 +6,8 @@
 
         public int MaximumLoad { get; set; }
 
+        public Washer() { }
+
         public Washer(int id) : base(id)
         {
             Type = AppliancesStock.Washer;

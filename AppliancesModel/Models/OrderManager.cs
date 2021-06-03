@@ -5,7 +5,9 @@ namespace AppliancesModel.Models
     public class OrderManager : IOrderManager
     {
         private IOrdersData ordersData;
+
         private int id;
+
         public Order CurrentOrder { get; set; }
 
         public OrderManager(IOrdersData ordersData)
@@ -30,10 +32,10 @@ namespace AppliancesModel.Models
             CurrentOrder = ordersData.Order.Last();
         }
 
-        public void AddItemToBasket(Appliances goods, int amount)
+        public void AddItemToBasket(Appliance goods, int amount)
         {
             var isNew = true;
-            foreach (Appliances sample in CurrentOrder.basket)
+            foreach (var sample in CurrentOrder.basket)
                 if (sample.Id == goods.Id)
                 {
                     sample.Amount += amount;
@@ -43,7 +45,7 @@ namespace AppliancesModel.Models
             CurrentOrder.Price += goods.Price * amount;
             if (isNew)
             {
-                Appliances orderedAppliance = XmlSerialization.CreateDeepCopy<Appliances>(goods);
+                var orderedAppliance = XmlSerialization.CreateDeepCopy<Appliance>(goods);
                 orderedAppliance.Amount = amount;
                 CurrentOrder.basket.Add(orderedAppliance);
             }

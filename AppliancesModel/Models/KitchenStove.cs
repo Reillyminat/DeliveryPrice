@@ -6,6 +6,8 @@
 
         public bool ContainsOven { get; set; }
 
+        public KitchenStove() { }
+
         public KitchenStove(int id) : base(id)
         {
             Type = AppliancesStock.KitchenStove;

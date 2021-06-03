@@ -18,6 +18,8 @@
 
         public string ProducingCountry { get; set; }
 
+        public Appliance() { }
+
         public Appliance(int id)
         {
             Id = id;
