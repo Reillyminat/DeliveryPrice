@@ -9,8 +9,11 @@ namespace AppliancesModel
     public class ConsoleInputOutput : IOutputInputHandler
     {
         private readonly IAppliancesDistribution distribution;
+
         private readonly IOrderManager orderManager;
+
         private readonly IUserManager userManager;
+
         private readonly ILogger logger;
 
         public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user, ILogger logger)
@@ -79,6 +82,7 @@ namespace AppliancesModel
         {
             char input;
             User person = CheckUser();
+
             do
             {
                 Console.WriteLine("Input appliance name you want to buy:");
@@ -103,6 +107,7 @@ namespace AppliancesModel
                 while (true)
                 {
                     input = Console.ReadKey().KeyChar;
+
                     if (input != 'y' || input != 'n')
                         break;
                 }
@@ -112,7 +117,7 @@ namespace AppliancesModel
 
         private void ShowBasket(Order order)
         {
-            foreach (var goods in order.basket)
+            foreach (var goods in order.Basket)
             {
                 Console.WriteLine("{0}, {1} x {2}", goods.Name, goods.Amount, goods.Price);
             }
@@ -138,6 +143,7 @@ namespace AppliancesModel
                         Console.WriteLine("Enter your name:\n");
                         name = Console.ReadLine();
                         var customer = userManager.GetUser(name);
+
                         if (customer == null)
                         {
                             Console.WriteLine("Such user not existance.");
