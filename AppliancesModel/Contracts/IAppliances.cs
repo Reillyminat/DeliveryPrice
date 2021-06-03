@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace AppliancesModel
 {
-    public enum AppliancesStock
+    public interface IAppliances
     {
-        Washer,
-        Refrigerator,
-        KitchenStove
+        ICollection<Appliance> Stock { get; set; }
+
+        int Id { get; set; }
+
+        void InitializeModel();
     }
 }

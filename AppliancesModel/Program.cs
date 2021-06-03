@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AppliancesModel.Contracts;
+using AppliancesModel.Data;
+using System.Collections.Generic;
 
 namespace AppliancesModel
 {
@@ -7,7 +9,7 @@ namespace AppliancesModel
         static void Main(string[] args)
         {
             var startup = new AppliancesDistribution();
+            SelectAction(startup);
         }
     }
 }
-
