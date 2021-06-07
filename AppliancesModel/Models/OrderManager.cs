@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Contracts;
+using System;
 using System.Linq;
 namespace AppliancesModel.Models
 {
@@ -8,22 +9,30 @@ namespace AppliancesModel.Models
 
         private readonly IDataSerialization dataSerializer;
 
+        private readonly ICacheable cache;
+
         public Order CurrentOrder { get; set; }
 
         public OrderManager(IOrdersData data, IDataSerialization serializer)
         {
             ordersData = data;
+            cache = new Cache(ordersData);
             dataSerializer = serializer;
             CurrentOrder = ordersData.Order.Count == 0 ? default : ordersData.Order.Last();
         }
 
         public Order CreateShoppingBasket(User person)
         {
-            foreach (Order order in ordersData.Order)
-                if (order.Name == person.Name)
-                    return order;
-            ordersData.Order.Add(new Order(ordersData.Id++, person.Address, person.Name, person.Telephone));
-            CurrentOrder = ordersData.Order.Last();
+            var ordersCache = cache.GetObject<IOrdersData>(() => Console.WriteLine("Order manager requested data."));
+            var result = ordersCache.Order.FirstOrDefault(n => n.Name == person.Name);
+            
+            if (result != null) {
+                CurrentOrder = result;
+                return result;
+            }
+
+            SetOrderData(person.Name, person.Address, person.Telephone);
+
             return CurrentOrder;
         }
 
@@ -33,20 +42,24 @@ namespace AppliancesModel.Models
             CurrentOrder = ordersData.Order.Last();
         }
 
-        public void AddItemToBasket(Appliances goods, int amount)
+        public void AddItemToBasket(Appliance goods, int amount)
         {
             var isNew = true;
-            foreach (Appliances sample in CurrentOrder.basket)
+            CurrentOrder.Price += goods.Price * amount;
+
+            foreach (var sample in CurrentOrder.basket)
+            {
                 if (sample.Id == goods.Id)
                 {
                     sample.Amount += amount;
                     isNew = false;
                     break;
                 }
-            CurrentOrder.Price += goods.Price * amount;
+            }
+
             if (isNew)
             {
-                Appliances orderedAppliance = XmlSerialization.CreateDeepCopy<Appliances>(goods);
+                var orderedAppliance = XmlSerialization.CreateDeepCopy<Appliance>(goods);
                 orderedAppliance.Amount = amount;
                 CurrentOrder.basket.Add(orderedAppliance);
             }

@@ -70,7 +70,7 @@ namespace AppliancesModel
             List<int> stockSummary;
             var stock = distribution.ShowStock(out stockSummary);
             Console.WriteLine("In stock:");
-            foreach (Appliances item in stock)
+            foreach (Appliance item in stock)
             {
                 Console.WriteLine("{0}: {1} ",item.Name,item.Amount);
             }
@@ -109,7 +109,7 @@ namespace AppliancesModel
 
         private void ShowBasket(Order order)
         {
-            foreach (Appliances goods in order.basket)
+            foreach (Appliance goods in order.basket)
             {
                 Console.WriteLine("{0}, {1} x {2}", goods.Name, goods.Amount, goods.Price);
             }

@@ -2,7 +2,7 @@
 
 namespace AppliancesModel
 {
-    public abstract class Appliances
+    public abstract class Appliance
     {
         public AppliancesStock Type { get; set; }
 
@@ -20,9 +20,9 @@ namespace AppliancesModel
 
         public string ProducingCountry { get; set; }
 
-        public Appliances() { }
+        public Appliance() { }
 
-        public Appliances(int id)
+        public Appliance(int id)
         {
             string name, producingCountry;
             int guarantee, amount;
@@ -41,7 +41,7 @@ namespace AppliancesModel
             ProducingCountry = producingCountry;
         }
 
-        public Appliances(int id, string name, int guarantee, Dimensions dimensions, decimal price, int amount, string producingCountry)
+        public Appliance(int id, string name, int guarantee, Dimensions dimensions, decimal price, int amount, string producingCountry)
         {
             Id = id;
             Name = name;

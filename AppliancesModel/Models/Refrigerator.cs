@@ -2,7 +2,7 @@
 
 namespace AppliancesModel.Models
 {
-    public class Refrigerator : Appliances
+    public class Refrigerator : Appliance
     {
         public int TotalVolume { get; set; }
 

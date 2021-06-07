@@ -1,42 +1,47 @@
 ﻿using AppliancesModel.Contracts;
+using System;
 using System.Threading;
 
 namespace AppliancesModel.Models
 {
     public class Cache : ICacheable
     {
-        private object data;
+        private readonly object data;
 
         private object copy;
+
+        private bool obsoleteCopy;
 
         private object locker = new object();
 
         public Cache(object instance)
         {
             data = instance;
-            copy = null;
+            obsoleteCopy = true;
         }
 
-        public void AddObject()
+        public T GetObject<T>(Action callback) where T : class
         {
-
-        }
-
-        public T GetObject<T>()
-        {
-            if (copy == null)
+            lock (locker)
             {
-                lock (locker)
+                if (obsoleteCopy)
                 {
+                    var dataTimeExistance = 100000;
+                    var thread = new Thread(o =>
+                    {
+                        Thread.CurrentThread.IsBackground = true;
+                        Thread.Sleep(dataTimeExistance);
+                        obsoleteCopy = true;
+                    });
+                    thread.Start();
                     copy = JsonSerialization.CreateDeepCopy((T)data);
+                    obsoleteCopy = false;
                 }
-                var thread = new Thread(o =>
-                {
-                    Thread.Sleep(10000);
-                    copy = null;
-                });
+
+                callback.Invoke();
+
+                return JsonSerialization.CreateDeepCopy((T)copy);
             }
-            return (T)copy;
         }
     }
 }

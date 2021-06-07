@@ -1,5 +1,6 @@
 ﻿using AppliancesModel.Contracts;
 using System;
+using System.Linq;
 
 namespace AppliancesModel.Models
 {
@@ -9,12 +10,15 @@ namespace AppliancesModel.Models
 
         private readonly IDataSerialization dataSerializer;
 
+        private readonly ICacheable cache;
+
         public UserManager(IUsersData users, IDataSerialization serializer)
         {
             try
             {
                 usersData = users;
                 dataSerializer = serializer;
+                cache = new Cache(usersData);
             }
             catch (NullReferenceException ex)
             {
@@ -24,32 +28,38 @@ namespace AppliancesModel.Models
 
         public User AddUser(string name, string address, string telephone)
         {
+            var usersCache = cache.GetObject<IUsersData>(() => Console.WriteLine("User manager requested data."));
             var person = GetUser(name);
-            if (usersData.Users.Contains(person))
+
+            if (person != null)
                 return person;
-            person = new User();
-            person.Name = name;
-            person.Address = address;
-            person.Telephone = telephone;
+
+            person = new User()
+            {
+                Address = address,
+                Name = name,
+                Telephone = telephone
+            };
             usersData.Users.Add(person);
+
             return person;
         }
 
         public User SetGuestUser(string name, string address, string telephone)
         {
-            var person = new User();
-            person.Name = name;
-            person.Address = address;
-            person.Telephone = telephone;
-            return person;
+            return new User()
+            {
+                Address = address,
+                Name = name,
+                Telephone = telephone
+            };
         }
 
         public User GetUser(string name)
         {
-            foreach (User person in usersData.Users)
-                if (person.Name == name)
-                    return person;
-            return null;
+            var userCache = cache.GetObject<IUsersData>(() => Console.WriteLine("User manager requested data."));
+
+            return userCache.Users.FirstOrDefault(u => u.Name == name);
         }
 
         public void SaveUsersState()

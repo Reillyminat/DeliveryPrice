@@ -2,7 +2,7 @@
 
 namespace AppliancesModel.Models
 {
-    public class KitchenStove : Appliances
+    public class KitchenStove : Appliance
     {
         public bool CombinedGasElectric { get; set; }
 

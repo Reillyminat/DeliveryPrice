@@ -2,21 +2,26 @@
 using AppliancesModel.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AppliancesModel
 {
     public class AppliancesDistribution : IAppliancesDistribution
     {
-        private readonly IStockData stockContext;
+        private readonly IAppliances stockContext;
 
         private readonly IDataSerialization dataSerializer;
 
-        public AppliancesDistribution(IStockData stock, IDataSerialization serializer)
+        private readonly ICacheable cache;
+
+        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer)
         {
             try
             {
                 stockContext = stock;
                 dataSerializer = serializer;
+                cache = new Cache(stockContext);
+
             }
             catch (NullReferenceException ex)
             {
@@ -24,20 +29,7 @@ namespace AppliancesModel
             }
         }
 
-        public void InitializeModel()
-        {
-            if (stockContext.Stock.Count == 0)
-            {
-                for (int i = 1; i < 4; i++)
-                    stockContext.Stock.Add(new Washer(stockContext.Id++, "Washer" + i, 12, new Dimensions(60 + i, 40 + i, 40 + i), 100 * i, i, "Germany", 30 + i, 5 + i));
-                for (int i = 1; i < 4; i++)
-                    stockContext.Stock.Add(new Refrigerator(stockContext.Id++, "Refrigerator" + i, 12, new Dimensions(80 + i, 60 + i, 40 + i), 100 * i, i, "Italy", 300 + i, true));
-                for (int i = 1; i < 4; i++)
-                    stockContext.Stock.Add(new KitchenStove(stockContext.Id++, "KitchenStove" + i, 12, new Dimensions(40 + i, 60 + i, 40 + i), 100 * i, i, "France", true, true));
-            }
-        }
-
-        public int RefreshStock(Appliances goods, int count)
+        public int RefreshStock(Appliance goods, int count)
         {
             if (goods.Amount == count)
             {
@@ -51,14 +43,9 @@ namespace AppliancesModel
             }
         }
 
-        public Appliances CheckGoodsExistance(string applianceName)
+        public Appliance CheckGoodsExistance(string applianceName)
         {
-            foreach (Appliances goods in stockContext.Stock)
-            {
-                if (goods.Name == applianceName)
-                    return goods;
-            }
-            return null;
+            return stockContext.Stock.FirstOrDefault(x => x.Name == applianceName);
         }
 
         public void AddGoods(int inputType, int inputCount)
@@ -80,11 +67,12 @@ namespace AppliancesModel
             }
         }
 
-        public IEnumerable<Appliances> ShowStock(out List<int> stockSummary)
+        public IEnumerable<Appliance> ShowStock(out List<int> stockSummary)
         {
-            var stockNumbersDetail = stockContext.Stock;
+            var stockNumbersDetail = cache.GetObject< IAppliances>(() => Console.WriteLine("Appliance distributor requested data.")).Stock;
             stockSummary = new List<int>() { 0, 0, 0 };
-            foreach (Appliances item in stockContext.Stock)
+
+            foreach (var item in stockNumbersDetail)
             {
                 switch (item.Type)
                 {
@@ -99,6 +87,7 @@ namespace AppliancesModel
                         break;
                 }
             }
+
             return stockNumbersDetail;
         }
 

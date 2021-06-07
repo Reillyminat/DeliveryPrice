@@ -2,7 +2,7 @@
 
 namespace AppliancesModel.Models
 {
-    public class Washer : Appliances
+    public class Washer : Appliance
     {
         public int WaterConsuming{ get; set; }
 
