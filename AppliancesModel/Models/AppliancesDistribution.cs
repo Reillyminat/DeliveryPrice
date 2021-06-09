@@ -3,6 +3,7 @@ using AppliancesModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace AppliancesModel
 {
@@ -16,6 +17,8 @@ namespace AppliancesModel
 
         private readonly IConverterService converterService;
 
+        private readonly CancellationToken cancellationToken;
+
         public AppliancesDistribution(IAppliances stock, IDataSerialization serializer, IConverterService converterProvider)
         {
             try
@@ -24,7 +27,8 @@ namespace AppliancesModel
                 dataSerializer = serializer;
                 cache = new Cache(stockContext);
                 converterService = converterProvider;
-                converterService.GetExchengesRateAsync(new System.Threading.CancellationToken());
+                cancellationToken = new CancellationToken();
+                converterService.GetExchengesRateAsync(cancellationToken);
             }
             catch (NullReferenceException ex)
             {
@@ -97,6 +101,7 @@ namespace AppliancesModel
         public void SaveStockState()
         {
             dataSerializer.SerializeToFile(stockContext);
+            cancellationToken.ThrowIfCancellationRequested();
         }
     }
 }
