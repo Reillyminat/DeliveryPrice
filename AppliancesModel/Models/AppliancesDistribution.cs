@@ -14,14 +14,17 @@ namespace AppliancesModel
 
         private readonly ICacheable cache;
 
-        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer)
+        private readonly IConverterService converterService;
+
+        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer, IConverterService converterProvider)
         {
             try
             {
                 stockContext = stock;
                 dataSerializer = serializer;
                 cache = new Cache(stockContext);
-
+                converterService = converterProvider;
+                converterService.GetExchengesRateAsync(new System.Threading.CancellationToken());
             }
             catch (NullReferenceException ex)
             {

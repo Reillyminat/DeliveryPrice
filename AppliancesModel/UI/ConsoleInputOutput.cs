@@ -12,15 +12,22 @@ namespace AppliancesModel
         private readonly IOrderManager orderManager;
         private readonly IUserManager userManager;
         private readonly ILogger logger;
+        private readonly CurrencyConverter currencyConverter;
 
-        public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user, ILogger loggerProcessing)
+        public ConsoleInputOutput(
+            IAppliancesDistribution appliancesService, 
+            IOrderManager order, 
+            IUserManager user, 
+            ILogger loggerProcessing, 
+            CurrencyConverter converter)
         {
             try
             {
-                distribution = service;
+                distribution = appliancesService;
                 orderManager = order;
                 userManager = user;
                 logger = loggerProcessing;
+                currencyConverter = converter;
             }
             catch (NullReferenceException ex)
             {
@@ -31,6 +38,7 @@ namespace AppliancesModel
         public void RunMenu()
         {
             var checkout = true;
+
             while (checkout)
             {
                 Console.WriteLine("Select action:\n" +
@@ -113,7 +121,7 @@ namespace AppliancesModel
             {
                 Console.WriteLine("{0}, {1} x {2}", goods.Name, goods.Amount, goods.Price);
             }
-            Console.WriteLine("\nTotal sum {0}", order.Price);
+            Console.WriteLine("\nTotal sum UAH: {0}, USD: {1}, EUR: {2}", order.Price, Math.Round(currencyConverter.ConvertToUSD(order.Price),2), Math.Round(currencyConverter.ConvertToEUR(order.Price),2));
         }
 
         private User CheckUser()

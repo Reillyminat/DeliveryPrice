@@ -28,7 +28,11 @@ namespace AppliancesModel
             container.Set<IOrdersData>(ordersData == null ? new OrdersData(new List<Order>()) : ordersData);
             var ordersInfo = container.Get<IOrdersData>();
 
-            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>(), container.Get<IDataSerialization>()));
+            var currencyConverter = new CurrencyConverter();
+            container.Set<IConverterService>(new ConverterService(currencyConverter));
+            var converter = container.Get<IConverterService>();
+
+            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>(), container.Get<IDataSerialization>(), container.Get<IConverterService>()));
             var appliancesDistribution = container.Get<IAppliancesDistribution>();
 
             container.Set<ILogger>(new Logger());
@@ -36,7 +40,7 @@ namespace AppliancesModel
 
             container.Set<IOrderManager>(new OrderManager(container.Get<IOrdersData>(), container.Get<IDataSerialization>()));
             container.Set<IUserManager>(new UserManager(container.Get<IUsersData>(), container.Get<IDataSerialization>()));
-            container.Set<IOutputInputHandler>(new ConsoleInputOutput(container.Get<IAppliancesDistribution>(), container.Get<IOrderManager>(), container.Get<IUserManager>(), container.Get<ILogger>()));
+            container.Set<IOutputInputHandler>(new ConsoleInputOutput(container.Get<IAppliancesDistribution>(), container.Get<IOrderManager>(), container.Get<IUserManager>(), container.Get<ILogger>(), currencyConverter));
 
             var presenter = container.Get<IOutputInputHandler>();
             presenter.RunMenu();
