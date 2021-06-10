@@ -1,5 +1,5 @@
 ﻿using AppliancesModel.Contracts;
-using System;
+using System.Linq;
 
 namespace AppliancesModel.Models
 {
@@ -7,45 +7,31 @@ namespace AppliancesModel.Models
     {
         private readonly IUserData users;
 
-        public UserManager(IUserData users)
+        public UserManager(IUserData usersData)
         {
-            try
-            {
-                this.users = users;
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new Exception("UserData instance is null.", ex);
-            }
+            users = usersData;
         }
 
         public User AddUser(string name, string address, string telephone)
         {
             var person = GetUser(name);
+
             if (users.Users.Contains(person))
+            {
                 return person;
-            person = new User();
-            person.Name = name;
-            person.Address = address;
-            person.Telephone = telephone;
-            return person;
+            }
+
+            return new User() { Name = name, Address = address, Telephone = telephone };
         }
 
         public User SetGuestUser(string name, string address, string telephone)
         {
-            var person = new User();
-            person.Name = name;
-            person.Address = address;
-            person.Telephone = telephone;
-            return person;
+            return new User() { Name = name, Address = address, Telephone = telephone };
         }
 
         public User GetUser(string name)
         {
-            foreach (User person in users.Users)
-                if (person.Name == name)
-                    return person;
-            return null;
+            return users.Users.FirstOrDefault(n => n.Name == name);
         }
     }
 }

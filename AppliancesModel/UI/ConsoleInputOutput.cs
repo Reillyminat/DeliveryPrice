@@ -9,16 +9,21 @@ namespace AppliancesModel
     public class ConsoleInputOutput : IOutputInputHandler
     {
         private readonly IAppliancesDistribution distribution;
+
         private readonly IOrderManager orderManager;
+
         private readonly IUserManager userManager;
 
-        public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user)
+        private readonly ILogger logger;
+
+        public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user, ILogger logger)
         {
             try
             {
                 distribution = service;
                 orderManager = order;
                 userManager = user;
+                this.logger = logger;
             }
             catch (NullReferenceException ex)
             {
@@ -53,6 +58,7 @@ namespace AppliancesModel
                         break;
                     case '4':
                         checkout = false;
+                        logger.Dispose();
                         break;
                     default:
                         Console.WriteLine("Error. Press key 1-4.");
@@ -76,6 +82,7 @@ namespace AppliancesModel
         {
             char input;
             User person = CheckUser();
+
             do
             {
                 Console.WriteLine("Input appliance name you want to buy:");
@@ -88,7 +95,7 @@ namespace AppliancesModel
                     orderManager.CreateShoppingBasket(person);
                     orderManager.AddItemToBasket(order, distribution.RefreshStock(order, orderAmount));
                     ShowBasket(orderManager.CurrentOrder);
-
+                    logger.AddLog(person.Name + " added to basket " + order.Type + ": " + order.Name);
                 }
                 else
                 {
@@ -100,6 +107,7 @@ namespace AppliancesModel
                 while (true)
                 {
                     input = Console.ReadKey().KeyChar;
+
                     if (input != 'y' || input != 'n')
                         break;
                 }
@@ -109,7 +117,7 @@ namespace AppliancesModel
 
         private void ShowBasket(Order order)
         {
-            foreach (var goods in order.basket)
+            foreach (var goods in order.Basket)
             {
                 Console.WriteLine("{0}, {1} x {2}", goods.Name, goods.Amount, goods.Price);
             }
@@ -135,6 +143,7 @@ namespace AppliancesModel
                         Console.WriteLine("Enter your name:\n");
                         name = Console.ReadLine();
                         var customer = userManager.GetUser(name);
+
                         if (customer == null)
                         {
                             Console.WriteLine("Such user not existance.");
@@ -143,6 +152,7 @@ namespace AppliancesModel
                         return customer;
                     case '2':
                         InputOrderData(out name, out telephone, out address);
+                        logger.AddLog(name + " registered");
                         return userManager.AddUser(name, address, telephone);
                     case '3':
                         InputOrderData(out name, out telephone, out address);
@@ -193,6 +203,7 @@ namespace AppliancesModel
             }
 
             SetApplianceProperties(distribution.AddGoods(inputType, inputCount));
+            logger.AddLog(inputCount + " " + (AppliancesStock)inputType + " added to stock");
         }
 
         private void SetApplianceProperties(IEnumerable<Appliance> addedGoods)
@@ -225,7 +236,7 @@ namespace AppliancesModel
                     case AppliancesStock.KitchenStove:
                         SetKitchenStoveProperties((KitchenStove)good);
                         break;
-                }
+                }         
             }
         }
 
@@ -246,5 +257,6 @@ namespace AppliancesModel
             newKitchenStove.CombinedGasElectric = InputValidator.CheckBoolInput("Input is it combines gas and electric (true/false):");
             newKitchenStove.ContainsOven = InputValidator.CheckBoolInput("Input is it contains oven (true/false):");
         }
+            
     }
 }

@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace AppliancesModel.Models
 {
-    public class UserData:IUserData
+    public class UsersData:IUserData
     {
+        public UsersData(ICollection<User> usersInfo)
+        {
+            Users = usersInfo;
+        }
+
         public ICollection<User> Users { get; set; }
     }
 }

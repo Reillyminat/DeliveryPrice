@@ -10,6 +10,13 @@ namespace AppliancesModel.Data
 {
     public class OrdersData:IOrdersData
     {
-        public ICollection<Order> Order { get; set; }
+        public OrdersData(ICollection<Order> ordersInfo)
+        {
+            Orders = ordersInfo;
+        }
+
+        public ICollection<Order> Orders { get; set; }
+
+        public int Id { get; set; }
     }
 }
