@@ -17,7 +17,9 @@ namespace AppliancesModel.Models
             var person = GetUser(name);
 
             if (users.Users.Contains(person))
+            {
                 return person;
+            }
 
             return new User() { Name = name, Address = address, Telephone = telephone };
         }

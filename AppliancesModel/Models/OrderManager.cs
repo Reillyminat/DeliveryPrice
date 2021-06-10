@@ -16,7 +16,7 @@ namespace AppliancesModel.Models
 
         public Order CreateShoppingBasket(User person)
         {
-            foreach (var order in orders.Order)
+            foreach (var order in orders.Orders)
             {
                 if (order.Name == person.Name)
                 {
@@ -24,16 +24,16 @@ namespace AppliancesModel.Models
                 }
             }
 
-            orders.Order.Add(new Order() { Id = orders.Id++, Address = person.Address, Name = person.Name, Telephone = person.Telephone, Basket = new List<Appliance>(), Price = 0 });
-            CurrentOrder = orders.Order.Last();
+            orders.Orders.Add(new Order() { Id = orders.Id++, Address = person.Address, Name = person.Name, Telephone = person.Telephone, Basket = new List<Appliance>(), Price = 0 });
+            CurrentOrder = orders.Orders.Last();
 
             return CurrentOrder;
         }
 
         public void SetOrderData(string name, string address, string telephone)
         {
-            orders.Order.Add(new Order() { Id = orders.Id++, Address = address, Name = name, Telephone = telephone, Basket = new List<Appliance>(), Price = 0 });
-            CurrentOrder = orders.Order.Last();
+            orders.Orders.Add(new Order() { Id = orders.Id++, Address = address, Name = name, Telephone = telephone, Basket = new List<Appliance>(), Price = 0 });
+            CurrentOrder = orders.Orders.Last();
         }
 
         public void AddItemToBasket(Appliance goods, int amount)
