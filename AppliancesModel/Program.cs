@@ -15,11 +15,11 @@ namespace AppliancesModel
             var stockInfo = container.Get<IAppliances>();
             stockInfo.InitializeModel();
 
-            container.Set<IUserData>(new UserData());
+            container.Set<IUserData>(new UsersData(new List<User>()));
             var usersInfo = container.Get<IUserData>();
             usersInfo.Users = new List<User>();
 
-            container.Set<IOrdersData>(new OrdersData());
+            container.Set<IOrdersData>(new OrdersData(new List<Order>()));
             var ordersInfo = container.Get<IOrdersData>();
             ordersInfo.Order = new List<Order>();
 

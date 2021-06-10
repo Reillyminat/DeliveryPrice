@@ -7,29 +7,32 @@ namespace AppliancesModel.Models
     {
         private IOrdersData orders;
 
-        private int id;
-
         public Order CurrentOrder { get; set; }
 
         public OrderManager(IOrdersData ordersData)
         {
-            id = 0;
             orders = ordersData;
         }
 
         public Order CreateShoppingBasket(User person)
         {
-            foreach (Order order in orders.Order)
+            foreach (var order in orders.Order)
+            {
                 if (order.Name == person.Name)
+                {
                     return order;
-            orders.Order.Add(new Order() { Id = id++, Address = person.Address, Name = person.Name, Telephone = person.Telephone, Basket = new List<Appliance>(), Price = 0 });
+                }
+            }
+
+            orders.Order.Add(new Order() { Id = orders.Id++, Address = person.Address, Name = person.Name, Telephone = person.Telephone, Basket = new List<Appliance>(), Price = 0 });
             CurrentOrder = orders.Order.Last();
+
             return CurrentOrder;
         }
 
         public void SetOrderData(string name, string address, string telephone)
         {
-            orders.Order.Add(new Order() { Id = id++, Address = address, Name = name, Telephone = telephone, Basket = new List<Appliance>(), Price = 0 });
+            orders.Order.Add(new Order() { Id = orders.Id++, Address = address, Name = name, Telephone = telephone, Basket = new List<Appliance>(), Price = 0 });
             CurrentOrder = orders.Order.Last();
         }
 
@@ -38,12 +41,14 @@ namespace AppliancesModel.Models
             var isNew = true;
 
             foreach (var sample in CurrentOrder.Basket)
+            {
                 if (sample.Id == goods.Id)
                 {
                     sample.Amount += amount;
                     isNew = false;
                     break;
                 }
+            }
 
             CurrentOrder.Price += goods.Price * amount;
 

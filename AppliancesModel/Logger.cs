@@ -6,7 +6,7 @@ namespace AppliancesModel
 {
     public class Logger : ILogger
     {
-        private StreamWriter streamWriter;
+        private readonly StreamWriter streamWriter;
 
         public Logger()
         {
