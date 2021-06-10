@@ -68,7 +68,7 @@ namespace AppliancesModel
         private void ShowStockNumbers()
         {
             List<int> stockSummary;
-            var stock = distribution.ShowStock(out stockSummary);
+            var stock = distribution.GetStock(out stockSummary);
             Console.WriteLine("In stock:");
             foreach (Appliances item in stock)
             {

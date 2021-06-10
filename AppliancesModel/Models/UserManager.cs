@@ -1,5 +1,6 @@
 ﻿using AppliancesModel.Contracts;
 using System;
+using System.Linq;
 
 namespace AppliancesModel.Models
 {
@@ -11,45 +12,41 @@ namespace AppliancesModel.Models
 
         public UserManager(IUsersData users, IDataSerialization serializer)
         {
-            try
-            {
-                usersData = users;
-                dataSerializer = serializer;
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new Exception("UserData instance is null.", ex);
-            }
+            usersData = users ?? throw new ArgumentNullException(nameof(users));
+            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
         public User AddUser(string name, string address, string telephone)
         {
             var person = GetUser(name);
-            if (usersData.Users.Contains(person))
+
+            if (person != null)
                 return person;
-            person = new User();
-            person.Name = name;
-            person.Address = address;
-            person.Telephone = telephone;
+
+            person = new User()
+            {
+                Address = address,
+                Name = name,
+                Telephone = telephone
+            };
             usersData.Users.Add(person);
+
             return person;
         }
 
         public User SetGuestUser(string name, string address, string telephone)
         {
-            var person = new User();
-            person.Name = name;
-            person.Address = address;
-            person.Telephone = telephone;
-            return person;
+            return new User()
+            {
+                Address = address,
+                Name = name,
+                Telephone = telephone
+            };
         }
 
         public User GetUser(string name)
         {
-            foreach (User person in usersData.Users)
-                if (person.Name == name)
-                    return person;
-            return null;
+            return usersData.Users.FirstOrDefault(u => u.Name == name);
         }
 
         public void SaveUsersState()

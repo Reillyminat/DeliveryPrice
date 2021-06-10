@@ -13,15 +13,8 @@ namespace AppliancesModel
 
         public AppliancesDistribution(IStockData stock, IDataSerialization serializer)
         {
-            try
-            {
-                stockContext = stock;
-                dataSerializer = serializer;
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new Exception("Stock context is null", ex);
-            }
+            stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
+            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
         public void InitializeModel()
@@ -80,11 +73,11 @@ namespace AppliancesModel
             }
         }
 
-        public IEnumerable<Appliances> ShowStock(out List<int> stockSummary)
+        public IEnumerable<Appliances> GetStock(out List<int> stockSummary)
         {
             var stockNumbersDetail = stockContext.Stock;
             stockSummary = new List<int>() { 0, 0, 0 };
-            foreach (Appliances item in stockContext.Stock)
+            foreach (var item in stockContext.Stock)
             {
                 switch (item.Type)
                 {

@@ -8,7 +8,6 @@ namespace AppliancesModel.Contracts
 {
     public interface IDataSerialization
     {
-        string Filename { get; set; }
         void SerializeToFile<T>(T data);
         T DeserializeFromFileOrDefault<T>(string filename);
     }
