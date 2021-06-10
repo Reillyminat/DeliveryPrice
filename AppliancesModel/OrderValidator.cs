@@ -2,7 +2,7 @@
 
 namespace AppliancesModel.Models
 {
-    public static class OrderDataValidation
+    public static class OrderValidator
     {
         public static bool IsTelephoneNumberValid(string number)
         {

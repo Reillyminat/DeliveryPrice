@@ -1,7 +1,9 @@
 ﻿using AppliancesModel.Contracts;
+using AppliancesModel.Data;
 using AppliancesModel.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AppliancesModel
 {
@@ -11,26 +13,13 @@ namespace AppliancesModel
 
         private readonly IDataSerialization dataSerializer;
 
-        public AppliancesDistribution(IStockData stock, IDataSerialization serializer)
+        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer)
         {
             stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
-        public void InitializeModel()
-        {
-            if (stockContext.Stock.Count == 0)
-            {
-                for (int i = 1; i < 4; i++)
-                    stockContext.Stock.Add(new Washer(stockContext.Id++, "Washer" + i, 12, new Dimensions(60 + i, 40 + i, 40 + i), 100 * i, i, "Germany", 30 + i, 5 + i));
-                for (int i = 1; i < 4; i++)
-                    stockContext.Stock.Add(new Refrigerator(stockContext.Id++, "Refrigerator" + i, 12, new Dimensions(80 + i, 60 + i, 40 + i), 100 * i, i, "Italy", 300 + i, true));
-                for (int i = 1; i < 4; i++)
-                    stockContext.Stock.Add(new KitchenStove(stockContext.Id++, "KitchenStove" + i, 12, new Dimensions(40 + i, 60 + i, 40 + i), 100 * i, i, "France", true, true));
-            }
-        }
-
-        public int RefreshStock(Appliances goods, int count)
+        public int RefreshStock(Appliance goods, int count)
         {
             if (goods.Amount == count)
             {
@@ -44,17 +33,12 @@ namespace AppliancesModel
             }
         }
 
-        public Appliances CheckGoodsExistance(string applianceName)
+        public Appliance CheckGoodsExistance(string applianceName)
         {
-            foreach (Appliances goods in stockContext.Stock)
-            {
-                if (goods.Name == applianceName)
-                    return goods;
-            }
-            return null;
+            return stockContext.Stock.FirstOrDefault(x => x.Name == applianceName);
         }
 
-        public void AddGoods(int inputType, int inputCount)
+        public IEnumerable<Appliance> AddGoods(int inputType, int inputCount)
         {
             for (int i = 0; i < inputCount; i++)
             {

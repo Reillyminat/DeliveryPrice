@@ -11,11 +11,15 @@ namespace AppliancesModel
         {
             var container = new ImplementationsContainer();
 
+            container.Set<IAppliances>(new Appliances(new List<Appliance>()));
+            var stockInfo = container.Get<IAppliances>();
+            stockInfo.InitializeModel();
+
             container.Set<IDataSerialization>(new DataSerialization());
             var serializator = container.Get<IDataSerialization>();
 
             var stockData = serializator.DeserializeFromFileOrDefault<StockData>("StockData.json");
-            container.Set<IStockData>(stockData == null ? new StockData(new List<Appliances>()) : stockData);
+            container.Set<IAppliances>(stockData == null ? new Appliances(new List<Appliance>()) : stockData);
             var stockInfo = container.Get<IStockData>();
 
             var userData = serializator.DeserializeFromFileOrDefault<UsersData>("UsersData.json");
@@ -26,9 +30,8 @@ namespace AppliancesModel
             container.Set<IOrdersData>(ordersData == null ? new OrdersData(new List<Order>()) : ordersData);
             var ordersInfo = container.Get<IOrdersData>();            
 
-            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IStockData>(), container.Get<IDataSerialization>()));
+            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>()));
             var appliancesDistribution = container.Get<IAppliancesDistribution>();
-            appliancesDistribution.InitializeModel();
 
             container.Set<ILogger>(new Logger());
             var logger = container.Get<ILogger>();

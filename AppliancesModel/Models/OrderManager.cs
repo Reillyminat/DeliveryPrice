@@ -5,9 +5,11 @@ namespace AppliancesModel.Models
 {
     public class OrderManager : IOrderManager
     {
-        private readonly IOrdersData ordersData;
+        private IOrdersData ordersData;
 
         private readonly IDataSerialization dataSerializer;
+
+        private int id;
 
         public Order CurrentOrder { get; set; }
 
@@ -40,7 +42,7 @@ namespace AppliancesModel.Models
             CurrentOrder = ordersData.Order.Last();
         }
 
-        public void AddItemToBasket(Appliances goods, int amount)
+        public void AddItemToBasket(Appliance goods, int amount)
         {
             var isNew = true;
 
@@ -58,7 +60,7 @@ namespace AppliancesModel.Models
 
             if (isNew)
             {
-                var orderedAppliance = XmlSerialization.CreateDeepCopy<Appliances>(goods);
+                var orderedAppliance = XmlSerialization.CreateDeepCopy<Appliance>(goods);
                 orderedAppliance.Amount = amount;
                 CurrentOrder.basket.Add(orderedAppliance);
             }

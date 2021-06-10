@@ -8,7 +8,7 @@ namespace AppliancesModel.Contracts
 
         Order CreateShoppingBasket(User person);
 
-        void AddItemToBasket(Appliances goods,int amount);
+        void AddItemToBasket(Appliance goods,int amount);
 
         void SetOrderData(string name, string address, string telephone);
 
