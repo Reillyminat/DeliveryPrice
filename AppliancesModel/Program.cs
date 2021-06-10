@@ -11,16 +11,17 @@ namespace AppliancesModel
         {
             var container = new ImplementationsContainer();
 
-            container.Set<IAppliances>(new Appliances(new List<Appliance>()));
-            var stockInfo = container.Get<IAppliances>();
-            stockInfo.InitializeModel();
-
             container.Set<IDataSerialization>(new DataSerialization());
             var serializator = container.Get<IDataSerialization>();
 
-            var stockData = serializator.DeserializeFromFileOrDefault<StockData>("StockData.json");
+            var stockData = serializator.DeserializeFromFileOrDefault<IAppliances>("StockData.json");
             container.Set<IAppliances>(stockData == null ? new Appliances(new List<Appliance>()) : stockData);
-            var stockInfo = container.Get<IStockData>();
+            var stockInfo = container.Get<IAppliances>();
+
+            if (stockData == null)
+            {
+                stockInfo.InitializeModel();
+            }
 
             var userData = serializator.DeserializeFromFileOrDefault<UsersData>("UsersData.json");
             container.Set<IUsersData>(userData == null ? new UsersData(new List<User>()) : userData);
@@ -28,9 +29,9 @@ namespace AppliancesModel
 
             var ordersData = serializator.DeserializeFromFileOrDefault<OrdersData>("OrdersData.json");
             container.Set<IOrdersData>(ordersData == null ? new OrdersData(new List<Order>()) : ordersData);
-            var ordersInfo = container.Get<IOrdersData>();            
+            var ordersInfo = container.Get<IOrdersData>();
 
-            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>()));
+            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>(), container.Get<IDataSerialization>()));
             var appliancesDistribution = container.Get<IAppliancesDistribution>();
 
             container.Set<ILogger>(new Logger());

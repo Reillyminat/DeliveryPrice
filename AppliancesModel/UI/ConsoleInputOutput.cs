@@ -74,7 +74,7 @@ namespace AppliancesModel
             Console.WriteLine("In stock:");
             foreach (var item in stock)
             {
-                Console.WriteLine("{0}: {1} ",item.Name,item.Amount);
+                Console.WriteLine("{0}: {1} ", item.Name, item.Amount);
             }
             Console.WriteLine("Total {0} washers, {1} refrigerators, {2} kitchen stoves.", stockSummary[0], stockSummary[1], stockSummary[2]);
         }
@@ -255,7 +255,6 @@ namespace AppliancesModel
         {
             newKitchenStove.CombinedGasElectric = InputValidator.CheckBoolInput("Input is it combines gas and electric (true/false):");
             newKitchenStove.ContainsOven = InputValidator.CheckBoolInput("Input is it contains oven (true/false):");
-        }
         }
     }
 }

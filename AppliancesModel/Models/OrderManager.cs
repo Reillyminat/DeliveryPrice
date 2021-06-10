@@ -9,8 +9,6 @@ namespace AppliancesModel.Models
 
         private readonly IDataSerialization dataSerializer;
 
-        private int id;
-
         public Order CurrentOrder { get; set; }
 
         public OrderManager(IOrdersData data, IDataSerialization serializer)

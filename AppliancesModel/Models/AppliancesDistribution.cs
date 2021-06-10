@@ -9,7 +9,7 @@ namespace AppliancesModel
 {
     public class AppliancesDistribution : IAppliancesDistribution
     {
-        private readonly IStockData stockContext;
+        private readonly IAppliances stockContext;
 
         private readonly IDataSerialization dataSerializer;
 
@@ -55,12 +55,15 @@ namespace AppliancesModel
                         break;
                 }
             }
+
+            return stockContext.Stock.Where(s => s.Id > stockContext.Id - inputCount - 1);
         }
 
-        public IEnumerable<Appliances> GetStock(out List<int> stockSummary)
+        public IEnumerable<Appliance> GetStock(out List<int> stockSummary)
         {
             var stockNumbersDetail = stockContext.Stock;
             stockSummary = new List<int>() { 0, 0, 0 };
+
             foreach (var item in stockContext.Stock)
             {
                 switch (item.Type)
@@ -76,6 +79,7 @@ namespace AppliancesModel
                         break;
                 }
             }
+
             return stockNumbersDetail;
         }
 
