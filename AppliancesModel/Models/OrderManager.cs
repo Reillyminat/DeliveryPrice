@@ -8,20 +8,20 @@ namespace AppliancesModel.Models
     {
         private readonly IDataSerialization dataSerializer;
 
-        private readonly IOrdersData orders;
+        private readonly IOrdersData dataSource;
 
         public Order CurrentOrder { get; set; }
 
         public OrderManager(IOrdersData data, IDataSerialization serializer)
         {
-            orders = data ?? throw new ArgumentNullException(nameof(data)); ;
+            dataSource = data ?? throw new ArgumentNullException(nameof(data));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            CurrentOrder = orders.Order.Count == 0 ? default : orders.Order.Last();
+            CurrentOrder = dataSource.Orders.Count == 0 ? default : dataSource.Orders.Last();
         }
 
         public Order CreateShoppingBasket(User person)
         {
-            foreach (var order in orders.Orders)
+            foreach (var order in dataSource.Orders)
             {
                 if (order.Name == person.Name)
                 {
@@ -29,16 +29,16 @@ namespace AppliancesModel.Models
                 }
             }
 
-            orders.Orders.Add(new Order() { Id = orders.Id++, Address = person.Address, Name = person.Name, Telephone = person.Telephone, Basket = new List<Appliance>(), Price = 0 });
-            CurrentOrder = orders.Orders.Last();
+            dataSource.Orders.Add(new Order() { Id = dataSource.Id++, Address = person.Address, Name = person.Name, Telephone = person.Telephone, Basket = new List<Appliance>(), Price = 0 });
+            CurrentOrder = dataSource.Orders.Last();
 
             return CurrentOrder;
         }
 
         public void SetOrderData(string name, string address, string telephone)
         {
-            orders.Orders.Add(new Order() { Id = orders.Id++, Address = address, Name = name, Telephone = telephone, Basket = new List<Appliance>(), Price = 0 });
-            CurrentOrder = orders.Orders.Last();
+            dataSource.Orders.Add(new Order() { Id = dataSource.Id++, Address = address, Name = name, Telephone = telephone, Basket = new List<Appliance>(), Price = 0 });
+            CurrentOrder = dataSource.Orders.Last();
         }
 
         public void AddItemToBasket(Appliance goods, int amount)
@@ -68,7 +68,7 @@ namespace AppliancesModel.Models
 
         public void SaveOrdersState()
         {
-            dataSerializer.SerializeToFile(ordersData);
+            dataSerializer.SerializeToFile(dataSource);
         }
     }
 }
