@@ -9,23 +9,19 @@ namespace AppliancesModel
     public class ConsoleInputOutput : IOutputInputHandler
     {
         private readonly IAppliancesDistribution distribution;
+
         private readonly IOrderManager orderManager;
+
         private readonly IUserManager userManager;
+        
         private readonly ILogger logger;
 
         public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user, ILogger loggerProcessing)
         {
-            try
-            {
-                distribution = service;
-                orderManager = order;
-                userManager = user;
-                logger = loggerProcessing;
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new Exception("Console IO got null reference", ex);
-            }
+                distribution = service ?? throw new ArgumentNullException(nameof(service));
+                orderManager = order ?? throw new ArgumentNullException(nameof(order));
+                userManager = user ?? throw new ArgumentNullException(nameof(user));
+                logger = loggerProcessing ?? throw new ArgumentNullException(nameof(loggerProcessing));
         }
 
         public void RunMenu()
@@ -83,6 +79,7 @@ namespace AppliancesModel
         {
             char input;
             User person = CheckUser();
+
             do
             {
                 Console.WriteLine("Input appliance name you want to buy:");
@@ -107,6 +104,7 @@ namespace AppliancesModel
                 while (true)
                 {
                     input = Console.ReadKey().KeyChar;
+
                     if (input != 'y' || input != 'n')
                         break;
                 }
@@ -116,7 +114,7 @@ namespace AppliancesModel
 
         private void ShowBasket(Order order)
         {
-            foreach (var goods in order.basket)
+            foreach (var goods in order.Basket)
             {
                 Console.WriteLine("{0}, {1} x {2}", goods.Name, goods.Amount, goods.Price);
             }
@@ -142,6 +140,7 @@ namespace AppliancesModel
                         Console.WriteLine("Enter your name:\n");
                         name = Console.ReadLine();
                         var customer = userManager.GetUser(name);
+
                         if (customer == null)
                         {
                             Console.WriteLine("Such user not existance.");
@@ -235,7 +234,7 @@ namespace AppliancesModel
                     case AppliancesStock.KitchenStove:
                         SetKitchenStoveProperties((KitchenStove)good);
                         break;
-                }
+                }         
             }
         }
 
@@ -256,5 +255,6 @@ namespace AppliancesModel
             newKitchenStove.CombinedGasElectric = InputValidator.CheckBoolInput("Input is it combines gas and electric (true/false):");
             newKitchenStove.ContainsOven = InputValidator.CheckBoolInput("Input is it contains oven (true/false):");
         }
+            
     }
 }

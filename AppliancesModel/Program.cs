@@ -30,6 +30,10 @@ namespace AppliancesModel
             var ordersData = serializator.DeserializeFromFileOrDefault<OrdersData>("OrdersData.json");
             container.Set<IOrdersData>(ordersData == null ? new OrdersData(new List<Order>()) : ordersData);
             var ordersInfo = container.Get<IOrdersData>();
+          
+            container.Set<IUserData>(new UsersData(new List<User>()));
+            var usersInfo = container.Get<IUserData>();
+            usersInfo.Users = new List<User>();
 
             container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>(), container.Get<IDataSerialization>()));
             var appliancesDistribution = container.Get<IAppliancesDistribution>();
@@ -39,6 +43,7 @@ namespace AppliancesModel
 
             container.Set<IOrderManager>(new OrderManager(container.Get<IOrdersData>(), container.Get<IDataSerialization>()));
             container.Set<IUserManager>(new UserManager(container.Get<IUsersData>(), container.Get<IDataSerialization>()));
+
             container.Set<IOutputInputHandler>(new ConsoleInputOutput(container.Get<IAppliancesDistribution>(), container.Get<IOrderManager>(), container.Get<IUserManager>(), container.Get<ILogger>()));
 
             var presenter = container.Get<IOutputInputHandler>();

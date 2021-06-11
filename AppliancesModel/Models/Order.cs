@@ -8,26 +8,16 @@ namespace AppliancesModel.Models
 {
     public class Order
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
 
-        public string Address { get; set; }
+        public string Address { get; init; }
 
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         public string Telephone { get; set; }
 
-        public ICollection<Appliance> basket { get; set; }
+        public ICollection<Appliance> Basket { get; set; }
 
         public decimal Price { get; set; }
-
-        public Order(int id, string address, string name, string telephone)
-        {
-            Id = id;
-            Address = address;
-            Name = name;
-            Telephone = telephone;
-            basket = new List<Appliance>();
-            Price = 0;
-        }
     }
 }
