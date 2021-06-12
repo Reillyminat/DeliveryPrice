@@ -51,7 +51,7 @@ namespace AppliancesModel.Models
 
         public void SaveUsersState()
         {
-            dataSerializer.SerializeToFile(usersData);
+            dataSerializer.SerializeAndSave(usersData);
         }
     }
 }

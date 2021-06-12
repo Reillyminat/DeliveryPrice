@@ -85,7 +85,7 @@ namespace AppliancesModel
 
         public void SaveStockState()
         {
-            dataSerializer.SerializeToFile(stockContext);
+            dataSerializer.SerializeAndSave(stockContext);
         }
     }
 }

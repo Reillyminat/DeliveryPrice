@@ -68,7 +68,7 @@ namespace AppliancesModel.Models
 
         public void SaveOrdersState()
         {
-            dataSerializer.SerializeToFile(dataSource);
+            dataSerializer.SerializeAndSave(dataSource);
         }
     }
 }

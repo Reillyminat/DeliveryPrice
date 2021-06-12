@@ -8,7 +8,7 @@ namespace AppliancesModel.Contracts
 {
     public interface IDataSerialization
     {
-        void SerializeToFile<T>(T data);
-        T DeserializeFromFileOrDefault<T>(string filename);
+        void SerializeAndSave<T>(T data);
+        T GetDeserializedDataOrDefault<T>(string filename);
     }
 }

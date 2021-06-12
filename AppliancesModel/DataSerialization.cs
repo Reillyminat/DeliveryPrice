@@ -4,19 +4,19 @@ namespace AppliancesModel
 {
     public class DataSerialization : IDataSerialization
     {
-        public void SerializeToFile<T>(T data)
+        public void SerializeAndSave<T>(T data)
         {
             var serializer = new Newtonsoft.Json.JsonSerializer();
             serializer.Converters.Add(new Newtonsoft.Json.Converters.JavaScriptDateTimeConverter());
             serializer.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             serializer.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
             serializer.Formatting = Newtonsoft.Json.Formatting.Indented;
-            using var sw = new StreamWriter(data.GetType().Name + ".json");
-            using var writer = new Newtonsoft.Json.JsonTextWriter(sw);
-            serializer.Serialize(writer, data, typeof(T));
+            using var streamWriter = new StreamWriter(data.GetType().Name + ".json");
+            using var jsonWriter = new Newtonsoft.Json.JsonTextWriter(streamWriter);
+            serializer.Serialize(jsonWriter, data, typeof(T));
         }
 
-        public T DeserializeFromFileOrDefault<T>(string filename)
+        public T GetDeserializedDataOrDefault<T>(string filename)
         {
             if (File.Exists(filename))
             {
