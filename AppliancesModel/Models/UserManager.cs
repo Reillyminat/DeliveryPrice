@@ -14,16 +14,9 @@ namespace AppliancesModel.Models
 
         public UserManager(IUsersData users, IDataSerialization serializer)
         {
-            try
-            {
-                usersData = users;
-                dataSerializer = serializer;
-                cache = new Cache(usersData);
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new Exception("UserData instance is null.", ex);
-            }
+            usersData = users ?? throw new ArgumentNullException(nameof(users));
+            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            cache = new Cache(usersData);
         }
 
         public User AddUser(string name, string address, string telephone)
@@ -64,7 +57,7 @@ namespace AppliancesModel.Models
 
         public void SaveUsersState()
         {
-            dataSerializer.SerializeToFile(usersData);
+            dataSerializer.SerializeAndSave(usersData);
         }
     }
 }

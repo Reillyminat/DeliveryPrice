@@ -2,8 +2,7 @@
 {
     public interface IDataSerialization
     {
-        string Filename { get; set; }
-        void SerializeToFile<T>(T data) where T : class;
-        T DeserializeFromFileOrDefault<T>(string filename) where T : class;
+        void SerializeAndSave<T>(T data);
+        T GetDeserializedDataOrDefault<T>(string filename);
     }
 }

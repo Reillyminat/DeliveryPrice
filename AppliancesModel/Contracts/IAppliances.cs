@@ -10,7 +10,7 @@ namespace AppliancesModel
     {
         ICollection<Appliance> Stock { get; set; }
 
-        public int Id { get; set; }
+        int Id { get; set; }
 
         void InitializeModel();
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppliancesModel.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,9 @@ namespace AppliancesModel.Contracts
 
         Appliance CheckGoodsExistance(string applianceName);
 
-        void AddGoods(int inputType, int inputCount);
+        IEnumerable<Appliance> AddGoods(int inputType, int inputCount);
 
-        IEnumerable<Appliance> ShowStock(out List<int> stockSummary);
+        IEnumerable<Appliance> GetStock(out List<int> stockSummary);
 
         void SaveStockState();
     }

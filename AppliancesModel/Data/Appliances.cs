@@ -9,7 +9,8 @@ namespace AppliancesModel.Data
 {
     public class Appliances : IAppliances
     {
-        public Appliances(ICollection<Appliance> stockInfo) {
+        public Appliances(ICollection<Appliance> stockInfo)
+        {
             Stock = stockInfo;
         }
 

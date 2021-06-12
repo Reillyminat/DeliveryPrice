@@ -9,8 +9,8 @@ namespace AppliancesModel.Contracts
 {
     public interface IOrdersData
     {
-        ICollection<Order> Order { get; set; }
-
+        ICollection<Order> Orders { get; set; }
+      
         int Id { get; set; }
     }
 }
