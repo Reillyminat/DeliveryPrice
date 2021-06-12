@@ -14,7 +14,7 @@ namespace AppliancesModel
             container.Set<IDataSerialization>(new DataSerialization());
             var serializator = container.Get<IDataSerialization>();
 
-            var stockData = serializator.DeserializeFromFileOrDefault<Appliances>("Appliances.json");
+            var stockData = serializator.GetDeserializedDataOrDefault<Appliances>("Appliances.json");
             container.Set<IAppliances>(stockData == null ? new Appliances(new List<Appliance>()) : stockData);
             var stockInfo = container.Get<IAppliances>();
 
