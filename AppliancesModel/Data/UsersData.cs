@@ -13,6 +13,7 @@ namespace AppliancesModel.Models
         {
             Users = usersInfo;
         }
+        
         public ICollection<User> Users { get; set; }
     }
 }

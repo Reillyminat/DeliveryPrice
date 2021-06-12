@@ -1,11 +1,12 @@
 ﻿using AppliancesModel.Contracts;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 namespace AppliancesModel.Models
 {
     public class OrderManager : IOrderManager
     {
-        private readonly IOrdersData ordersData;
+        private readonly IOrdersData dataSource;
 
         private readonly IDataSerialization dataSerializer;
 
@@ -15,16 +16,16 @@ namespace AppliancesModel.Models
 
         public OrderManager(IOrdersData data, IDataSerialization serializer)
         {
-            ordersData = data;
-            cache = new Cache(ordersData);
-            dataSerializer = serializer;
-            CurrentOrder = ordersData.Order.Count == 0 ? default : ordersData.Order.Last();
+            dataSource = data ?? throw new ArgumentNullException(nameof(data));
+            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            CurrentOrder = dataSource.Orders.Count == 0 ? default : dataSource.Orders.Last();
+            cache = new Cache(dataSource);
         }
 
         public Order CreateShoppingBasket(User person)
         {
             var ordersCache = cache.GetObject<IOrdersData>(() => Console.WriteLine("Order manager requested data."));
-            var result = ordersCache.Order.FirstOrDefault(n => n.Name == person.Name);
+            var result = ordersCache.Orders.FirstOrDefault(n => n.Name == person.Name);
             
             if (result != null) {
                 CurrentOrder = result;
@@ -38,16 +39,15 @@ namespace AppliancesModel.Models
 
         public void SetOrderData(string name, string address, string telephone)
         {
-            ordersData.Order.Add(new Order(ordersData.Id++, address, name, telephone));
-            CurrentOrder = ordersData.Order.Last();
+            dataSource.Orders.Add(new Order() { Id = dataSource.Id++, Address = address, Name = name, Telephone = telephone, Basket = new List<Appliance>(), Price = 0 });
+            CurrentOrder = dataSource.Orders.Last();
         }
 
         public void AddItemToBasket(Appliance goods, int amount)
         {
             var isNew = true;
-            CurrentOrder.Price += goods.Price * amount;
 
-            foreach (var sample in CurrentOrder.basket)
+            foreach (var sample in CurrentOrder.Basket)
             {
                 if (sample.Id == goods.Id)
                 {
@@ -57,18 +57,20 @@ namespace AppliancesModel.Models
                 }
             }
 
+            CurrentOrder.Price += goods.Price * amount;
+
             if (isNew)
             {
                 var orderedAppliance = XmlSerialization.CreateDeepCopy<Appliance>(goods);
                 orderedAppliance.Amount = amount;
-                CurrentOrder.basket.Add(orderedAppliance);
+                CurrentOrder.Basket.Add(orderedAppliance);
             }
 
         }
 
         public void SaveOrdersState()
         {
-            dataSerializer.SerializeToFile(ordersData);
+            dataSerializer.SerializeAndSave(dataSource);
         }
     }
 }

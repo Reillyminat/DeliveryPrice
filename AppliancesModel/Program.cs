@@ -14,17 +14,18 @@ namespace AppliancesModel
             container.Set<IDataSerialization>(new DataSerialization());
             var serializator = container.Get<IDataSerialization>();
 
-            var stockData = serializator.DeserializeFromFileOrDefault<Appliances>("Appliances.json");
+            var stockData = serializator.GetDeserializedDataOrDefault<Appliances>("Appliances.json");
             container.Set<IAppliances>(stockData == null ? new Appliances(new List<Appliance>()) : stockData);
             var stockInfo = container.Get<IAppliances>();
+
             if (stockData == null)
                 stockInfo.InitializeModel();
 
-            var userData = serializator.DeserializeFromFileOrDefault<UsersData>("UsersData.json");
+            var userData = serializator.GetDeserializedDataOrDefault<UsersData>("UsersData.json");
             container.Set<IUsersData>(userData == null ? new UsersData(new List<User>()) : userData);
             var usersInfo = container.Get<IUsersData>();
 
-            var ordersData = serializator.DeserializeFromFileOrDefault<OrdersData>("OrdersData.json");
+            var ordersData = serializator.GetDeserializedDataOrDefault<OrdersData>("OrdersData.json");
             container.Set<IOrdersData>(ordersData == null ? new OrdersData(new List<Order>()) : ordersData);
             var ordersInfo = container.Get<IOrdersData>();
 

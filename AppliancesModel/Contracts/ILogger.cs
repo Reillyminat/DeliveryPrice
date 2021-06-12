@@ -9,6 +9,5 @@ namespace AppliancesModel.Contracts
     public interface ILogger:IDisposable
     {
         void AddLog(string data);
-
     }
 }

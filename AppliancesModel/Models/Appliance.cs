@@ -1,6 +1,4 @@
-﻿using AppliancesModel.UI;
-
-namespace AppliancesModel
+﻿namespace AppliancesModel
 {
     public abstract class Appliance
     {
@@ -24,24 +22,17 @@ namespace AppliancesModel
 
         public Appliance(int id)
         {
-            string name, producingCountry;
-            int guarantee, amount;
-            decimal price;
-            Dimensions dimensions;
-
-            PropertiesManager.SetApplianceProperties(out name, out guarantee, out dimensions, out price, out amount, out producingCountry);
-            SetProperties();
-
             Id = id;
-            Name = name;
-            Guarantee = guarantee;
-            Dimensions = dimensions;
-            Price = price;
-            Amount = amount;
-            ProducingCountry = producingCountry;
         }
 
-        public Appliance(int id, string name, int guarantee, Dimensions dimensions, decimal price, int amount, string producingCountry)
+        public Appliance(
+            int id,
+            string name,
+            int guarantee,
+            Dimensions dimensions,
+            decimal price,
+            int amount,
+            string producingCountry)
         {
             Id = id;
             Name = name;
@@ -51,7 +42,5 @@ namespace AppliancesModel
             Amount = amount;
             ProducingCountry = producingCountry;
         }
-
-        public abstract void SetProperties();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Contracts;
+using AppliancesModel.Data;
 using AppliancesModel.Models;
 using System;
 using System.Collections.Generic;
@@ -21,19 +22,11 @@ namespace AppliancesModel
 
         public AppliancesDistribution(IAppliances stock, IDataSerialization serializer, IConverterService converterProvider)
         {
-            try
-            {
-                stockContext = stock;
-                dataSerializer = serializer;
-                cache = new Cache(stockContext);
-                converterService = converterProvider;
-                cancellationToken = new CancellationToken();
-                converterService.GetExchengesRateAsync(cancellationToken);
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new Exception("Stock context is null", ex);
-            }
+            stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
+            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            cache = new Cache(stockContext);
+            cancellationToken = new CancellationToken();
+            converterService.GetExchengesRateAsync(cancellationToken);
         }
 
         public int RefreshStock(Appliance goods, int count)
@@ -55,7 +48,7 @@ namespace AppliancesModel
             return stockContext.Stock.FirstOrDefault(x => x.Name == applianceName);
         }
 
-        public void AddGoods(int inputType, int inputCount)
+        public IEnumerable<Appliance> AddGoods(int inputType, int inputCount)
         {
             for (int i = 0; i < inputCount; i++)
             {
@@ -72,9 +65,11 @@ namespace AppliancesModel
                         break;
                 }
             }
+
+            return stockContext.Stock.Where(s => s.Id > stockContext.Id - inputCount - 1);
         }
 
-        public IEnumerable<Appliance> ShowStock(out List<int> stockSummary)
+        public IEnumerable<Appliance> GetStock(out List<int> stockSummary)
         {
             var stockNumbersDetail = cache.GetObject< IAppliances>(() => Console.WriteLine("Appliance distributor requested data.")).Stock;
             stockSummary = new List<int>() { 0, 0, 0 };

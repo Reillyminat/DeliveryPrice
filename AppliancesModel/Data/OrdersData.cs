@@ -12,10 +12,10 @@ namespace AppliancesModel.Data
     {
         public OrdersData(ICollection<Order> ordersInfo)
         {
-            Order = ordersInfo;
+            Orders = ordersInfo;
         }
 
-        public ICollection<Order> Order { get; set; }
+        public ICollection<Order> Orders { get; set; }
 
         public int Id { get; set; }
     }
