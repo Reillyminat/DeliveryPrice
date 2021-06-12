@@ -10,6 +10,7 @@ namespace AppliancesModel.Contracts
     public interface IOrdersData
     {
         ICollection<Order> Orders { get; set; }
+      
         int Id { get; set; }
     }
 }

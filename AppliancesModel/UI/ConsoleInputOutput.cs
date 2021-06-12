@@ -13,22 +13,15 @@ namespace AppliancesModel
         private readonly IOrderManager orderManager;
 
         private readonly IUserManager userManager;
-
+        
         private readonly ILogger logger;
 
-        public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user, ILogger logger)
+        public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user, ILogger loggerProcessing)
         {
-            try
-            {
-                distribution = service;
-                orderManager = order;
-                userManager = user;
-                this.logger = logger;
-            }
-            catch (NullReferenceException ex)
-            {
-                throw new Exception("Console IO got null reference", ex);
-            }
+                distribution = service ?? throw new ArgumentNullException(nameof(service));
+                orderManager = order ?? throw new ArgumentNullException(nameof(order));
+                userManager = user ?? throw new ArgumentNullException(nameof(user));
+                logger = loggerProcessing ?? throw new ArgumentNullException(nameof(loggerProcessing));
         }
 
         public void RunMenu()
@@ -58,6 +51,9 @@ namespace AppliancesModel
                         break;
                     case '4':
                         checkout = false;
+                        orderManager.SaveOrdersState();
+                        distribution.SaveStockState();
+                        userManager.SaveUsersState();
                         logger.Dispose();
                         break;
                     default:
@@ -69,13 +65,14 @@ namespace AppliancesModel
 
         private void ShowStockNumbers()
         {
-            var stock = distribution.ShowStock(out var stockSummary);
+            List<int> stockSummary;
+            var stock = distribution.GetStock(out stockSummary);
             Console.WriteLine("In stock:");
-
             foreach (var item in stock)
             {
                 Console.WriteLine("{0}: {1} ", item.Name, item.Amount);
             }
+            Console.WriteLine("Total {0} washers, {1} refrigerators, {2} kitchen stoves.", stockSummary[0], stockSummary[1], stockSummary[2]);
         }
 
         private void CheckAndBuy()
@@ -203,6 +200,7 @@ namespace AppliancesModel
             }
 
             SetApplianceProperties(distribution.AddGoods(inputType, inputCount));
+            distribution.AddGoods(inputType, inputCount);
             logger.AddLog(inputCount + " " + (AppliancesStock)inputType + " added to stock");
         }
 

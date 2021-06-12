@@ -1,6 +1,7 @@
 ﻿using AppliancesModel.Contracts;
 using AppliancesModel.Data;
 using AppliancesModel.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,9 +11,12 @@ namespace AppliancesModel
     {
         private readonly IAppliances stockContext;
 
-        public AppliancesDistribution(IAppliances stock)
+        private readonly IDataSerialization dataSerializer;
+
+        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer)
         {
-            stockContext = stock;
+            stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
+            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
 
         public int RefreshStock(Appliance goods, int count)
@@ -55,7 +59,7 @@ namespace AppliancesModel
             return stockContext.Stock.Where(s => s.Id > stockContext.Id - inputCount - 1);
         }
 
-        public IEnumerable<Appliance> ShowStock(out List<int> stockSummary)
+        public IEnumerable<Appliance> GetStock(out List<int> stockSummary)
         {
             var stockNumbersDetail = stockContext.Stock;
             stockSummary = new List<int>() { 0, 0, 0 };
@@ -75,7 +79,13 @@ namespace AppliancesModel
                         break;
                 }
             }
+
             return stockNumbersDetail;
+        }
+
+        public void SaveStockState()
+        {
+            dataSerializer.SerializeAndSave(stockContext);
         }
     }
 }

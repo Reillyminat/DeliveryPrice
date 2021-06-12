@@ -15,6 +15,8 @@ namespace AppliancesModel.Contracts
 
         IEnumerable<Appliance> AddGoods(int inputType, int inputCount);
 
-        IEnumerable<Appliance> ShowStock(out List<int> stockSummary);
+        IEnumerable<Appliance> GetStock(out List<int> stockSummary);
+
+        void SaveStockState();
     }
 }

@@ -11,26 +11,35 @@ namespace AppliancesModel
         {
             var container = new ImplementationsContainer();
 
-            container.Set<IAppliances>(new Appliances(new List<Appliance>()));
+            container.Set<IDataSerialization>(new DataSerialization());
+            var serializator = container.Get<IDataSerialization>();
+
+            var stockData = serializator.GetDeserializedDataOrDefault<IAppliances>("StockData.json");
+            container.Set<IAppliances>(stockData == null ? new Appliances(new List<Appliance>()) : stockData);
             var stockInfo = container.Get<IAppliances>();
-            stockInfo.InitializeModel();
 
-            container.Set<IUserData>(new UsersData(new List<User>()));
-            var usersInfo = container.Get<IUserData>();
-            usersInfo.Users = new List<User>();
+            if (stockData == null)
+            {
+                stockInfo.InitializeModel();
+            }
 
-            container.Set<IOrdersData>(new OrdersData(new List<Order>()));
+            var userData = serializator.GetDeserializedDataOrDefault<UsersData>("UsersData.json");
+            container.Set<IUsersData>(userData == null ? new UsersData(new List<User>()) : userData);
+            var usersInfo = container.Get<IUsersData>();
+
+            var ordersData = serializator.GetDeserializedDataOrDefault<OrdersData>("OrdersData.json");
+            container.Set<IOrdersData>(ordersData == null ? new OrdersData(new List<Order>()) : ordersData);
             var ordersInfo = container.Get<IOrdersData>();
-            ordersInfo.Orders = new List<Order>();
-
-            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>()));
+         
+            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>(), container.Get<IDataSerialization>()));
             var appliancesDistribution = container.Get<IAppliancesDistribution>();
 
             container.Set<ILogger>(new Logger());
             var logger = container.Get<ILogger>();
 
-            container.Set<IOrderManager>(new OrderManager(container.Get<IOrdersData>()));
-            container.Set<IUserManager>(new UserManager(container.Get<IUserData>()));
+            container.Set<IOrderManager>(new OrderManager(container.Get<IOrdersData>(), container.Get<IDataSerialization>()));
+            container.Set<IUserManager>(new UserManager(container.Get<IUsersData>(), container.Get<IDataSerialization>()));
+
             container.Set<IOutputInputHandler>(new ConsoleInputOutput(container.Get<IAppliancesDistribution>(), container.Get<IOrderManager>(), container.Get<IUserManager>(), container.Get<ILogger>()));
 
             var presenter = container.Get<IOutputInputHandler>();
