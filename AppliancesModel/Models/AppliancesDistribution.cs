@@ -1,5 +1,4 @@
 ﻿using AppliancesModel.Contracts;
-using AppliancesModel.Data;
 using AppliancesModel.Models;
 using System;
 using System.Collections.Generic;
@@ -20,6 +19,9 @@ namespace AppliancesModel
             stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             cache = new Cache(stockContext);
+            cancellationToken = new CancellationToken();
+            converterService = converterProvider ?? throw new ArgumentNullException(nameof(converterProvider));
+            converterService.GetExchengesRateAsync(cancellationToken);
         }
 
         public int RefreshStock(Appliance goods, int count)
@@ -64,7 +66,7 @@ namespace AppliancesModel
 
         public IEnumerable<Appliance> GetStock(out List<int> stockSummary)
         {
-            var stockNumbersDetail = cache.GetObject< IAppliances>(() => Console.WriteLine("Appliance distributor requested data.")).Stock;
+            var stockNumbersDetail = cache.GetObject<IAppliances>(() => Console.WriteLine("Appliance distributor requested data.")).Stock;
             stockSummary = new List<int>() { 0, 0, 0 };
 
             foreach (var item in stockNumbersDetail)
@@ -89,6 +91,7 @@ namespace AppliancesModel
         public void SaveStockState()
         {
             dataSerializer.SerializeAndSave(stockContext);
+            cancellationToken.ThrowIfCancellationRequested();
         }
     }
 }
