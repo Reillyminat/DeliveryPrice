@@ -14,7 +14,7 @@ namespace AppliancesModel.Models
 
         public Order CurrentOrder { get; set; }
 
-        public OrderManager(IOrdersData data, IDataSerialization serializer)
+        public OrderManager(IOrdersData data, IDataSerialization serializer, ICacheable cacheProvider)
         {
             dataSource = data ?? throw new ArgumentNullException(nameof(data));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));

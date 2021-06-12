@@ -14,14 +14,11 @@ namespace AppliancesModel
 
         private readonly ICacheable cache;
 
-        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer)
+        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer, ICacheable cacheProvider)
         {
             stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            cache = new Cache(stockContext);
-            cancellationToken = new CancellationToken();
-            converterService = converterProvider ?? throw new ArgumentNullException(nameof(converterProvider));
-            converterService.GetExchengesRateAsync(cancellationToken);
+            cache = cacheProvider;
         }
 
         public int RefreshStock(Appliance goods, int count)
@@ -91,7 +88,6 @@ namespace AppliancesModel
         public void SaveStockState()
         {
             dataSerializer.SerializeAndSave(stockContext);
-            cancellationToken.ThrowIfCancellationRequested();
         }
     }
 }

@@ -40,7 +40,7 @@ namespace AppliancesModel.Models
 
                 callback.Invoke();
 
-                return JsonSerialization.CreateDeepCopy((T)copy);
+                return (T)copy;
             }
         }
     }

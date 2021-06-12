@@ -16,9 +16,7 @@ namespace AppliancesModel
         
         private readonly ILogger logger;
 
-        private readonly CurrencyConverter currencyConverter;
-
-        public ConsoleInputOutput(IAppliancesDistribution service, IOrderManager order, IUserManager user, ILogger loggerProcessing)
+        public ConsoleInputOutput(IAppliancesDistribution appliancesService, IOrderManager order, IUserManager user, ILogger loggerProcessing)
         {
                 distribution = appliancesService ?? throw new ArgumentNullException(nameof(appliancesService));
                 orderManager = order ?? throw new ArgumentNullException(nameof(order));
