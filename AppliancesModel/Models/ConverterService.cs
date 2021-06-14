@@ -1,5 +1,6 @@
 ﻿using AppliancesModel.Contracts;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace AppliancesModel.Models
         {
             while (!stopToken.IsCancellationRequested)
             {
-                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-EN");
+                CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-EN");
                 var xml = XDocument.Load("https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=11");
 
                 currencyConverter.USD = Convert.ToDecimal(xml.Elements("exchangerates").Elements("row").

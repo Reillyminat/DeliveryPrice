@@ -25,7 +25,7 @@ namespace AppliancesModel
             ILogger loggerProcessing, 
             CurrencyConverter converter)
         {
-                distribution = service ?? throw new ArgumentNullException(nameof(service));
+                distribution = appliancesService ?? throw new ArgumentNullException(nameof(appliancesService));
                 orderManager = order ?? throw new ArgumentNullException(nameof(order));
                 userManager = user ?? throw new ArgumentNullException(nameof(user));
                 logger = loggerProcessing ?? throw new ArgumentNullException(nameof(loggerProcessing));

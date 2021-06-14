@@ -10,7 +10,7 @@ namespace AppliancesModel
 
         public Logger()
         {
-            streamWriter = new StreamWriter("Log - " + DateTime.Now.ToShortDateString() + ".txt", true);
+            streamWriter = new StreamWriter("Log - " + DateTime.Now.ToShortDateString().Replace('/','.') + ".txt", true);
             streamWriter.WriteLine("Session started at " + DateTime.Now.ToLongTimeString());
         }
 

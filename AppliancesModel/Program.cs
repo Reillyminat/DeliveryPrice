@@ -2,6 +2,7 @@
 using AppliancesModel.Data;
 using AppliancesModel.Models;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace AppliancesModel
 {
@@ -33,7 +34,8 @@ namespace AppliancesModel
             container.Set<IConverterService>(new ConverterService(currencyConverter));
             var converter = container.Get<IConverterService>();
 
-            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>(), container.Get<IDataSerialization>(), container.Get<IConverterService>()));
+            CancellationToken cancellationToken = new CancellationToken();
+            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>(), container.Get<IDataSerialization>(), container.Get<IConverterService>(), cancellationToken));
             var appliancesDistribution = container.Get<IAppliancesDistribution>();
 
             container.Set<ILogger>(new Logger());
@@ -45,6 +47,7 @@ namespace AppliancesModel
 
             var presenter = container.Get<IOutputInputHandler>();
             presenter.RunMenu();
+            cancellationToken.ThrowIfCancellationRequested();
         }
     }
 }
