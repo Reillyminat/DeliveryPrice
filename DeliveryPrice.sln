@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliveryPrice", "DeliveryPrice\DeliveryPrice.csproj", "{22949BA3-A956-47FB-92EE-038CCA1F6112}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppliancesModel", "AppliancesModel\AppliancesModel.csproj", "{647920E7-8EB6-4D04-B0FD-EDA8EA98723B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppliancesModel", "AppliancesModel\AppliancesModel.csproj", "{647920E7-8EB6-4D04-B0FD-EDA8EA98723B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{2EF66B2F-6626-4FAD-B605-FD79F7684F21}"
+	ProjectSection(SolutionItems) = preProject
+		DBDiagram.png = DBDiagram.png
+		script.sql = script.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
