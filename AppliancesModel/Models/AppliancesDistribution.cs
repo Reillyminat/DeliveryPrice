@@ -1,9 +1,9 @@
 ﻿using AppliancesModel.Contracts;
-using AppliancesModel.Data;
 using AppliancesModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace AppliancesModel
 {
@@ -13,10 +13,16 @@ namespace AppliancesModel
 
         private readonly IDataSerialization dataSerializer;
 
-        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer)
+        private readonly ICacheable cache;
+
+        private readonly CancellationToken cancellationToken;
+
+        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer, IConverterService converterProvider, CancellationToken cancellationToken)
         {
             stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            cache = new Cache(stockContext);
+            converterProvider.GetExchengesRateAsync(cancellationToken);
         }
 
         public int RefreshStock(Appliance goods, int count)
@@ -61,10 +67,10 @@ namespace AppliancesModel
 
         public IEnumerable<Appliance> GetStock(out List<int> stockSummary)
         {
-            var stockNumbersDetail = stockContext.Stock;
+            var stockNumbersDetail = cache.GetObject<IAppliances>(() => Console.WriteLine("Appliance distributor requested data.")).Stock;
             stockSummary = new List<int>() { 0, 0, 0 };
 
-            foreach (var item in stockContext.Stock)
+            foreach (var item in stockNumbersDetail)
             {
                 switch (item.Type)
                 {
