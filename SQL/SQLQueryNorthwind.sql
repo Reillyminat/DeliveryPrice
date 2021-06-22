@@ -6,4 +6,4 @@ SELECT * FROM Customers WHERE City='Geneve'
 SELECT LastName, FirstName, BirthDate, Hiredate, Address, City, Region FROM Employees WHERE Region='WA' EXCEPT
 SELECT LastName, FirstName, BirthDate, Hiredate, Address, City, Region FROM Employees WHERE City='Seattle'
 --6
-SELECT * FROM (SELECT Country, Region, count (Region) OVER (PARTITION BY Region) AS SuppliersCount FROM Suppliers) AS SuppliersSubquery WHERE SuppliersCount>0
+SELECT Country, Region, COUNT (Region) AS SuppliersCount FROM Suppliers GROUP BY Region, Country HAVING COUNT (Region)>1
