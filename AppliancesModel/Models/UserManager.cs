@@ -10,14 +10,18 @@ namespace AppliancesModel.Models
 
         private readonly IDataSerialization dataSerializer;
 
+        private readonly ICacheable cache;
+
         public UserManager(IUsersData users, IDataSerialization serializer)
         {
             usersData = users ?? throw new ArgumentNullException(nameof(users));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            cache = new Cache(usersData);
         }
 
         public User AddUser(string name, string address, string telephone)
         {
+            var usersCache = cache.GetObject<IUsersData>(() => Console.WriteLine("User manager requested data."));
             var person = GetUser(name);
 
             if (person != null)
@@ -46,7 +50,9 @@ namespace AppliancesModel.Models
 
         public User GetUser(string name)
         {
-            return usersData.Users.FirstOrDefault(u => u.Name == name);
+            var userCache = cache.GetObject<IUsersData>(() => Console.WriteLine("User manager requested data."));
+
+            return userCache.Users.FirstOrDefault(u => u.Name == name);
         }
 
         public void SaveUsersState()

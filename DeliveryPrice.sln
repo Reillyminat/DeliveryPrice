@@ -34,6 +34,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 2", "Task 2", "{31E528
 	ProjectSection(SolutionItems) = preProject
 		SQL\Task 2\SQLQueryNorthwind.sql = SQL\Task 2\SQLQueryNorthwind.sql
 		SQL\Task 2\SQLQueryWebStorage.sql = SQL\Task 2\SQLQueryWebStorage.sql
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{459BA52A-5098-4E08-9EA6-895CE875A907}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 1", "Task 1", "{E45710F2-FCDE-40B2-8605-26C6EDB5985E}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\DBDiagram.png = SQL\DBDiagram.png
+		SQL\script.sql = SQL\script.sql
 	EndProjectSection
 EndProject
 Global
@@ -59,6 +65,7 @@ Global
 		{6C240CC3-D64A-445A-BC1F-ED884E9DA555} = {31E528BD-56B5-4958-8ADB-E48645F19A5C}
 		{F8444A5A-29AD-4B05-AE74-AF11C50458D8} = {31E528BD-56B5-4958-8ADB-E48645F19A5C}
 		{31E528BD-56B5-4958-8ADB-E48645F19A5C} = {4740E555-4DA5-4590-95EE-958FF61F8ADD}
+		{E45710F2-FCDE-40B2-8605-26C6EDB5985E} = {459BA52A-5098-4E08-9EA6-895CE875A907}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3F4E8C3-22B4-4504-B5D3-BB64D0EE814F}

@@ -6,9 +6,11 @@ namespace AppliancesModel.Models
 {
     public class OrderManager : IOrderManager
     {
+        private readonly IOrdersData dataSource;
+
         private readonly IDataSerialization dataSerializer;
 
-        private readonly IOrdersData dataSource;
+        private readonly ICacheable cache;
 
         public Order CurrentOrder { get; set; }
 
@@ -17,20 +19,20 @@ namespace AppliancesModel.Models
             dataSource = data ?? throw new ArgumentNullException(nameof(data));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             CurrentOrder = dataSource.Orders.Count == 0 ? default : dataSource.Orders.Last();
+            cache = new Cache(dataSource);
         }
 
         public Order CreateShoppingBasket(User person)
         {
-            foreach (var order in dataSource.Orders)
-            {
-                if (order.Name == person.Name)
-                {
-                    return order;
-                }
+            var ordersCache = cache.GetObject<IOrdersData>(() => Console.WriteLine("Order manager requested data."));
+            var result = ordersCache.Orders.FirstOrDefault(n => n.Name == person.Name);
+            
+            if (result != null) {
+                CurrentOrder = result;
+                return result;
             }
 
-            dataSource.Orders.Add(new Order() { Id = dataSource.Id++, Address = person.Address, Name = person.Name, Telephone = person.Telephone, Basket = new List<Appliance>(), Price = 0 });
-            CurrentOrder = dataSource.Orders.Last();
+            SetOrderData(person.Name, person.Address, person.Telephone);
 
             return CurrentOrder;
         }
