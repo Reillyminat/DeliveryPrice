@@ -32,7 +32,7 @@ BEGIN
 END
 
 
-DECLARE @id varchar(max
+DECLARE @id varchar(max)
 EXEC GenerateUniqueKey @tablename=UserTypes, @id=@id OUTPUT
 INSERT INTO UserTypes VALUES (@id,'registered user');
 
