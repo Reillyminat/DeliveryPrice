@@ -21,22 +21,21 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE FUNCTION [dbo].[GetUniqueKey]
 (
-	@tableName varchar, @rowsCount int
+	@tableName varchar, @guid nvarchar(50)
 )
 RETURNS varchar(MAX)
 AS
 BEGIN
 	DECLARE @id AS varchar(max)
-	SET @id = CONCAT(SUBSTRING(@tablename, 1, 1),@rowsCount);
+	SET @id = CONCAT(SUBSTRING(@tablename, 1, 1),@guid);
 	RETURN @id
 END
 
 
-DECLARE @id varchar(max), @rowsCount int
+DECLARE @id varchar(max
 EXEC GenerateUniqueKey @tablename=UserTypes, @id=@id OUTPUT
 INSERT INTO UserTypes VALUES (@id,'registered user');
 
-SELECT @rowsCount=COUNT(id) FROM UserTypes
-INSERT INTO UserTypes VALUES (dbo.GetUniqueKey('UserTypes',@rowsCount),'new user');
+INSERT INTO UserTypes VALUES (dbo.GetUniqueKey('UserTypes',NEWID()),'new user');
 
 
