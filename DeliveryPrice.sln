@@ -57,6 +57,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 5", "Task 5", "{E0944A
 		SQL\Task 5\XMLScript.sql = SQL\Task 5\XMLScript.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 4", "Task 4", "{82598438-319A-4C5A-9A88-72665C1807D7}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\Task 4\Function.png = SQL\Task 4\Function.png
+		SQL\Task 4\Stored procedure and function.sql = SQL\Task 4\Stored procedure and function.sql
+		SQL\Task 4\Stored procedure.png = SQL\Task 4\Stored procedure.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +90,7 @@ Global
 		{E45710F2-FCDE-40B2-8605-26C6EDB5985E} = {459BA52A-5098-4E08-9EA6-895CE875A907}
 		{77D22B1F-0947-4910-B5DB-56843E6FF474} = {459BA52A-5098-4E08-9EA6-895CE875A907}
 		{E0944ACE-E3BC-43FE-B55A-C9A87D51C22E} = {459BA52A-5098-4E08-9EA6-895CE875A907}
+		{82598438-319A-4C5A-9A88-72665C1807D7} = {459BA52A-5098-4E08-9EA6-895CE875A907}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3F4E8C3-22B4-4504-B5D3-BB64D0EE814F}
