@@ -1,0 +1,44 @@
+﻿<Users>
+  <User>
+    <UserId>13</UserId>
+    <Address>г. Новомосковск, ул. Техникумовская, д. 5б</Address>
+    <FullName>Мищенко Сергей Иванович</FullName>
+    <Telephone>380975315200</Telephone>
+  </User>
+  <User>
+    <UserId>14</UserId>
+    <Address>г. Днепр, ул. Тарасова, д. 7, кв. 9</Address>
+    <FullName>Треньков Вячеслав Данилович</FullName>
+    <Telephone>380671827384</Telephone>
+  </User>
+  <User>
+    <UserId>15</UserId>
+    <Address>г. Киев, ул. Славянская, д. 56, кв. 12</Address>
+    <FullName>Таращев Юрий Васильевич</FullName>
+    <Telephone>380669019234</Telephone>
+  </User>
+  <User>
+    <UserId>16</UserId>
+    <Address>г. Новомосковск, ул. Северная, д. 28, кв. 16</Address>
+    <FullName>Нуров Александр Александрович</FullName>
+    <Telephone>380974536172</Telephone>
+  </User>
+  <User>
+    <UserId>17</UserId>
+    <Address>г. Днепр, ул. Советская, д. 6, кв. 17</Address>
+    <FullName>Роева Надежда Владимировна</FullName>
+    <Telephone>380509090101</Telephone>
+  </User>
+  <User>
+    <UserId>18</UserId>
+    <Address>г. Харьков, ул. Громовая, д. 29, кв 19</Address>
+    <FullName>Сивич Андрей Николаевич</FullName>
+    <Telephone>380783423231</Telephone>
+  </User>
+  <User>
+    <UserId>19</UserId>
+    <Address>г. Днепр, ул. Старинная, д. 39, кв 29</Address>
+    <FullName>Старина Олег Николаевич</FullName>
+    <Telephone>380783423231</Telephone>
+  </User>
+</Users>

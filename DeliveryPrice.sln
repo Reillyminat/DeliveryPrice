@@ -49,11 +49,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 3", "Task 3", "{77D22B
 		SQL\Task 3\3.png = SQL\Task 3\3.png
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 4", "Task 4", "{6B4A1718-5951-49E6-A373-3E8410E76349}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 5", "Task 5", "{E0944ACE-E3BC-43FE-B55A-C9A87D51C22E}"
 	ProjectSection(SolutionItems) = preProject
-		SQL\Task 4\Function.png = SQL\Task 4\Function.png
-		SQL\Task 4\Stored procedure and function.sql = SQL\Task 4\Stored procedure and function.sql
-		SQL\Task 4\Stored procedure.png = SQL\Task 4\Stored procedure.png
+		SQL\Task 5\Merge result.png = SQL\Task 5\Merge result.png
+		SQL\Task 5\StoredProcedure.sql = SQL\Task 5\StoredProcedure.sql
+		SQL\Task 5\Users.xml = SQL\Task 5\Users.xml
+		SQL\Task 5\XMLScript.sql = SQL\Task 5\XMLScript.sql
 	EndProjectSection
 EndProject
 Global
@@ -81,7 +82,7 @@ Global
 		{31E528BD-56B5-4958-8ADB-E48645F19A5C} = {459BA52A-5098-4E08-9EA6-895CE875A907}
 		{E45710F2-FCDE-40B2-8605-26C6EDB5985E} = {459BA52A-5098-4E08-9EA6-895CE875A907}
 		{77D22B1F-0947-4910-B5DB-56843E6FF474} = {459BA52A-5098-4E08-9EA6-895CE875A907}
-		{6B4A1718-5951-49E6-A373-3E8410E76349} = {459BA52A-5098-4E08-9EA6-895CE875A907}
+		{E0944ACE-E3BC-43FE-B55A-C9A87D51C22E} = {459BA52A-5098-4E08-9EA6-895CE875A907}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3F4E8C3-22B4-4504-B5D3-BB64D0EE814F}
