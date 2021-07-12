@@ -3,6 +3,7 @@ using AppliancesModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace AppliancesModel
 {
@@ -14,11 +15,14 @@ namespace AppliancesModel
 
         private readonly ICacheable cache;
 
-        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer, ICacheable cacheProvider)
+        private readonly CancellationToken cancellationToken;
+
+        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer, ICacheable cacheProvider, IConverterService converterProvider, CancellationToken cancellationToken)
         {
             stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
-            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));            
             cache = cacheProvider;
+            converterProvider.GetExchengesRateAsync(cancellationToken);
         }
 
         public int RefreshStock(Appliance goods, int count)

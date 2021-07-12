@@ -5,7 +5,64 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliveryPrice", "DeliveryPrice\DeliveryPrice.csproj", "{22949BA3-A956-47FB-92EE-038CCA1F6112}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppliancesModel", "AppliancesModel\AppliancesModel.csproj", "{647920E7-8EB6-4D04-B0FD-EDA8EA98723B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppliancesModel", "AppliancesModel\AppliancesModel.csproj", "{647920E7-8EB6-4D04-B0FD-EDA8EA98723B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Insert", "1. Insert", "{5E07E4BC-A0AA-48FB-BBB4-109475EE84FE}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\Task 2\1. Insert\a.png = SQL\Task 2\1. Insert\a.png
+		SQL\Task 2\1. Insert\b.png = SQL\Task 2\1. Insert\b.png
+		SQL\Task 2\1. Insert\c.png = SQL\Task 2\1. Insert\c.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Editing", "2. Editing", "{6C240CC3-D64A-445A-BC1F-ED884E9DA555}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\Task 2\2. Editing\a.png = SQL\Task 2\2. Editing\a.png
+		SQL\Task 2\2. Editing\b.png = SQL\Task 2\2. Editing\b.png
+		SQL\Task 2\2. Editing\c.png = SQL\Task 2\2. Editing\c.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Northwind", "3. Northwind", "{F8444A5A-29AD-4B05-AE74-AF11C50458D8}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\Task 2\3. Northwind\4. UNION.png = SQL\Task 2\3. Northwind\4. UNION.png
+		SQL\Task 2\3. Northwind\5. EXCEPT.png = SQL\Task 2\3. Northwind\5. EXCEPT.png
+		SQL\Task 2\3. Northwind\6. SELECT.png = SQL\Task 2\3. Northwind\6. SELECT.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 2", "Task 2", "{31E528BD-56B5-4958-8ADB-E48645F19A5C}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\Task 2\SQLQueryNorthwind.sql = SQL\Task 2\SQLQueryNorthwind.sql
+		SQL\Task 2\SQLQueryWebStorage.sql = SQL\Task 2\SQLQueryWebStorage.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{459BA52A-5098-4E08-9EA6-895CE875A907}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 1", "Task 1", "{E45710F2-FCDE-40B2-8605-26C6EDB5985E}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\DBDiagram.png = SQL\DBDiagram.png
+		SQL\script.sql = SQL\script.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 3", "Task 3", "{77D22B1F-0947-4910-B5DB-56843E6FF474}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\Task 3\1.png = SQL\Task 3\1.png
+		SQL\Task 3\2.png = SQL\Task 3\2.png
+		SQL\Task 3\3.png = SQL\Task 3\3.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 5", "Task 5", "{E0944ACE-E3BC-43FE-B55A-C9A87D51C22E}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\Task 5\Merge result.png = SQL\Task 5\Merge result.png
+		SQL\Task 5\StoredProcedure.sql = SQL\Task 5\StoredProcedure.sql
+		SQL\Task 5\Users.xml = SQL\Task 5\Users.xml
+		SQL\Task 5\XMLScript.sql = SQL\Task 5\XMLScript.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 4", "Task 4", "{82598438-319A-4C5A-9A88-72665C1807D7}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\Task 4\Function.png = SQL\Task 4\Function.png
+		SQL\Task 4\Stored procedure and function.sql = SQL\Task 4\Stored procedure and function.sql
+		SQL\Task 4\Stored procedure.png = SQL\Task 4\Stored procedure.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +81,16 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5E07E4BC-A0AA-48FB-BBB4-109475EE84FE} = {31E528BD-56B5-4958-8ADB-E48645F19A5C}
+		{6C240CC3-D64A-445A-BC1F-ED884E9DA555} = {31E528BD-56B5-4958-8ADB-E48645F19A5C}
+		{F8444A5A-29AD-4B05-AE74-AF11C50458D8} = {31E528BD-56B5-4958-8ADB-E48645F19A5C}
+		{31E528BD-56B5-4958-8ADB-E48645F19A5C} = {459BA52A-5098-4E08-9EA6-895CE875A907}
+		{E45710F2-FCDE-40B2-8605-26C6EDB5985E} = {459BA52A-5098-4E08-9EA6-895CE875A907}
+		{77D22B1F-0947-4910-B5DB-56843E6FF474} = {459BA52A-5098-4E08-9EA6-895CE875A907}
+		{E0944ACE-E3BC-43FE-B55A-C9A87D51C22E} = {459BA52A-5098-4E08-9EA6-895CE875A907}
+		{82598438-319A-4C5A-9A88-72665C1807D7} = {459BA52A-5098-4E08-9EA6-895CE875A907}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3F4E8C3-22B4-4504-B5D3-BB64D0EE814F}
