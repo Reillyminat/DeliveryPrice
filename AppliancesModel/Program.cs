@@ -18,8 +18,8 @@ namespace AppliancesModel
             container.Set<IAppliances>(stockData == null ? new Appliances(new List<Appliance>()) : stockData);
             var stockInfo = container.Get<IAppliances>();
 
-            //if (stockData == null)
-              //  stockInfo.InitializeModel();
+            if (stockData == null)
+                stockInfo.InitializeModel();
 
             var userData = serializator.GetDeserializedDataOrDefault<UsersData>("UsersData.json");
             container.Set<IUsersData>(userData == null ? new UsersData(new List<User>()) : userData);
@@ -35,10 +35,9 @@ namespace AppliancesModel
             container.Set<ILogger>(new Logger());
             var logger = container.Get<ILogger>();
 
-            container.Set<ICacheable>(new Cache(container.Get<IUsersData>()));
-
-            container.Set<IOrderManager>(new OrderManager(container.Get<IOrdersData>(), container.Get<IDataSerialization>(), container.Get<ICacheable>()));
             container.Set<ICacheable>(new Cache(container.Get<IOrdersData>()));
+            container.Set<IOrderManager>(new OrderManager(container.Get<IOrdersData>(), container.Get<IDataSerialization>(), container.Get<ICacheable>()));
+            container.Set<ICacheable>(new Cache(container.Get<IUsersData>()));
             container.Set<IUserManager>(new UserManager(container.Get<IUsersData>(), container.Get<IDataSerialization>(), container.Get<ICacheable>()));
 
             container.Set<IOutputInputHandler>(new ConsoleInputOutput(container.Get<IAppliancesDistribution>(), container.Get<IOrderManager>(), container.Get<IUserManager>(), container.Get<ILogger>()));

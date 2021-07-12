@@ -1,6 +1,5 @@
 ﻿using AppliancesModel.Contracts;
 using System;
-using System.Threading;
 
 namespace AppliancesModel.Models
 {
@@ -10,33 +9,25 @@ namespace AppliancesModel.Models
 
         private object copy;
 
-        private bool obsoleteCopy;
+        private DateTime copyCreation;
 
         private object locker = new object();
 
         public Cache(object instance)
         {
             data = instance;
-            obsoleteCopy = true;
         }
 
         public T GetObject<T>(Action callback) where T : class
         {
             lock (locker)
             {
-                if (obsoleteCopy)
+                if (DateTime.Now > copyCreation.AddSeconds(600))
                 {
-                    var dataTimeExistance = 100000;
-                    var thread = new Thread(o =>
-                    {
-                        Thread.CurrentThread.IsBackground = true;
-                        Thread.Sleep(dataTimeExistance);
-                        obsoleteCopy = true;
-                    });
-                    thread.Start();
+                    copyCreation = DateTime.Now;
                     copy = JsonSerialization.CreateDeepCopy((T)data);
-                    obsoleteCopy = false;
                 }
+
 
                 callback.Invoke();
 
