@@ -3,6 +3,7 @@ using AppliancesModel.Models;
 using AppliancesModel.UI;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace AppliancesModel
 {
@@ -16,12 +17,20 @@ namespace AppliancesModel
         
         private readonly ILogger logger;
 
-        public ConsoleInputOutput(IAppliancesDistribution appliancesService, IOrderManager order, IUserManager user, ILogger loggerProcessing)
+        private readonly CurrencyConverter currencyConverter;
+
+        public ConsoleInputOutput(
+            IAppliancesDistribution appliancesService, 
+            IOrderManager order, 
+            IUserManager user, 
+            ILogger loggerProcessing, 
+            CurrencyConverter converter)
         {
                 distribution = appliancesService ?? throw new ArgumentNullException(nameof(appliancesService));
                 orderManager = order ?? throw new ArgumentNullException(nameof(order));
                 userManager = user ?? throw new ArgumentNullException(nameof(user));
                 logger = loggerProcessing ?? throw new ArgumentNullException(nameof(loggerProcessing));
+                currencyConverter = converter;
         }
 
         public void RunMenu()
@@ -118,8 +127,7 @@ namespace AppliancesModel
             {
                 Console.WriteLine("{0}, {1} x {2}", goods.Name, goods.Amount, goods.Price);
             }
-
-            Console.WriteLine("\nTotal sum {0}", order.Price);
+            Console.WriteLine("\nTotal sum UAH: {0}, USD: {1}, EUR: {2}", order.Price, Math.Round(currencyConverter.ConvertToUSD(order.Price),2), Math.Round(currencyConverter.ConvertToEUR(order.Price),2));
         }
 
         private User CheckUser()

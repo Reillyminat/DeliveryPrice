@@ -2,6 +2,7 @@
 using AppliancesModel.Data;
 using AppliancesModel.Models;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace AppliancesModel
 {
@@ -28,23 +29,27 @@ namespace AppliancesModel
             container.Set<IOrdersData>(ordersData == null ? new OrdersData(new List<Order>()) : ordersData);
 
             container.Set<ICacheable>(new Cache(container.Get<IAppliances>()));
+            var currencyConverter = new CurrencyConverter();
+            container.Set<IConverterService>(new ConverterService(currencyConverter));
+            var converter = container.Get<IConverterService>();
 
-            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>(), container.Get<IDataSerialization>(), container.Get<ICacheable>()));
+            CancellationToken cancellationToken = new CancellationToken();
+            container.Set<IAppliancesDistribution>(new AppliancesDistribution(container.Get<IAppliances>(), container.Get<IDataSerialization>(), container.Get<ICacheable>(), container.Get<IConverterService>(), cancellationToken));
+
             var appliancesDistribution = container.Get<IAppliancesDistribution>();
 
             container.Set<ILogger>(new Logger());
             var logger = container.Get<ILogger>();
 
-            container.Set<ICacheable>(new Cache(container.Get<IUsersData>()));
-
-            container.Set<IOrderManager>(new OrderManager(container.Get<IOrdersData>(), container.Get<IDataSerialization>(), container.Get<ICacheable>()));
             container.Set<ICacheable>(new Cache(container.Get<IOrdersData>()));
+            container.Set<IOrderManager>(new OrderManager(container.Get<IOrdersData>(), container.Get<IDataSerialization>(), container.Get<ICacheable>()));
+            container.Set<ICacheable>(new Cache(container.Get<IUsersData>()));
             container.Set<IUserManager>(new UserManager(container.Get<IUsersData>(), container.Get<IDataSerialization>(), container.Get<ICacheable>()));
-
-            container.Set<IOutputInputHandler>(new ConsoleInputOutput(container.Get<IAppliancesDistribution>(), container.Get<IOrderManager>(), container.Get<IUserManager>(), container.Get<ILogger>()));
+            container.Set<IOutputInputHandler>(new ConsoleInputOutput(container.Get<IAppliancesDistribution>(), container.Get<IOrderManager>(), container.Get<IUserManager>(), container.Get<ILogger>(), currencyConverter));
 
             var presenter = container.Get<IOutputInputHandler>();
             presenter.RunMenu();
+            cancellationToken.ThrowIfCancellationRequested();
         }
     }
 }
