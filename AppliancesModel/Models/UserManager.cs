@@ -16,7 +16,7 @@ namespace AppliancesModel.Models
         {
             usersData = users ?? throw new ArgumentNullException(nameof(users));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            cache = cacheProvider;
+            cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
         }
 
         public User AddUser(string name, string address, string telephone)

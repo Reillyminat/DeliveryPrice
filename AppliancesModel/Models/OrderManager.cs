@@ -19,7 +19,7 @@ namespace AppliancesModel.Models
             dataSource = data ?? throw new ArgumentNullException(nameof(data));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             CurrentOrder = dataSource.Orders.Count == 0 ? default : dataSource.Orders.Last();
-            cache = new Cache(dataSource);
+            cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
         }
 
         public Order CreateShoppingBasket(User person)

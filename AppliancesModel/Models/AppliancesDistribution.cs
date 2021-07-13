@@ -21,7 +21,7 @@ namespace AppliancesModel
         {
             stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));            
-            cache = cacheProvider;
+            cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
             converterProvider.GetExchengesRateAsync(cancellationToken);
         }
 
