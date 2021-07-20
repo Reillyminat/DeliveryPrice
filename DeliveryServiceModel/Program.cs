@@ -6,7 +6,8 @@ namespace DeliveryServiceModel
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var example = new LinqExamples(new TestData());
+            example.QueryTask();
         }
     }
 }
