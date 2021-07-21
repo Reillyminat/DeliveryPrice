@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DeliveryServiceModel
 {
@@ -10,7 +6,7 @@ namespace DeliveryServiceModel
     {
         public bool Equals(Appliance x, Appliance y)
         {
-            if (x.Name == y.Name&&x.Type==y.Type)
+            if (x.Name == y.Name && x.Type == y.Type)
                 return true;
             else
                 return false;
