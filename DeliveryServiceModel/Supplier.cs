@@ -10,6 +10,6 @@ namespace DeliveryServiceModel
 
         public string Region { get; set; }
 
-        public ICollection<Appliance> Stock { get; set; }
+        public ICollection<Product> Stock { get; set; }
     }
 }

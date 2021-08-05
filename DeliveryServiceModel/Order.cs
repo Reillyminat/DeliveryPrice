@@ -9,7 +9,7 @@ namespace DeliveryServiceModel
 
         public User User { get; set; }
 
-        public ICollection<Appliance> Basket { get; set; }
+        public ICollection<Product> Basket { get; set; } = new List<Product>();
 
         public decimal Price { get; set; }
 
