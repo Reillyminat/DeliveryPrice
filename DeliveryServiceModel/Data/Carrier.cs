@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceModel
 {
-    public class Dimensions
+    public class Carrier
     {
-        public float Height { get; set; }
+        public string Name { get; set; }
 
-        public float Width { get; set; }
-
-        public float Length { get; set; }
+        public ICollection<Tariff> Tarrifs { get; set; }
     }
 }

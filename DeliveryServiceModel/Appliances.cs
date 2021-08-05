@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceModel
 {
-    public class DeliveryMan
+    public class Appliances
     {
-        public string Name { get; set; }
-
-        public ICollection<Tariff> Tarrifs { get; set; }
+        public ICollection<Product> Stock { get; set; }
     }
 }

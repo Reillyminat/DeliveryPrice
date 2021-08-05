@@ -8,6 +8,7 @@ namespace DeliveryServiceModel
 {
     public enum Categories
     {
+        Unknown,
         Washer,
         Refrigerator,
         KitchenStove

@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DeliveryServiceModel
 {
+    [Table("Suppliers")]
     public class Supplier
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string Region { get; set; }
 
-        public ICollection<Appliance> Stock { get; set; }
+        public ICollection<Product> Stock { get; set; }
     }
 }

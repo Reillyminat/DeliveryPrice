@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceModel
 {
-    public class DeliveryMen
+    public class Carriers
     {
-        public ICollection<DeliveryMan> Companies { get; set; }
+        public ICollection<Carrier> Companies { get; set; }
     }
 }

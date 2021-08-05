@@ -43,7 +43,7 @@ namespace DeliveryServiceModel
             foreach (var supplier in stockCollectionBySuppliers)
             {
                 Console.WriteLine("---Supplier {0} has such amount of goods in each appliance categories: ", supplier.Name);
-                foreach (var appliance in supplier.Stock.GroupBy(x => x.Type))
+                foreach (var appliance in supplier.Stock.GroupBy(x => x.ProductTypeId))
                 {
                     Console.WriteLine("Category {0}, total appliances amount: {1}\n", appliance.Key, appliance.Sum(x => x.Amount));
                 }
