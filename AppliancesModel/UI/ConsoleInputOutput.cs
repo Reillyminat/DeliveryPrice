@@ -16,6 +16,7 @@ namespace AppliancesModel
         private readonly IUserManager userManager;
         
         private readonly ILogger logger;
+
         private readonly CurrencyConverter currencyConverter;
 
         public ConsoleInputOutput(

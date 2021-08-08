@@ -17,11 +17,11 @@ namespace AppliancesModel
 
         private readonly CancellationToken cancellationToken;
 
-        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer, IConverterService converterProvider, CancellationToken cancellationToken)
+        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer, ICacheable cacheProvider, IConverterService converterProvider, CancellationToken cancellationToken)
         {
             stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
-            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            cache = new Cache(stockContext);
+            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));            
+            cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
             converterProvider.GetExchengesRateAsync(cancellationToken);
         }
 

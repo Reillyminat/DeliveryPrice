@@ -12,11 +12,11 @@ namespace AppliancesModel.Models
 
         private readonly ICacheable cache;
 
-        public UserManager(IUsersData users, IDataSerialization serializer)
+        public UserManager(IUsersData users, IDataSerialization serializer, ICacheable cacheProvider)
         {
             usersData = users ?? throw new ArgumentNullException(nameof(users));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            cache = new Cache(usersData);
+            cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
         }
 
         public User AddUser(string name, string address, string telephone)

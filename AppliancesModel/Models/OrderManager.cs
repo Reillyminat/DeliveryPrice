@@ -14,12 +14,12 @@ namespace AppliancesModel.Models
 
         public Order CurrentOrder { get; set; }
 
-        public OrderManager(IOrdersData data, IDataSerialization serializer)
+        public OrderManager(IOrdersData data, IDataSerialization serializer, ICacheable cacheProvider)
         {
             dataSource = data ?? throw new ArgumentNullException(nameof(data));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             CurrentOrder = dataSource.Orders.Count == 0 ? default : dataSource.Orders.Last();
-            cache = new Cache(dataSource);
+            cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
         }
 
         public Order CreateShoppingBasket(User person)
