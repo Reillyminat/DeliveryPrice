@@ -8,6 +8,6 @@ namespace DeliveryServiceModel
 {
     public class Carriers
     {
-        public ICollection<Carrier> Companies { get; set; }
+        public ICollection<Carrier> Carriers { get; set; }
     }
 }
