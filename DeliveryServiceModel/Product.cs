@@ -6,19 +6,23 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceModel
 {
-    public class Appliance
+    public class Product
     {
-        public Categories Type { get; set; }
+        public Categories ProductTypeId { get; set; }
 
-        public int Id { get; set; }
+        public int ProductId { get; set; }
 
         public string Name { get; set; }
 
         public int Amount { get; set; }
 
-        public int Guarantee { get; set; }
+        public int GuaranteeInMonths { get; set; }
 
-        public Dimensions Dimensions { get; set; }
+        public decimal HeightInMeters { get; set; }
+
+        public decimal WidthInMeters { get; set; }
+
+        public decimal DepthInMeters { get; set; }
 
         public decimal Price { get; set; }
 
