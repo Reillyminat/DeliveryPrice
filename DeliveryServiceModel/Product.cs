@@ -10,6 +10,7 @@ namespace DeliveryServiceModel
     public class Product
     {
         public Categories ProductTypeId { get; set; }
+
         [Key]
         public int ProductId { get; set; }
 
