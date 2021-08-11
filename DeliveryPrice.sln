@@ -64,7 +64,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task 4", "Task 4", "{825984
 		SQL\Task 4\Stored procedure.png = SQL\Task 4\Stored procedure.png
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeliveryServiceModel", "DeliveryServiceModel\DeliveryServiceModel.csproj", "{ED62F144-88BF-4413-ADBB-70FE155682B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeliveryServiceModel", "DeliveryServiceModel\DeliveryServiceModel.csproj", "{ED62F144-88BF-4413-ADBB-70FE155682B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
