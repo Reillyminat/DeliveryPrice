@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using DeliveryServiceModel;
+using System.Collections.Generic;
 
-namespace DeliveryServiceModel
+namespace LINQTasks
 {
     public class AppliancesComparer : IEqualityComparer<Appliance>
     {

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using DeliveryServiceModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace DeliveryServiceModel
+namespace LINQTasks
 {
     public class LinqExamples
     {

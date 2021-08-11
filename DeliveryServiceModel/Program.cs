@@ -6,8 +6,6 @@ namespace DeliveryServiceModel
     {
         static void Main(string[] args)
         {
-            var example = new LinqExamples(new TestData());
-            example.QueryTask();
         }
     }
 }
