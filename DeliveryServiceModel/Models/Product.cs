@@ -8,9 +8,9 @@ namespace DeliveryServiceModel
 {
     public class Product
     {
-        public Categories ProductTypeId { get; set; }
+        public int Id { get; set; }
 
-        public int ProductId { get; set; }
+        public Categories ProductTypeId { get; set; }
 
         public string Name { get; set; }
 

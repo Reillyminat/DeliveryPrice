@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceModel
 {
-    public class Carrier
+    public class Tariff
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
 
-        public ICollection<Tariff> Tarrifs { get; set; }
+        public decimal Price { get; set; }
+
+        public string DestinationAddress { get; set; }
     }
 }
