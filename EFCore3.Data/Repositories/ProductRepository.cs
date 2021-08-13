@@ -1,6 +1,8 @@
 ﻿using DeliveryServiceModel;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EFCore5.Data
 {
@@ -31,7 +33,7 @@ namespace EFCore5.Data
             return db.Products.Find(id);
         }
 
-        public IEnumerable<Product> GetAll()
+        public IEnumerable<Product> GetAll(Predicate<string> predicate)
         {
             return db.Products;
         }

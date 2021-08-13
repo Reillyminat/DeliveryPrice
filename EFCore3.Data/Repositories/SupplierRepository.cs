@@ -1,5 +1,6 @@
 ﻿using DeliveryServiceModel;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace EFCore5.Data
@@ -30,7 +31,7 @@ namespace EFCore5.Data
             return db.Suppliers.Find(id);
         }
 
-        public IEnumerable<Supplier> GetAll()
+        public IEnumerable<Supplier> GetAll(Predicate<string> predicate)
         {
             return db.Suppliers;
         }

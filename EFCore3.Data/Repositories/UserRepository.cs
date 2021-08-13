@@ -1,5 +1,7 @@
 ﻿using DeliveryServiceModel;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EFCore5.Data
 {
@@ -12,9 +14,9 @@ namespace EFCore5.Data
             db = context;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<User> GetAll(Predicate<string> predicate)
         {
-            return db.Users;
+            return ((IEnumerable<User>)db.Users).Where(x => predicate(x.Telephone));
         }
 
         public User Get(int id)

@@ -8,7 +8,7 @@ namespace EFCore5.Data
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        IEnumerable<T> GetAll(Predicate<string> predicate);
         T Get(int id);
         void Create(T item);
         void Update(T item);

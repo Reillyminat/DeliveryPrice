@@ -2,6 +2,7 @@
 using EFCore5.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EFCore5.UI
 {
@@ -92,11 +93,13 @@ namespace EFCore5.UI
 
         public void GetAllTestData()
         {
-            var products = unitOfWork.Products.GetAll();
+            Predicate<string> isKyivstar = delegate (string x) { return x.StartsWith("38097")|| x.StartsWith("38067")|| x.StartsWith("38068")|| x.StartsWith("38096")|| x.StartsWith("38098"); };
+            var users = unitOfWork.Users.GetAll(isKyivstar);
+            Console.WriteLine("Kyivstar users:");
 
-            foreach (var product in products)
+            foreach (var user in users)
             {
-                Console.WriteLine("Product: {0}, amount: {1}", product.Name, product.Amount);
+                Console.WriteLine("User: {0}, telephone: {1}", user.FullName, user.Telephone);
             }
         }
 

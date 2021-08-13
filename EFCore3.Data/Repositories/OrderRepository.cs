@@ -1,5 +1,6 @@
 ﻿using DeliveryServiceModel;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace EFCore5.Data
@@ -13,7 +14,7 @@ namespace EFCore5.Data
             db = context;
         }
 
-        public IEnumerable<Order> GetAll()
+        public IEnumerable<Order> GetAll(Predicate<string> predicate)
         {
             return db.Orders;
         }
@@ -39,6 +40,7 @@ namespace EFCore5.Data
             foundedOrder.TimeOfOrdering = order.TimeOfOrdering;
             foundedOrder.TimeOfTaking = order.TimeOfTaking;
             foundedOrder.User = order.User;
+            db.Entry(foundedOrder).State = EntityState.Modified;
         }
 
         public void Delete(int id)
