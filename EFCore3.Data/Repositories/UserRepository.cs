@@ -1,4 +1,5 @@
 ﻿using DeliveryServiceModel;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +32,7 @@ namespace EFCore5.Data
 
         public void Update(User user)
         {
-            var foundedUser = db.Users.Find(user.Id);
-            foundedUser.Address = user.Address;
-            foundedUser.Telephone = user.Telephone;
-            foundedUser.FullName = user.FullName;
+            db.Entry(user).State = EntityState.Modified;
         }
 
         public void Delete(int id)

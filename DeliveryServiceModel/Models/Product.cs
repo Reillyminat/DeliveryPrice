@@ -27,5 +27,7 @@ namespace DeliveryServiceModel
         public decimal Price { get; set; }
 
         public string ProducingCountry { get; set; }
+
+        public ICollection<Supplier> Suppliers { get; set; }
     }
 }

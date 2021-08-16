@@ -20,6 +20,7 @@ namespace EFCore5.Data
         {
             db = context;
         }
+
         public UserRepository Users
         {
             get
@@ -49,6 +50,7 @@ namespace EFCore5.Data
                 return supplierRepository;
             }
         }
+
         public TariffRepository Tariffs
         {
             get
@@ -58,6 +60,7 @@ namespace EFCore5.Data
                 return tariffRepository;
             }
         }
+
         public CarrierRepository Carriers
         {
             get
@@ -67,6 +70,7 @@ namespace EFCore5.Data
                 return carrierRepository;
             }
         }
+
         public ProductRepository Products
         {
             get
@@ -76,6 +80,7 @@ namespace EFCore5.Data
                 return productRepository;
             }
         }
+
         public void Save()
         {
             db.SaveChanges();

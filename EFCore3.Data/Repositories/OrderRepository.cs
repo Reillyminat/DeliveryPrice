@@ -31,16 +31,7 @@ namespace EFCore5.Data
 
         public void Update(Order order)
         {
-            var foundedOrder= db.Orders.Find(order.Id);
-            foundedOrder.Carrier = order.Carrier;
-            foundedOrder.Price = order.Price;
-            foundedOrder.Products = order.Products;
-            foundedOrder.Status = order.Status;
-            foundedOrder.Supplier = order.Supplier;
-            foundedOrder.TimeOfOrdering = order.TimeOfOrdering;
-            foundedOrder.TimeOfTaking = order.TimeOfTaking;
-            foundedOrder.User = order.User;
-            db.Entry(foundedOrder).State = EntityState.Modified;
+            db.Entry(order).State = EntityState.Modified;
         }
 
         public void Delete(int id)

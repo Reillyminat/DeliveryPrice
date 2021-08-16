@@ -29,7 +29,7 @@ namespace EFCore5.UI
                     Name = "KitchenStove05",
                     Price = 300,
                     ProducingCountry = "USA",
-                    ProductTypeId = Categories.KitchenStove
+                    ProductTypeId = Categories.KitchenStove,Suppliers=new List<Supplier>{ new Supplier { Id=0} }
                 } },
                 Price = 0,
                 TimeOfOrdering = new DateTime(2021, 9, 20, 12, 35, 44),
@@ -73,27 +73,27 @@ namespace EFCore5.UI
             }}
                 }
             };
-
             unitOfWork.Orders.Create(order);
             unitOfWork.Save();
         }
 
         public void UpdateTestData()
         {
-            var newUser = new User { Id = 1, Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", FullName = "Нуров Александр Александрович", Telephone = "380783423234" };
+            var newUser = unitOfWork.Users.Get(2);
+            newUser.FullName = "Алексов Николай Васильевич";
             unitOfWork.Users.Update(newUser);
             unitOfWork.Save();
         }
 
         public void GetByIdTestData()
         {
-            var user = unitOfWork.Users.Get(1);
+            var user = unitOfWork.Users.Get(2);
             Console.WriteLine("UserName: {0}, address: {1}, id: {2}, telephone: {3}", user.FullName, user.Address, user.Id, user.Telephone);
         }
 
         public void GetAllTestData()
         {
-            Predicate<string> isKyivstar = delegate (string x) { return x.StartsWith("38097")|| x.StartsWith("38067")|| x.StartsWith("38068")|| x.StartsWith("38096")|| x.StartsWith("38098"); };
+            Predicate<string> isKyivstar = delegate (string x) { return x.StartsWith("38097") || x.StartsWith("38067") || x.StartsWith("38068") || x.StartsWith("38096") || x.StartsWith("38098"); };
             var users = unitOfWork.Users.GetAll(isKyivstar);
             Console.WriteLine("Kyivstar users:");
 
@@ -105,7 +105,17 @@ namespace EFCore5.UI
 
         public void DeleteByIdTestData()
         {
-            unitOfWork.Products.Delete(1);
+            unitOfWork.Orders.Delete(1);
+            unitOfWork.Carriers.Delete(1);
+            unitOfWork.Save();
+        }
+
+        public void GetAndUpdateTestDataWithNoTracking()
+        {
+            var users = unitOfWork.Users.GetAll(delegate (string x) { return true; });
+            var testUser = users.FirstOrDefault();
+            testUser.FullName = "Веселов Андрей Павлович";
+            unitOfWork.Users.Update(testUser);
             unitOfWork.Save();
         }
     }
