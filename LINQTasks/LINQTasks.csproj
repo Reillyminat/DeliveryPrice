@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <ProjectReference Include="..\DeliveryServiceModel\DeliveryServiceModel.csproj" />
   </ItemGroup>
 
 </Project>
