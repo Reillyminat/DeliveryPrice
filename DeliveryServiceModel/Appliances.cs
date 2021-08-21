@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceModel
 {
-    public enum Categories
+    public class Appliances
     {
-        Unknown,
-        Washer,
-        Refrigerator,
-        KitchenStove
+        public ICollection<Product> Stock { get; set; }
     }
 }
