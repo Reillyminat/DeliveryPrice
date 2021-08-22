@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace LINQTasks
 {
-    public class AppliancesComparer : IEqualityComparer<Appliance>
+    public class AppliancesComparer : IEqualityComparer<Product>
     {
-        public bool Equals(Appliance x, Appliance y)
+        public bool Equals(Product x, Product y)
         {
-            if (x.Name == y.Name && x.Type == y.Type)
+            if (x.Name == y.Name && x.CategoryId == y.CategoryId)
                 return true;
             else
                 return false;
         }
 
-        public int GetHashCode(Appliance obj)
+        public int GetHashCode(Product obj)
         {
             return obj.Name.GetHashCode();
         }

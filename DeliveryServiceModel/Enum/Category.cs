@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceModel
 {
-    public class Carriers
+    public enum Category
     {
-        public ICollection<Carrier> Carriers { get; set; }
+        Washer,
+        Refrigerator,
+        KitchenStove
     }
 }

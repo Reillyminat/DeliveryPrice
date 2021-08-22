@@ -22,7 +22,7 @@ namespace DeliveryServiceModel.Repo
        "@ProducingCountry, @ProductTypeId, @Description)";
             var t = db.Query(sql, new
             {
-                Id = product.ProductId,
+                Id = product.Id,
                 Name = product.Name,
                 Amount = product.Amount,
                 GuaranteeInMonths = product.GuaranteeInMonths,
@@ -30,11 +30,11 @@ namespace DeliveryServiceModel.Repo
                 WidthInMeters = product.WidthInMeters,
                 HeightInMeters = product.HeightInMeters,
                 Price = product.Price,
-                ProductTypeId = product.ProductTypeId,
+                ProductTypeId = product.CategoryId,
                 ProducingCountry = product.ProducingCountry,
                 Description = ""
             });
-            return product.ProductId;
+            return product.Id;
         }
 
         public int AddOrderWithProducts(Order order)
@@ -54,7 +54,7 @@ namespace DeliveryServiceModel.Repo
                 TimeOfOrdering = order.TimeOfOrdering,
                 TimeOfTaking = order.TimeOfTaking,
                 Price = order.Price,
-                UserId = order.User.UserId
+                UserId = order.User.Id
             });
 
             foreach (var product in order.Products)
@@ -62,7 +62,7 @@ namespace DeliveryServiceModel.Repo
                 db.Query(sqlOrderProducts, new
                 {
                     Id = order.Id,
-                    ProductId = product.ProductId
+                    ProductId = product.Id
                 });
             }
             return order.Id;
@@ -71,9 +71,9 @@ namespace DeliveryServiceModel.Repo
         public int DeleteProduct(Product product)
         {
             var sql = "DELETE FROM Products WHERE ProductId=@Id";
-            db.Query<Product>(sql, new { Id = product.ProductId });
+            db.Query<Product>(sql, new { Id = product.Id });
 
-            return product.ProductId;
+            return product.Id;
         }
 
         public int DeleteOrderWithProducts(Order order)
@@ -129,7 +129,7 @@ namespace DeliveryServiceModel.Repo
                 "ProductTypeId=@ProductTypeId, ProducingCountry=@ProducingCountry WHERE ProductId = @Id";
             db.Query<Product>(sql, new
             {
-                Id = product.ProductId,
+                Id = product.Id,
                 Name = product.Name,
                 Amount = product.Amount,
                 GuaranteeInMonths = product.GuaranteeInMonths,
@@ -137,11 +137,11 @@ namespace DeliveryServiceModel.Repo
                 WidthInMeters = product.WidthInMeters,
                 HeightInMeters = product.HeightInMeters,
                 Price = product.Price,
-                ProductTypeId = product.ProductTypeId,
+                ProductTypeId = product.CategoryId,
                 ProducingCountry = product.ProducingCountry
             }).SingleOrDefault();
 
-            return product.ProductId;
+            return product.Id;
         }
 
         public int UpdateOrderWithUser(Order order)
@@ -161,12 +161,12 @@ namespace DeliveryServiceModel.Repo
                 TimeOfOrdering = order.TimeOfOrdering,
                 TimeOfTaking = order.TimeOfTaking,
                 Price = order.Price,
-                UserId = order.User.UserId
+                UserId = order.User.Id
             });
 
             db.Query(sqlUser, new
             {
-                UserId = order.User.UserId,
+                UserId = order.User.Id,
                 Address = order.User.Address,
                 FullName = order.User.FullName,
                 Telephone = order.User.Telephone

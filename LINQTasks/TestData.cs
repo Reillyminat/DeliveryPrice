@@ -5,163 +5,193 @@ namespace LINQTasks
 {
     public class TestData
     {
-        public Suppliers suppliers { get; set; }
+        public ICollection<Supplier> suppliers { get; set; }
 
         public void FillData()
         {
-            suppliers = new Suppliers() { new Supplier() {
+            suppliers = new List<Supplier>() { new Supplier() {
                 Name = "Rozetka",
                 Region = "Kyiv",
-                Stock = new List<Appliance>() {
-                    new Appliance() {
+                Stock = new List<Product>() {
+                    new Product() {
                         Amount = 10,
-                        Type = Categories.Washer,
+                        CategoryId = Category.Washer,
                         Id = 1, Name = "Washer3000",
                         Price = 300,
                         ProducingCountry = "China",
-                        Guarantee = 12,
-                        Dimensions = new Dimensions() { Height = 100, Width = 50, Length = 40 }
+                        GuaranteeInMonths = 12,
+                        DepthInMeters=40,
+                        HeightInMeters=100,
+                        WidthInMeters=50
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 5,
-                        Type = Categories.Washer,
+                        CategoryId = Category.Washer,
                         Id = 2, Name = "Washer2000",
                         Price = 200,
                         ProducingCountry = "China",
-                        Guarantee = 6,
-                        Dimensions = new Dimensions() { Height = 110, Width = 44, Length = 40 }
+                        GuaranteeInMonths = 6,
+                        WidthInMeters=44,
+                        DepthInMeters=40,
+                        HeightInMeters=110
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 7,
-                        Type = Categories.Refrigerator,
+                        CategoryId = Category.Refrigerator,
                         Id = 3, Name = "Refrigerator9000",
                         Price = 600,
                         ProducingCountry = "Korea",
-                        Guarantee = 6,
-                        Dimensions = new Dimensions() { Height = 200, Width = 80, Length = 50 }
+                        GuaranteeInMonths = 6,
+                        WidthInMeters=80,
+                        DepthInMeters=50,
+                        HeightInMeters=200
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 12,
-                        Type = Categories.Refrigerator,
+                        CategoryId = Category.Refrigerator,
                         Id = 4, Name = "Refrigerator7500",
                         Price = 700,
                         ProducingCountry = "Germany",
-                        Guarantee = 24,
-                        Dimensions = new Dimensions() { Height = 150, Width = 80, Length = 60 }
+                        GuaranteeInMonths = 24,
+                        WidthInMeters=80,
+                        DepthInMeters=60,
+                        HeightInMeters=150
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 20,
-                        Type = Categories.KitchenStove,
+                        CategoryId = Category.KitchenStove,
                         Id = 5, Name = "KitchenStove3600",
                         Price = 250,
                         ProducingCountry = "Belarus",
-                        Guarantee = 12,
-                        Dimensions = new Dimensions() { Height = 100, Width = 70, Length = 50 }
+                        GuaranteeInMonths = 12,
+                        WidthInMeters=70,
+                        DepthInMeters=50,
+                        HeightInMeters=100
                     }
                 }
             }, new Supplier() {
                 Name = "Foxtrot",
                 Region = "Dnipro",
-                Stock = new List<Appliance>() {
-                    new Appliance() {
+                Stock = new List<Product>() {
+                    new Product() {
                         Amount = 6,
-                        Type = Categories.Washer,
+                        CategoryId = Category.Washer,
                         Id = 1, Name = "Washer2000",
                         Price = 300,
                         ProducingCountry = "China",
-                        Guarantee = 18,
-                        Dimensions = new Dimensions() { Height = 100, Width = 50, Length = 40 }
+                        GuaranteeInMonths = 18,
+                        WidthInMeters=50,
+                        HeightInMeters=100,
+                        DepthInMeters=40
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 5,
-                        Type = Categories.Refrigerator,
+                        CategoryId = Category.Refrigerator,
                         Id = 2, Name = "Refrigerator9000",
                         Price = 600,
                         ProducingCountry = "China",
-                        Guarantee = 6,
-                        Dimensions = new Dimensions() { Height = 190, Width = 70, Length = 65 }
+                        GuaranteeInMonths = 6,
+                        WidthInMeters=70,
+                        DepthInMeters=65,
+                        HeightInMeters=190
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 5,
-                        Type = Categories.Refrigerator,
+                        CategoryId = Category.Refrigerator,
                         Id = 3, Name = "Refrigerator7000",
                         Price = 400,
                         ProducingCountry = "Russia",
-                        Guarantee = 6,
-                        Dimensions = new Dimensions() { Height = 180, Width = 75, Length = 55 }
+                        GuaranteeInMonths = 6,
+                        WidthInMeters=75,
+                        DepthInMeters=55,
+                        HeightInMeters=180
                     }
                 }
             }, new Supplier() {
                 Name = "Comfy",
                 Region = "Kharkiv",
-                Stock = new List<Appliance>() {
-                    new Appliance() {
+                Stock = new List<Product>() {
+                    new Product() {
                         Amount = 10,
-                        Type = Categories.Washer,
+                        CategoryId = Category.Washer,
                         Id = 1, Name = "Washer2000",
                         Price = 300,
                         ProducingCountry = "China",
-                        Guarantee = 18,
-                        Dimensions = new Dimensions() { Height = 100, Width = 50, Length = 40 }
+                        GuaranteeInMonths = 18,
+                        WidthInMeters=50,
+                        DepthInMeters=40,
+                        HeightInMeters=100
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 12,
-                        Type = Categories.Refrigerator,
+                        CategoryId = Category.Refrigerator,
                         Id = 2, Name = "Refrigerator9000",
                         Price = 600,
                         ProducingCountry = "Japan",
-                        Guarantee = 6,
-                        Dimensions = new Dimensions() { Height = 137, Width = 76, Length = 50 }
+                        GuaranteeInMonths = 6,
+                        WidthInMeters=76,
+                        DepthInMeters=50,
+                        HeightInMeters=137
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 3,
-                        Type = Categories.Refrigerator,
+                        CategoryId = Category.Refrigerator,
                         Id = 3, Name = "Refrigerator9000",
                         Price = 500,
                         ProducingCountry = "Germany",
-                        Guarantee = 6,
-                        Dimensions = new Dimensions() { Height = 200, Width = 80, Length = 50 }
+                        GuaranteeInMonths = 6,
+                        WidthInMeters=80,
+                        DepthInMeters=50,
+                        HeightInMeters=200
                     }
                 }
             }, new Supplier() {
                 Name = "Eldorado",
                 Region = "Dnipro",
-                Stock = new List<Appliance>() {
-                    new Appliance() {
+                Stock = new List<Product>() {
+                    new Product() {
                         Amount = 11,
-                        Type = Categories.Washer,
+                        CategoryId = Category.Washer,
                         Id = 1, Name = "Washer2000",
                         Price = 300,
                         ProducingCountry = "China",
-                        Guarantee = 18,
-                        Dimensions = new Dimensions() { Height = 100, Width = 50, Length = 40 }
+                        GuaranteeInMonths = 18,
+                        WidthInMeters=50,
+                        DepthInMeters=40,
+                        HeightInMeters=100
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 8,
-                        Type = Categories.Washer,
+                        CategoryId = Category.Washer,
                         Id = 2, Name = "Washer5555",
                         Price = 600,
                         ProducingCountry = "Japan",
-                        Guarantee = 6,
-                        Dimensions = new Dimensions() { Height = 200, Width = 80, Length = 50 }
+                        GuaranteeInMonths = 6,
+                        WidthInMeters=80,
+                        DepthInMeters=50,
+                        HeightInMeters=200
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 6,
-                        Type = Categories.Refrigerator,
+                        CategoryId = Category.Refrigerator,
                         Id = 3, Name = "Refrigerator9000",
                         Price = 700,
                         ProducingCountry = "Ukraine",
-                        Guarantee = 0,
-                        Dimensions = new Dimensions() { Height = 180, Width = 80, Length = 50 }
+                        GuaranteeInMonths = 0,
+                        WidthInMeters=80,
+                        DepthInMeters=50,
+                        HeightInMeters=180
                     },
-                    new Appliance() {
+                    new Product() {
                         Amount = 19,
-                        Type = Categories.KitchenStove,
+                        CategoryId = Category.KitchenStove,
                         Id = 4, Name = "KitchenStove3456",
                         Price = 600,
                         ProducingCountry = "Belarus",
-                        Guarantee = 12,
-                        Dimensions = new Dimensions() { Height = 130, Width = 70, Length = 55 }
+                        GuaranteeInMonths = 12,
+                        WidthInMeters=70,
+                        DepthInMeters=55,
+                        HeightInMeters=130
                     }
                 }
             }

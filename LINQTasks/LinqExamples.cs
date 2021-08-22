@@ -14,45 +14,45 @@ namespace LINQTasks
             data.FillData();
         }
 
-        public IEnumerable<Appliance> Task1()
+        public IEnumerable<Product> Task1()
         {
-            return data.suppliers.SuppliersCollection.SelectMany(x => x.Stock).OrderBy(x => x.Name).Distinct(new AppliancesComparer());
+            return data.suppliers.SelectMany(x => x.Stock).OrderBy(x => x.Name).Distinct(new AppliancesComparer());
         }
 
         public object Task2()
         {
-            return data.suppliers.SuppliersCollection.SelectMany(x => x.Stock, (s, p) => new { Region = s.Region, Product = p.Name });
+            return data.suppliers.SelectMany(x => x.Stock, (s, p) => new { Region = s.Region, Product = p.Name });
         }
 
         public object Task3()
         {
-            return data.suppliers.SuppliersCollection.
-                SelectMany(x => x.Stock, (s, p) => new { SupplierName = s.Name, Product = p.Type, Amount = p.Amount }).
+            return data.suppliers.
+                SelectMany(x => x.Stock, (s, p) => new { SupplierName = s.Name, Product = p.CategoryId, Amount = p.Amount }).
                 GroupBy(x => new { x.SupplierName, x.Product }).
                 Select(g => new { Key = g.Key, Amount = g.Sum(s => s.Amount) });
         }
 
         public object Task4()
         {
-            return data.suppliers.SuppliersCollection.Select(x => new { x.Stock, x.Name }).OrderByDescending(x => x.Stock.Count);
+            return data.suppliers.Select(x => new { x.Stock, x.Name }).OrderByDescending(x => x.Stock.Count);
         }
 
-        public IEnumerable<Appliance> Task5()
+        public IEnumerable<Product> Task5()
         {
             var appliancesComparer = new AppliancesComparer();
             dynamic firstSupplier = GetSupplierByName("Rozetka");
             dynamic secondSupplier = GetSupplierByName("Foxtrot");
-            var intersectedAppliances = ((ICollection<Appliance>)(firstSupplier.Stock)).Intersect((ICollection<Appliance>)secondSupplier.Stock, appliancesComparer);
+            var intersectedAppliances = ((ICollection<Product>)(firstSupplier.Stock)).Intersect((ICollection<Product>)secondSupplier.Stock, appliancesComparer);
 
             return intersectedAppliances;
         }
 
-        public IEnumerable<Appliance> Task6()
+        public IEnumerable<Product> Task6()
         {
             var appliancesComparer = new AppliancesComparer();
             dynamic firstSupplier = GetSupplierByName("Rozetka");
             dynamic secondSupplier = GetSupplierByName("Foxtrot");
-            var exceptedAppliances = ((ICollection<Appliance>)(firstSupplier.Stock)).Except((ICollection<Appliance>)secondSupplier.Stock, appliancesComparer);
+            var exceptedAppliances = ((ICollection<Product>)(firstSupplier.Stock)).Except((ICollection<Product>)secondSupplier.Stock, appliancesComparer);
             return exceptedAppliances;
         }
 
@@ -113,7 +113,7 @@ namespace LINQTasks
 
         private object GetSupplierByName(string name)
         {
-            var suppliersCollection = data.suppliers.SuppliersCollection.Select(x => new { x.Stock, x.Name });
+            var suppliersCollection = data.suppliers.Select(x => new { x.Stock, x.Name });
             return suppliersCollection.Where(p => p.Name == name).FirstOrDefault();
         }
     }

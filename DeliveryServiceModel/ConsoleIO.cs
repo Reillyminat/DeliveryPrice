@@ -88,9 +88,9 @@ namespace DeliveryServiceModel
                             GuaranteeInMonths = 6,
                             Name = "KitchenStove03",
                             Price = 300,
-                            ProductId = 5,
+                            Id = 5,
                             ProducingCountry = "USA",
-                            ProductTypeId = Categories.KitchenStove
+                            CategoryId = Category.KitchenStove
                         });
                         Console.WriteLine("Added product with id {0}.\n", addedProductid);
                         break;
@@ -98,7 +98,7 @@ namespace DeliveryServiceModel
                         var addedOrderWithProducts = repository.AddOrderWithProducts(new Order
                         {
                             Id = 25,
-                            User = new User { UserId = 20, Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", FullName = "Нуров Александр Александрович", Telephone = "380783423231" },
+                            User = new User { Id = 20, Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", FullName = "Нуров Александр Александрович", Telephone = "380783423231" },
                             Products = new List<Product> { new Product
             {
                 Amount = 14,
@@ -108,9 +108,9 @@ namespace DeliveryServiceModel
                 GuaranteeInMonths = 6,
                 Name = "KitchenStove05",
                 Price = 300,
-                ProductId = 5,
+                Id = 5,
                 ProducingCountry = "USA",
-                ProductTypeId = Categories.KitchenStove
+                CategoryId = Category.KitchenStove
             }},
                             Price = 0,
                             TimeOfOrdering = new DateTime(2021, 9, 20, 12, 35, 44),
@@ -128,9 +128,9 @@ namespace DeliveryServiceModel
                             GuaranteeInMonths = 12,
                             Name = "KitchenStove9999",
                             Price = 300,
-                            ProductId = 5,
+                            Id = 5,
                             ProducingCountry = "UA",
-                            ProductTypeId = Categories.KitchenStove
+                            CategoryId = Category.KitchenStove
                         });
                         Console.WriteLine("Updated product with id {0}.\n", updatedProductId);
                         break;
@@ -138,7 +138,7 @@ namespace DeliveryServiceModel
                         var updatedOrderWithProductsId = repository.UpdateOrderWithUser(new Order
                         {
                             Id = 24,
-                            User = new User { UserId = 15, Address = "г. Новомосковск, ул. Советская, 56б, кв. 16", FullName = "Соблев Владимир Николаевич", Telephone = "380671827384" },
+                            User = new User { Id = 15, Address = "г. Новомосковск, ул. Советская, 56б, кв. 16", FullName = "Соблев Владимир Николаевич", Telephone = "380671827384" },
                             Products = new List<Product> { new Product
             {
                 Amount = 12,
@@ -148,9 +148,9 @@ namespace DeliveryServiceModel
                 GuaranteeInMonths = 12,
                 Name = "KitchenStove04",
                 Price = 300,
-                ProductId = 5,
+                Id = 5,
                 ProducingCountry = "USA",
-                ProductTypeId = Categories.KitchenStove
+                CategoryId = Category.KitchenStove
             }},
                             Price = 0,
                             TimeOfOrdering = new DateTime(2021, 9, 20, 12, 35, 44),
@@ -159,11 +159,11 @@ namespace DeliveryServiceModel
                         Console.WriteLine("Updated order with products id {0}.\n", updatedOrderWithProductsId);
                         break;
                     case 9:
-                        var deletedProductId = repository.DeleteProduct(new Product { ProductId = 3 });
+                        var deletedProductId = repository.DeleteProduct(new Product { Id = 3 });
                         Console.WriteLine("Deleted product with id {0}.\n", deletedProductId);
                         break;
                     case 10:
-                        var deletedOrderWithProductsId = repository.DeleteOrderWithProducts(new Order { Id = 25, Products = new List<Product> { new Product { ProductId = 5 } } });
+                        var deletedOrderWithProductsId = repository.DeleteOrderWithProducts(new Order { Id = 25, Products = new List<Product> { new Product { Id = 5 } } });
                         Console.WriteLine("Deleted order with id {0}.\n", deletedOrderWithProductsId);
                         break;
                     case 11:

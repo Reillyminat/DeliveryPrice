@@ -19,13 +19,13 @@ namespace DeliveryServiceModel.Repo
         public int AddProduct(Product product)
         {
             db.Insert<Product>(product);
-            return product.ProductId;
+            return product.Id;
         }
 
         public int DeleteProduct(Product product)
         {
             db.Delete<Product>(product);
-            return product.ProductId;
+            return product.Id;
         }
 
         public Product GetProductById(int id)
@@ -41,7 +41,7 @@ namespace DeliveryServiceModel.Repo
         public int UpdateProduct(Product supplier)
         {
             db.Update<Product>(supplier);
-            return supplier.ProductId;
+            return supplier.Id;
         }
 
         public Order GetOrderWithProductsById(int id)
@@ -58,7 +58,7 @@ namespace DeliveryServiceModel.Repo
         {
             foreach (var product in order.Products)
             {
-                db.Delete(new OrderProduct{ ProductId = product.ProductId, Id=order.Id });
+                db.Delete(new OrderProduct{ ProductId = product.Id, Id=order.Id });
             }
 
             db.Delete(order);
@@ -71,7 +71,7 @@ namespace DeliveryServiceModel.Repo
 
             foreach (var product in order.Products)
             {
-                db.Insert(new OrderProduct { ProductId = product.ProductId, Id = order.Id });
+                db.Insert(new OrderProduct { ProductId = product.Id, Id = order.Id });
             }
 
             return order.Id;
@@ -81,7 +81,7 @@ namespace DeliveryServiceModel.Repo
         {
             foreach (var product in order.Products)
             {
-                db.Update(new OrderProduct { ProductId = product.ProductId, Id = order.Id });
+                db.Update(new OrderProduct { ProductId = product.Id, Id = order.Id });
             }
 
             db.Update(order);

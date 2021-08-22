@@ -6,7 +6,7 @@ namespace DeliveryServiceModel
     {
         public bool Equals(Product x, Product y)
         {
-            if (x.Name == y.Name && x.ProductTypeId == y.ProductTypeId)
+            if (x.Name == y.Name && x.CategoryId == y.CategoryId)
                 return true;
             else
                 return false;
