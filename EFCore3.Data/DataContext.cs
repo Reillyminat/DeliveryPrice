@@ -16,5 +16,11 @@ namespace EFCore5.Data
         {
             builder.UseSqlServer("Data Source=.; Integrated Security=True; Initial Catalog = DeliveryServiceEFData");
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Supplier>().HasMany(e => e.Stock).WithMany(p => p.Suppliers).UsingEntity(j => j.ToTable("SupplierProducts"));
+            builder.Entity<Carrier>().HasMany(e => e.Tarrifs).WithOne(p => p.Carrier).OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

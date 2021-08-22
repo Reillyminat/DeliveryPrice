@@ -13,5 +13,7 @@ namespace DeliveryServiceModel
         public decimal Price { get; set; }
 
         public string DestinationAddress { get; set; }
+
+        public Carrier Carrier { get; set; }
     }
 }

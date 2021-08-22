@@ -1,23 +1,36 @@
-﻿using System;
+﻿using DeliveryServiceModel;
+using System;
 
 namespace EFCore5.Data
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IDisposable, IUnitOfWork
     {
-        private readonly DataContext db;
-        private UserRepository userRepository;
-        private OrderRepository orderRepository;
-        private SupplierRepository supplierRepository;
-        private TariffRepository tariffRepository;
-        private CarrierRepository carrierRepository;
-        private ProductRepository productRepository;
+        private DataContext db;
+        private IRepository<User> userRepository;
+        private IRepository<Order> orderRepository;
+        private IRepository<Supplier> supplierRepository;
+        private IRepository<Tariff> tariffRepository;
+        private IRepository<Carrier> carrierRepository;
+        private IRepository<Product> productRepository;
 
-        public UnitOfWork(DataContext context)
+public UnitOfWork(DataContext context,
+            IRepository<User> usersData,
+            IRepository<Order> ordersData,
+            IRepository<Supplier> suppliersData,
+            IRepository<Tariff> tariffsData,
+            IRepository<Carrier> carriersData,
+            IRepository<Product> productsData)
         {
             db = context;
+            userRepository = usersData;
+            orderRepository = ordersData;
+            supplierRepository = suppliersData;
+            tariffRepository = tariffsData;
+            carrierRepository = carriersData;
+            productRepository = productsData;
         }
 
-        public UserRepository Users
+        public IRepository<User> Users
         {
             get
             {
@@ -29,7 +42,7 @@ namespace EFCore5.Data
             }
         }
 
-        public OrderRepository Orders
+        public IRepository<Order> Orders
         {
             get
             {
@@ -41,7 +54,7 @@ namespace EFCore5.Data
             }
         }
 
-        public SupplierRepository Suppliers
+        public IRepository<Supplier> Suppliers
         {
             get
             {
@@ -53,7 +66,7 @@ namespace EFCore5.Data
             }
         }
 
-        public TariffRepository Tariffs
+        public IRepository<Tariff> Tariffs
         {
             get
             {
@@ -65,7 +78,7 @@ namespace EFCore5.Data
             }
         }
 
-        public CarrierRepository Carriers
+        public IRepository<Carrier> Carriers
         {
             get
             {
@@ -77,7 +90,7 @@ namespace EFCore5.Data
             }
         }
 
-        public ProductRepository Products
+        public IRepository<Product> Products
         {
             get
             {

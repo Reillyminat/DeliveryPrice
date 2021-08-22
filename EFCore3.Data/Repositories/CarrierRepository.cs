@@ -44,9 +44,7 @@ namespace EFCore5.Data
 
         public void Update(Carrier item)
         {
-            var foundedCarrier = db.Carriers.Find(item.Id);
-            foundedCarrier.Name = item.Name;
-            foundedCarrier.Tarrifs = item.Tarrifs;
+            db.Entry(item).State = EntityState.Modified;
         }
     }
 }

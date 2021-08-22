@@ -7,9 +7,9 @@ namespace EFCore5.UI
 {
     public class ConsoleIO
     {
-        private readonly UnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
 
-        public ConsoleIO(UnitOfWork unit)
+        public ConsoleIO(IUnitOfWork unit)
         {
             unitOfWork = unit;
         }
@@ -28,7 +28,7 @@ namespace EFCore5.UI
                     Name = "KitchenStove05",
                     Price = 300,
                     ProducingCountry = "USA",
-                    CategoryId = Category.KitchenStove
+                    CategoryId = Category.KitchenStove,Suppliers=new List<Supplier>{ new Supplier { Id=0} }
                 } },
                 Price = 0,
                 TimeOfOrdering = new DateTime(2021, 9, 20, 12, 35, 44),
@@ -72,7 +72,6 @@ namespace EFCore5.UI
             }}
                 }
             };
-
             unitOfWork.Orders.Create(order);
             unitOfWork.Save();
         }
@@ -105,7 +104,17 @@ namespace EFCore5.UI
 
         public void DeleteByIdTestData()
         {
-            unitOfWork.Products.Delete(1);
+            unitOfWork.Orders.Delete(1);
+            unitOfWork.Carriers.Delete(1);
+            unitOfWork.Save();
+        }
+
+        public void GetAndUpdateTestDataWithNoTracking()
+        {
+            var users = unitOfWork.Users.GetAll(delegate (string x) { return true; });
+            var testUser = users.FirstOrDefault();
+            testUser.FullName = "Веселов Андрей Павлович";
+            unitOfWork.Users.Update(testUser);
             unitOfWork.Save();
         }
     }
