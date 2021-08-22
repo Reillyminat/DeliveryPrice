@@ -8,16 +8,21 @@ namespace EFCore5.Data
 {
     public class UserRepository : IRepository<User>
     {
-        private DataContext db;
+        private readonly DataContext db;
 
         public UserRepository(DataContext context)
         {
             db = context;
         }
 
-        public IEnumerable<User> GetAll(Predicate<string> predicate)
+        public IEnumerable<User> GetAllMatchingTheFilter(Predicate<string> predicate)
         {
             return ((IEnumerable<User>)db.Users).Where(x => predicate(x.Telephone));
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return db.Users;
         }
 
         public User Get(int id)
@@ -38,8 +43,10 @@ namespace EFCore5.Data
         public void Delete(int id)
         {
             var user = db.Users.Find(id);
-            if (user != null)
+            if (user is not null)
+            {
                 db.Users.Remove(user);
+            }
         }
     }
 }

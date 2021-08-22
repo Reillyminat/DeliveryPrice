@@ -13,7 +13,7 @@ namespace EFCore5.Data
         private IRepository<Carrier> carrierRepository;
         private IRepository<Product> productRepository;
 
-        public UnitOfWork(DataContext context,
+public UnitOfWork(DataContext context,
             IRepository<User> usersData,
             IRepository<Order> ordersData,
             IRepository<Supplier> suppliersData,
@@ -35,7 +35,9 @@ namespace EFCore5.Data
             get
             {
                 if (userRepository == null)
+                {
                     userRepository = new UserRepository(db);
+                }
                 return userRepository;
             }
         }
@@ -45,7 +47,9 @@ namespace EFCore5.Data
             get
             {
                 if (orderRepository == null)
+                {
                     orderRepository = new OrderRepository(db);
+                }
                 return orderRepository;
             }
         }
@@ -55,7 +59,9 @@ namespace EFCore5.Data
             get
             {
                 if (supplierRepository == null)
+                {
                     supplierRepository = new SupplierRepository(db);
+                }
                 return supplierRepository;
             }
         }
@@ -65,7 +71,9 @@ namespace EFCore5.Data
             get
             {
                 if (tariffRepository == null)
+                {
                     tariffRepository = new TariffRepository(db);
+                }
                 return tariffRepository;
             }
         }
@@ -75,7 +83,9 @@ namespace EFCore5.Data
             get
             {
                 if (carrierRepository == null)
+                {
                     carrierRepository = new CarrierRepository(db);
+                }
                 return carrierRepository;
             }
         }
@@ -85,7 +95,9 @@ namespace EFCore5.Data
             get
             {
                 if (productRepository == null)
+                {
                     productRepository = new ProductRepository(db);
+                }
                 return productRepository;
             }
         }
@@ -99,13 +111,13 @@ namespace EFCore5.Data
 
         public virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
                     db.Dispose();
                 }
-                this.disposed = true;
+                disposed = true;
             }
         }
 

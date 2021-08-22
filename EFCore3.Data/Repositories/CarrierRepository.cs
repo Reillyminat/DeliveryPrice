@@ -1,13 +1,13 @@
 ﻿using DeliveryServiceModel;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EFCore5.Data
 {
     public class CarrierRepository : IRepository<Carrier>
     {
-        private DataContext db;
+        private readonly DataContext db;
 
         public CarrierRepository(DataContext context)
         {
@@ -21,8 +21,10 @@ namespace EFCore5.Data
         public void Delete(int id)
         {
             var carrier = db.Carriers.Find(id);
-            if (carrier != null)
+            if (carrier is not null)
+            {
                 db.Carriers.Remove(carrier);
+            }
         }
 
         public Carrier Get(int id)
@@ -30,7 +32,12 @@ namespace EFCore5.Data
             return db.Carriers.Find(id);
         }
 
-        public IEnumerable<Carrier> GetAll(Predicate<string> predicate)
+        public IEnumerable<Carrier> GetAllMatchingTheFilter(Predicate<string> predicate)
+        {
+            return ((IEnumerable<Carrier>)db.Carriers).Where(x => predicate(x.Name));
+        }
+
+        public IEnumerable<Carrier> GetAll()
         {
             return db.Carriers;
         }

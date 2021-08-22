@@ -8,7 +8,7 @@ namespace EFCore5.Data
 {
     public class ProductRepository : IRepository<Product>
     {
-        private DataContext db;
+        private readonly DataContext db;
 
         public ProductRepository(DataContext context)
         {
@@ -23,8 +23,10 @@ namespace EFCore5.Data
         public void Delete(int id)
         {
             var product = db.Products.Find(id);
-            if (product != null)
+            if (product is not null)
+            {
                 db.Products.Remove(product);
+            }
         }
 
         public Product Get(int id)
@@ -32,7 +34,12 @@ namespace EFCore5.Data
             return db.Products.Find(id);
         }
 
-        public IEnumerable<Product> GetAll(Predicate<string> predicate)
+        public IEnumerable<Product> GetAllMatchingTheFilter(Predicate<string> predicate)
+        {
+            return ((IEnumerable<Product>)db.Products).Where(x => predicate(x.ProducingCountry));
+        }
+
+        public IEnumerable<Product> GetAll()
         {
             return db.Products;
         }
