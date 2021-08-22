@@ -2,6 +2,7 @@
 using EFCore5.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EFCore5.UI
 {
@@ -111,9 +112,9 @@ namespace EFCore5.UI
 
         public void GetAndUpdateTestDataWithNoTracking()
         {
-            var users = unitOfWork.Users.GetAll(delegate (string x) { return true; });
+            var users = unitOfWork.Users.GetAllMatchingTheFilter(delegate (string x) { return true; });
             var testUser = users.FirstOrDefault();
-            testUser.FullName = "Веселов Андрей Павлович";
+            testUser.Name = "Веселов Андрей Павлович";
             unitOfWork.Users.Update(testUser);
             unitOfWork.Save();
         }

@@ -98,7 +98,7 @@ namespace DeliveryServiceModel
                         var addedOrderWithProducts = repository.AddOrderWithProducts(new Order
                         {
                             Id = 25,
-                            User = new User { Id = 20, Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", FullName = "Нуров Александр Александрович", Telephone = "380783423231" },
+                            User = new User { Id = 20, Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", Name = "Нуров Александр Александрович", Telephone = "380783423231" },
                             Products = new List<Product> { new Product
             {
                 Amount = 14,
@@ -138,7 +138,7 @@ namespace DeliveryServiceModel
                         var updatedOrderWithProductsId = repository.UpdateOrderWithUser(new Order
                         {
                             Id = 24,
-                            User = new User { Id = 15, Address = "г. Новомосковск, ул. Советская, 56б, кв. 16", FullName = "Соблев Владимир Николаевич", Telephone = "380671827384" },
+                            User = new User { Id = 15, Address = "г. Новомосковск, ул. Советская, 56б, кв. 16", Name = "Соблев Владимир Николаевич", Telephone = "380671827384" },
                             Products = new List<Product> { new Product
             {
                 Amount = 12,
