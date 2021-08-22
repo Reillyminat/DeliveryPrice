@@ -8,7 +8,6 @@ namespace EFCore5.Data
 {
     public class ProductRepository : IRepository<Product>
     {
-
         private DataContext db;
 
         public ProductRepository(DataContext context)

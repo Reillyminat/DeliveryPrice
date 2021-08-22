@@ -1,8 +1,4 @@
-﻿using DeliveryServiceModel;
-using EFCore5.Data;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
+﻿using EFCore5.Data;
 
 namespace EFCore5.UI
 {
@@ -13,8 +9,14 @@ namespace EFCore5.UI
         {
             context = new DataContext();
             context.Database.EnsureCreated();
-            
-            var unitOfWork = new UnitOfWork(context);
+
+            var unitOfWork = new UnitOfWork(context,
+                new UserRepository(context),
+                new OrderRepository(context),
+                new SupplierRepository(context),
+                new TariffRepository(context),
+                new CarrierRepository(context),
+                new ProductRepository(context));
             var consoleIO = new ConsoleIO(unitOfWork);
             consoleIO.FillTestData();
             consoleIO.GetAllTestData();

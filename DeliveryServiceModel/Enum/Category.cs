@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeliveryServiceModel
 {
-    public enum Categories
+    public enum Category
     {
         Washer,
         Refrigerator,

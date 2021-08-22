@@ -10,7 +10,7 @@ namespace DeliveryServiceModel
     {
         public int Id { get; set; }
 
-        public Categories ProductTypeId { get; set; }
+        public Category CategoryId { get; set; }
 
         public string Name { get; set; }
 

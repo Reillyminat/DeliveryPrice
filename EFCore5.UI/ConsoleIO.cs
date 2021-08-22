@@ -8,9 +8,9 @@ namespace EFCore5.UI
 {
     public class ConsoleIO
     {
-        private readonly UnitOfWork unitOfWork;
+        private readonly IUnitOfWork unitOfWork;
 
-        public ConsoleIO(UnitOfWork unit)
+        public ConsoleIO(IUnitOfWork unit)
         {
             unitOfWork = unit;
         }
@@ -29,7 +29,7 @@ namespace EFCore5.UI
                     Name = "KitchenStove05",
                     Price = 300,
                     ProducingCountry = "USA",
-                    ProductTypeId = Categories.KitchenStove,Suppliers=new List<Supplier>{ new Supplier { Id=0} }
+                    CategoryId = Category.KitchenStove,Suppliers=new List<Supplier>{ new Supplier { Id=0} }
                 } },
                 Price = 0,
                 TimeOfOrdering = new DateTime(2021, 9, 20, 12, 35, 44),
@@ -57,7 +57,7 @@ namespace EFCore5.UI
                 Name = "KitchenStove04",
                 Price = 300,
                 ProducingCountry = "USA",
-                ProductTypeId = Categories.KitchenStove
+                CategoryId = Category.KitchenStove
             },
                     new Product
             {
@@ -69,7 +69,7 @@ namespace EFCore5.UI
                 Name = "Washer567",
                 Price = 200,
                 ProducingCountry = "UA",
-                ProductTypeId = Categories.Washer
+                CategoryId = Category.Washer
             }}
                 }
             };
@@ -87,7 +87,7 @@ namespace EFCore5.UI
 
         public void GetByIdTestData()
         {
-            var user = unitOfWork.Users.Get(2);
+            var user = unitOfWork.Users.Get(1);
             Console.WriteLine("UserName: {0}, address: {1}, id: {2}, telephone: {3}", user.FullName, user.Address, user.Id, user.Telephone);
         }
 
