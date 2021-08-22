@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EFCore5.Data
 {
@@ -14,7 +15,12 @@ namespace EFCore5.Data
             db = context;
         }
 
-        public IEnumerable<Order> GetAll(Predicate<string> predicate)
+        public IEnumerable<Order> GetAllMatchingTheFilter(Predicate<string> predicate)
+        {
+            return ((IEnumerable<Order>)db.Orders).Where(x => predicate(x.UserId.ToString()));
+        }
+
+        public IEnumerable<Order> GetAll()
         {
             return db.Orders;
         }
@@ -31,23 +37,17 @@ namespace EFCore5.Data
 
         public void Update(Order order)
         {
-            var foundedOrder= db.Orders.Find(order.Id);
-            foundedOrder.Carrier = order.Carrier;
-            foundedOrder.Price = order.Price;
-            foundedOrder.Products = order.Products;
-            foundedOrder.Status = order.Status;
-            foundedOrder.Supplier = order.Supplier;
-            foundedOrder.TimeOfOrdering = order.TimeOfOrdering;
-            foundedOrder.TimeOfTaking = order.TimeOfTaking;
-            foundedOrder.User = order.User;
-            db.Entry(foundedOrder).State = EntityState.Modified;
+            db.Entry(order).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
             var order = db.Orders.Find(id);
-            if (order != null)
+
+            if (order is not null)
+            {
                 db.Orders.Remove(order);
+            }
         }
     }
 

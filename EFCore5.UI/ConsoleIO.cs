@@ -2,7 +2,6 @@
 using EFCore5.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EFCore5.UI
 {
@@ -18,7 +17,7 @@ namespace EFCore5.UI
         {
             var order = new Order
             {
-                User = new User { Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", FullName = "Нуров Александр Александрович", Telephone = "380783423231" },
+                User = new User { Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", Name = "Александр", SurName = "Нуров", Partonimic = "Александрович", Telephone = "380783423231" },
                 Products = new List<Product> { new Product
                 {
                     Amount = 14,
@@ -29,7 +28,7 @@ namespace EFCore5.UI
                     Name = "KitchenStove05",
                     Price = 300,
                     ProducingCountry = "USA",
-                    ProductTypeId = Categories.KitchenStove
+                    CategoryId = Category.KitchenStove
                 } },
                 Price = 0,
                 TimeOfOrdering = new DateTime(2021, 9, 20, 12, 35, 44),
@@ -57,7 +56,7 @@ namespace EFCore5.UI
                 Name = "KitchenStove04",
                 Price = 300,
                 ProducingCountry = "USA",
-                ProductTypeId = Categories.KitchenStove
+                CategoryId = Category.KitchenStove
             },
                     new Product
             {
@@ -69,7 +68,7 @@ namespace EFCore5.UI
                 Name = "Washer567",
                 Price = 200,
                 ProducingCountry = "UA",
-                ProductTypeId = Categories.Washer
+                CategoryId = Category.Washer
             }}
                 }
             };
@@ -80,26 +79,27 @@ namespace EFCore5.UI
 
         public void UpdateTestData()
         {
-            var newUser = new User { Id = 1, Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", FullName = "Нуров Александр Александрович", Telephone = "380783423234" };
-            unitOfWork.Users.Update(newUser);
+            var user = unitOfWork.Users.Get(1);
+            user.Telephone = "380783423234";
+            unitOfWork.Users.Update(user);
             unitOfWork.Save();
         }
 
         public void GetByIdTestData()
         {
             var user = unitOfWork.Users.Get(1);
-            Console.WriteLine("UserName: {0}, address: {1}, id: {2}, telephone: {3}", user.FullName, user.Address, user.Id, user.Telephone);
+            Console.WriteLine("UserName: {0}, address: {1}, id: {2}, telephone: {3}", user.Name + " " + user.SurName, user.Address, user.Id, user.Telephone);
         }
 
         public void GetAllTestData()
         {
-            Predicate<string> isKyivstar = delegate (string x) { return x.StartsWith("38097")|| x.StartsWith("38067")|| x.StartsWith("38068")|| x.StartsWith("38096")|| x.StartsWith("38098"); };
-            var users = unitOfWork.Users.GetAll(isKyivstar);
+            Predicate<string> isKyivstar = delegate (string x) { return x.StartsWith("38097") || x.StartsWith("38067") || x.StartsWith("38068") || x.StartsWith("38096") || x.StartsWith("38098"); };
+            var users = unitOfWork.Users.GetAllMatchingTheFilter(isKyivstar);
             Console.WriteLine("Kyivstar users:");
 
             foreach (var user in users)
             {
-                Console.WriteLine("User: {0}, telephone: {1}", user.FullName, user.Telephone);
+                Console.WriteLine("User: {0}, telephone: {1}", user.Name + " " + user.SurName, user.Telephone);
             }
         }
 

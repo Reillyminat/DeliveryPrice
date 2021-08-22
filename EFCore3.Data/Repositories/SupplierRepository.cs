@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EFCore5.Data
 {
     public class SupplierRepository : IRepository<Supplier>
     {
-        private DataContext db;
+        private readonly DataContext db;
 
         public SupplierRepository(DataContext context)
         {
@@ -23,7 +24,9 @@ namespace EFCore5.Data
         {
             var supplier = db.Suppliers.Find(id);
             if (supplier != null)
+            {
                 db.Suppliers.Remove(supplier);
+            }
         }
 
         public Supplier Get(int id)
@@ -31,7 +34,12 @@ namespace EFCore5.Data
             return db.Suppliers.Find(id);
         }
 
-        public IEnumerable<Supplier> GetAll(Predicate<string> predicate)
+        public IEnumerable<Supplier> GetAllMatchingTheFilter(Predicate<string> predicate)
+        {
+            return ((IEnumerable<Supplier>)db.Suppliers).Where(x => predicate(x.Name));
+        }
+
+        public IEnumerable<Supplier> GetAll()
         {
             return db.Suppliers;
         }

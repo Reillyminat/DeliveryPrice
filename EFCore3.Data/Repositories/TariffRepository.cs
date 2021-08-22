@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EFCore5.Data
 {
     public class TariffRepository : IRepository<Tariff>
     {
-        private DataContext db;
+        private readonly DataContext db;
 
         public TariffRepository(DataContext context)
         {
@@ -22,8 +23,10 @@ namespace EFCore5.Data
         public void Delete(int id)
         {
             var tariff = db.Tariffs.Find(id);
-            if (tariff != null)
+            if (tariff is not null)
+            {
                 db.Tariffs.Remove(tariff);
+            }
         }
 
         public Tariff Get(int id)
@@ -31,7 +34,12 @@ namespace EFCore5.Data
             return db.Tariffs.Find(id);
         }
 
-        public IEnumerable<Tariff> GetAll(Predicate<string> predicate)
+        public IEnumerable<Tariff> GetAllMatchingTheFilter(Predicate<string> predicate)
+        {
+            return ((IEnumerable<Tariff>)db.Tariffs).Where(x => predicate(x.DestinationAddress));
+        }
+
+        public IEnumerable<Tariff> GetAll()
         {
             return db.Tariffs;
         }

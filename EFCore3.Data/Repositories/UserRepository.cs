@@ -1,4 +1,5 @@
 ﻿using DeliveryServiceModel;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +8,21 @@ namespace EFCore5.Data
 {
     public class UserRepository : IRepository<User>
     {
-        private DataContext db;
+        private readonly DataContext db;
 
         public UserRepository(DataContext context)
         {
             db = context;
         }
 
-        public IEnumerable<User> GetAll(Predicate<string> predicate)
+        public IEnumerable<User> GetAllMatchingTheFilter(Predicate<string> predicate)
         {
             return ((IEnumerable<User>)db.Users).Where(x => predicate(x.Telephone));
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return db.Users;
         }
 
         public User Get(int id)
@@ -31,17 +37,16 @@ namespace EFCore5.Data
 
         public void Update(User user)
         {
-            var foundedUser = db.Users.Find(user.Id);
-            foundedUser.Address = user.Address;
-            foundedUser.Telephone = user.Telephone;
-            foundedUser.FullName = user.FullName;
+            db.Entry(user).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
             var user = db.Users.Find(id);
-            if (user != null)
+            if (user is not null)
+            {
                 db.Users.Remove(user);
+            }
         }
     }
 }
