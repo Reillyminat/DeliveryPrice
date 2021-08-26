@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DeliveryServiceModel\DeliveryServiceModel.csproj" />
-    <ProjectReference Include="..\EFCore3.Data\EFCore5.Data.csproj" />
+    <ProjectReference Include="..\EFCore3.Data\DeliveryService.DAL.csproj" />
   </ItemGroup>
 
 </Project>

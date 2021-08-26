@@ -16,6 +16,8 @@ namespace EFCore5.UI
         }
         public void FillTestData()
         {
+            var user = new User { Address = "г. Харьков, ул. Напольная, д. 13, кв. 2", Name = "Александр", SurName = "Корев", Partonimic = "Петрович", Telephone = "380783456231" };
+
             var order = new Order
             {
                 User = new User { Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", Name = "Александр", SurName = "Нуров", Partonimic = "Александрович", Telephone = "380783423231" },

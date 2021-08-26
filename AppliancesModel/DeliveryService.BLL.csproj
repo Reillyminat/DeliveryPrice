@@ -9,4 +9,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DeliveryServiceModel\DeliveryServiceModel.csproj" />
+    <ProjectReference Include="..\EFCore3.Data\DeliveryService.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

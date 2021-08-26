@@ -9,11 +9,11 @@ namespace AppliancesModel.Models
 {
     public class UsersData:IUsersData
     {
-        public UsersData(ICollection<User> usersInfo)
+        public UsersData(ICollection<DeliveryServiceModel.User> usersInfo)
         {
             Users = usersInfo;
         }
         
-        public ICollection<User> Users { get; set; }
+        public ICollection<DeliveryServiceModel.User> Users { get; set; }
     }
 }

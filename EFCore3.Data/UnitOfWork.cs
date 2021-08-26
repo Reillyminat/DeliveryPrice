@@ -13,13 +13,13 @@ namespace EFCore5.Data
         private IRepository<Carrier> carrierRepository;
         private IRepository<Product> productRepository;
 
-public UnitOfWork(DataContext context,
-            IRepository<User> usersData,
-            IRepository<Order> ordersData,
-            IRepository<Supplier> suppliersData,
-            IRepository<Tariff> tariffsData,
-            IRepository<Carrier> carriersData,
-            IRepository<Product> productsData)
+        public UnitOfWork(DataContext context,
+                    IRepository<User> usersData,
+                    IRepository<Order> ordersData,
+                    IRepository<Supplier> suppliersData,
+                    IRepository<Tariff> tariffsData,
+                    IRepository<Carrier> carriersData,
+                    IRepository<Product> productsData)
         {
             db = context;
             userRepository = usersData;
