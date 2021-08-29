@@ -11,12 +11,13 @@ namespace EFCore5.Data
         public DbSet<Tariff> Tariffs { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Carrier> Carriers { get; set; }
+        public DataContext() { }
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            builder.UseSqlServer("Data Source=.; Integrated Security=True; Initial Catalog = DeliveryServiceEFData");
+            optionsBuilder.UseSqlServer("Data Source=.; Integrated Security=True; Initial Catalog = DeliveryServiceEFData");
         }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Supplier>().HasMany(e => e.Stock).WithMany(p => p.Suppliers).UsingEntity(j => j.ToTable("SupplierProducts"));

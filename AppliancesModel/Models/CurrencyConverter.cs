@@ -1,8 +1,8 @@
-﻿using AppliancesModel.Contracts;
+﻿using DeliveryService.BLL.Contracts;
 
 namespace AppliancesModel
 {
-    public class CurrencyConverter
+    public class CurrencyConverter : ICurrencyConverter
     {
         public decimal USD { get; set; }
         public decimal ConvertToUSD(decimal priceUAH) => priceUAH / USD;

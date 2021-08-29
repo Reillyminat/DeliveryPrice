@@ -5,7 +5,7 @@ namespace AppliancesModel.Models
 {
     public class Cache : ICacheable
     {
-        private readonly object data;
+        private object data;
 
         private object copy;
 
@@ -13,10 +13,7 @@ namespace AppliancesModel.Models
 
         private object locker = new object();
 
-        public Cache(object instance)
-        {
-            data = instance;
-        }
+        public Cache() { }
 
         public T GetObject<T>(Action callback) where T : class
         {
@@ -33,6 +30,11 @@ namespace AppliancesModel.Models
 
                 return (T)copy;
             }
+        }
+
+        public void SetInstance(object instance)
+        {
+            data = instance;
         }
     }
 }

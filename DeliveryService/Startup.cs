@@ -1,16 +1,16 @@
+using AppliancesModel;
+using AppliancesModel.Contracts;
+using AppliancesModel.Models;
+using DeliveryService.BLL.Contracts;
+using DeliveryServiceModel;
+using EFCore5.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DeliveryService
 {
@@ -26,6 +26,23 @@ namespace DeliveryService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IDataSerialization, DataSerialization>();
+            services.AddScoped<ICacheable, Cache>();
+            services.AddDbContext<DataContext>(
+                options => options.UseSqlServer("Data Source=.; Integrated Security=True; Initial Catalog = DeliveryServiceEFData"));
+            services.AddScoped<IRepository<User>, UserRepository>();
+
+            services.AddScoped<IRepository<Order>, OrderRepository>();
+            services.AddScoped<IRepository<Carrier>, CarrierRepository>();
+            services.AddScoped<IRepository<Product>, ProductRepository>();
+            services.AddScoped<IRepository<Supplier>, SupplierRepository>();
+            services.AddScoped<IRepository<Tariff>, TariffRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<ICurrencyConverter, CurrencyConverter>();
+            services.AddScoped<IConverterService, ConverterService>();
+            services.AddScoped<IAppliancesDistribution, AppliancesDistribution>();
+            services.AddScoped<IOrderManager, OrderManager>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

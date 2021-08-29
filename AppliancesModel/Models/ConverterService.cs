@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Contracts;
+using DeliveryService.BLL.Contracts;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace AppliancesModel.Models
 {
     public class ConverterService : IConverterService
     {
-        private readonly CurrencyConverter currencyConverter;
+        private readonly ICurrencyConverter _currencyConverter;
 
-        public ConverterService(CurrencyConverter converter)
+        public ConverterService(ICurrencyConverter converter)
         {
-            currencyConverter = converter;
+            _currencyConverter = converter;
         }
 
         public async Task GetExchengesRateAsync(CancellationToken stopToken)
@@ -23,11 +24,11 @@ namespace AppliancesModel.Models
                 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-EN");
                 var xml = XDocument.Load("https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=11");
 
-                currencyConverter.USD = Convert.ToDecimal(xml.Elements("exchangerates").Elements("row").
+                _currencyConverter.USD = Convert.ToDecimal(xml.Elements("exchangerates").Elements("row").
                     FirstOrDefault(x => x.Element("exchangerate").Attribute("ccy").Value == "USD").Elements("exchangerate").
                     FirstOrDefault().Attribute("sale").Value);
 
-                currencyConverter.EUR = Convert.ToDecimal(xml.Elements("exchangerates").Elements("row").
+                _currencyConverter.EUR = Convert.ToDecimal(xml.Elements("exchangerates").Elements("row").
                     FirstOrDefault(x => x.Element("exchangerate").Attribute("ccy").Value == "EUR").Elements("exchangerate").
                     FirstOrDefault().Attribute("sale").Value);
 

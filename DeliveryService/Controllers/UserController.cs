@@ -1,40 +1,54 @@
-﻿using AppliancesModel;
+﻿using AppliancesModel.Contracts;
 using AppliancesModel.Models;
 using DeliveryServiceModel;
 using EFCore5.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DeliveryService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
-        private DataContext context;
+        private readonly IUserManager _userManager;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(ILogger<UserController> logger,IUserManager userManager, IUnitOfWork unitOfWork)
         {
             _logger = logger;
+            _userManager = userManager;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            context = new DataContext();
-            var unitOfWork = new UnitOfWork(context,
-                new UserRepository(context),
-                new OrderRepository(context),
-                new SupplierRepository(context),
-                new TariffRepository(context),
-                new CarrierRepository(context),
-                new ProductRepository(context));
-            var userManager = new UserManager(unitOfWork.Users, new DataSerialization(), new Cache(unitOfWork.Users.GetAll().ToList()));
+            return _userManager.GetAllUsers();
+        }
 
-            return userManager.GetAllUsers();
+        [HttpPut]
+        public void Put(User user)
+        {
+            _userManager.EditUser(user);
+            _unitOfWork.Save();
+        }
+
+        [HttpPost]
+        public User Post(User user)
+        {
+            _userManager.AddUser(user);
+            _unitOfWork.Save();
+            return _userManager.GetUser(user);
+        }
+
+        [HttpDelete]
+        public void Delete(User user)
+        {
+            _userManager.DeleteUser(user);
+            _unitOfWork.Save();
         }
 
         /* User endpoints

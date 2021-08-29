@@ -10,80 +10,66 @@ namespace AppliancesModel
 {
     public class AppliancesDistribution : IAppliancesDistribution
     {
-        private readonly IUnitOfWork unitOfWorkContext;
+        private readonly IRepository<Product> _productRepository;
 
-        private readonly IAppliances stockContext;
+        private readonly IDataSerialization _dataSerializer;
 
-        private readonly IDataSerialization dataSerializer;
+        private readonly ICacheable _cache;
 
-        private readonly ICacheable cache;
-
-        public AppliancesDistribution(IAppliances stockContext, IUnitOfWork unitOfWork, IDataSerialization serializer, ICacheable cacheProvider, IConverterService converterProvider, CancellationToken cancellationToken)
+        public AppliancesDistribution(IRepository<Product> productContext, IDataSerialization serializer, ICacheable cacheProvider, IConverterService converterProvider)
         {
-            unitOfWorkContext = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
-            converterProvider.GetExchengesRateAsync(cancellationToken);
+            _productRepository = productContext ?? throw new ArgumentNullException(nameof(productContext));
+            _dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
+            converterProvider.GetExchengesRateAsync(new CancellationToken());
+            _cache.SetInstance(_productRepository.GetAll().ToList());
         }
 
-        public int RefreshStock(Product goods, int count)
+        public Product RefreshStock(Product product)
         {
-            if (goods.Amount == count)
-            {
-                unitOfWorkContext.Products.Delete(goods.Id);
-                return goods.Amount;
-            }
-            else
-            {
-                goods.Amount -= count;
-                return count;
-            }
+            var productToUpdate = _productRepository.Get(product.Id);
+            productToUpdate.GuaranteeInMonths = product.GuaranteeInMonths;
+            productToUpdate.Amount = product.Amount;
+            productToUpdate.CategoryId = product.CategoryId;
+            productToUpdate.DepthInMeters = product.DepthInMeters;
+            productToUpdate.WidthInMeters = product.WidthInMeters;
+            productToUpdate.HeightInMeters = product.HeightInMeters;
+            productToUpdate.Name = product.Name;
+            productToUpdate.Suppliers = product.Suppliers;
+            productToUpdate.ProducingCountry = product.ProducingCountry;
+            _productRepository.Update(productToUpdate);
+
+            return productToUpdate;
         }
 
         public Product CheckGoodsExistance(string applianceName)
         {
-            return unitOfWorkContext.Products.GetAll().FirstOrDefault(x => x.Name == applianceName);
+            return _productRepository.GetAll().FirstOrDefault(x => x.Name == applianceName);
         }
 
-        public IEnumerable<Product> AddGoods(int inputType, int inputCount)
+        public void AddGoods(IEnumerable<Product> products)
         {
-            var addedProducts = new List<Product>();
-            for (int i = 0; i < inputCount; i++)
+            foreach (var product in products)
             {
-                addedProducts.Add(new Product());
-                unitOfWorkContext.Products.Create(addedProducts[addedProducts.Count - 1]);
+                _productRepository.Create(product);
             }
-
-            return addedProducts;
         }
 
-        public IEnumerable<Product> GetStock(out List<int> stockSummary)
+        public void DeleteProduct(Product product)
         {
-            var stockNumbersDetail = cache.GetObject<List<Product>>(() => Console.WriteLine("Appliance distributor requested data."));
-            stockSummary = new List<int>() { 0, 0, 0 };
+            _productRepository.Delete(product.Id);
+        }
 
-            foreach (var item in stockNumbersDetail)
-            {
-                switch (item.CategoryId)
-                {
-                    case Category.Washer:
-                        stockSummary[0]++;
-                        break;
-                    case Category.Refrigerator:
-                        stockSummary[1]++;
-                        break;
-                    case Category.KitchenStove:
-                        stockSummary[2]++;
-                        break;
-                }
-            }
+        public IEnumerable<Product> GetStock()
+        {
+            var stockNumbersDetail = _cache.GetObject<List<Product>>(() => Console.WriteLine("Appliance distributor requested data."));
 
             return stockNumbersDetail;
         }
 
         public void SaveStockState()
         {
-            dataSerializer.SerializeAndSave(unitOfWorkContext);
+            _dataSerializer.SerializeAndSave(_productRepository);
         }
     }
 }

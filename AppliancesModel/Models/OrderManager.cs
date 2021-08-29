@@ -1,5 +1,6 @@
 ﻿using AppliancesModel.Contracts;
 using DeliveryServiceModel;
+using EFCore5.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,72 +8,65 @@ namespace AppliancesModel.Models
 {
     public class OrderManager : IOrderManager
     {
-        private readonly IOrdersData dataSource;
+        private readonly IRepository<Order> _orderRepository;
 
-        private readonly IDataSerialization dataSerializer;
+        private readonly IDataSerialization _dataSerializer;
 
-        private readonly ICacheable cache;
+        private readonly ICacheable _cache;
 
-        public Order CurrentOrder { get; set; }
-
-        public OrderManager(IOrdersData data, IDataSerialization serializer, ICacheable cacheProvider)
+        public OrderManager(IRepository<Order> data, IDataSerialization serializer, ICacheable cacheProvider)
         {
-            dataSource = data ?? throw new ArgumentNullException(nameof(data));
-            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            CurrentOrder = dataSource.Orders.Count == 0 ? default : dataSource.Orders.Last();
-            cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
+            _orderRepository = data ?? throw new ArgumentNullException(nameof(data));
+            _dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
+            _cache.SetInstance(_orderRepository.GetAll().ToList());
         }
 
-        public Order CreateShoppingBasket(User person)
+        public void CreateOrder(Order order)
         {
-            var ordersCache = cache.GetObject<IOrdersData>(() => Console.WriteLine("Order manager requested data."));
-            var result = ordersCache.Orders.FirstOrDefault(n => n.User.Name == person.Name);
-
-            if (result != null)
-            {
-                CurrentOrder = result;
-                return result;
-            }
-
-            SetOrderData(person.Name, person.Address, person.Telephone);
-
-            return CurrentOrder;
+            _orderRepository.Create(order);
         }
 
-        public void SetOrderData(string name, string address, string telephone)
+        public void UpdateOrder(Order order)
         {
-            dataSource.Orders.Add(new Order() { User = new User { Address = address, Name = name, Telephone = telephone }, Products = new List<Product>(), Price = 0 });
-            CurrentOrder = dataSource.Orders.Last();
+            var updatedOrder = GetOrder(order.Id);
+            updatedOrder.CarrierId = order.CarrierId;
+            updatedOrder.Carrier = order.Carrier;
+            updatedOrder.Price = order.Price;
+            updatedOrder.Products = order.Products;
+            updatedOrder.StatusId = order.StatusId;
+            updatedOrder.TimeOfOrdering = order.TimeOfOrdering;
+            updatedOrder.TimeOfTaking = order.TimeOfTaking;
+            updatedOrder.User = order.User;
+            updatedOrder.UserId = order.UserId;
+            updatedOrder.Supplier = order.Supplier;
+            updatedOrder.SupplierId = order.SupplierId;
+
+            _orderRepository.Update(order);
         }
 
-        public void AddItemToBasket(Product goods, int amount)
+        public IEnumerable<Order> GetOrders()
         {
-            var isNew = true;
+            var ordersCache = _cache.GetObject<IEnumerable<Order>>(() => Console.WriteLine("Order manager requested data."));
 
-            foreach (var sample in CurrentOrder.Products)
-            {
-                if (sample.Id == goods.Id)
-                {
-                    sample.Amount += amount;
-                    isNew = false;
-                    break;
-                }
-            }
+            return ordersCache;
+        }
 
-            CurrentOrder.Price += goods.Price * amount;
+        public Order GetOrder(int id)
+        {
+            var ordersCache = _cache.GetObject<List<Order>>(() => Console.WriteLine("Order manager requested data."));
 
-            if (isNew)
-            {
-                var orderedAppliance = XmlSerialization.CreateDeepCopy<Product>(goods);
-                orderedAppliance.Amount = amount;
-                CurrentOrder.Products.Add(orderedAppliance);
-            }
+            return ordersCache.FirstOrDefault(o => o.Id == id);
+        }
 
+        public void DeleteOrder(int id)
+        {
+            _orderRepository.Delete(id);
         }
 
         public void SaveOrdersState()
         {
-            dataSerializer.SerializeAndSave(dataSource);
+            _dataSerializer.SerializeAndSave(_orderRepository);
         }
     }
 }
