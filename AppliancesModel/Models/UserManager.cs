@@ -33,7 +33,7 @@ namespace AppliancesModel.Models
             {
                 Address = user.Address,
                 Name = user.Name,
-                Telephone = user.Telephone,
+                Phone = user.Phone,
                 Partonimic = user.Partonimic,
                 SurName = user.SurName
             };
@@ -48,7 +48,7 @@ namespace AppliancesModel.Models
             {
                 Address = address,
                 Name = name,
-                Telephone = telephone
+                Phone = telephone
             };
         }
 
