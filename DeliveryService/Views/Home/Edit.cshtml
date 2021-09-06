@@ -1,0 +1,38 @@
+﻿<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+@model Product
+
+<h2>Подробно о продукте</h2>
+<table style="width:100%">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Producing country</th>
+        <th>Warranty in months</th>
+    </tr>
+    <tr>
+        <td>@Model.Id</td>
+        <td>@Model.Name</td>
+        <td>@Model.CategoryId</td>
+        <td>@Model.Amount</td>
+        <td>@Model.ProducingCountry</td>
+        <td>@Model.GuaranteeInMonths</td>
+    </tr>
+</table>
+<br />
+@Html.ActionLink("Удалить этот продукт", "Delete", "Home", new { id = Model.Id })
+
+<br />
+<h2>Изменить этот продукт</h2>
+@using (Html.BeginForm("Edit", "Home"))
+{
+    @await Html.PartialAsync("InputProductPartial")
+}
+
+
+@Html.ActionLink("Вернуться к списку продуктов", "Index", "Home")

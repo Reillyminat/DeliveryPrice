@@ -16,9 +16,11 @@ namespace AppliancesModel.Contracts
 
         void AddGoods(IEnumerable<Product> products);
 
-        void DeleteProduct(Product product);
+        void DeleteProduct(int id);
 
         IEnumerable<Product> GetStock();
+
+        Product GetProduct(int id);
 
         void SaveStockState();
     }

@@ -43,9 +43,9 @@ namespace DeliveryService.API.Controllers
         }
 
         [HttpDelete]
-        public void Delete(Product product)
+        public void Delete(int id)
         {
-            _productManager.DeleteProduct(product);
+            _productManager.DeleteProduct(id);
             _unitOfWork.Save();
         }
     }

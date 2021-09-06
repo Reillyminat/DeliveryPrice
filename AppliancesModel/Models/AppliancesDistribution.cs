@@ -55,9 +55,9 @@ namespace AppliancesModel
             }
         }
 
-        public void DeleteProduct(Product product)
+        public void DeleteProduct(int id)
         {
-            _productRepository.Delete(product.Id);
+            _productRepository.Delete(id);
         }
 
         public IEnumerable<Product> GetStock()
@@ -65,6 +65,13 @@ namespace AppliancesModel
             var stockNumbersDetail = _cache.GetObject<List<Product>>(() => Console.WriteLine("Appliance distributor requested data."));
 
             return stockNumbersDetail;
+        }
+
+        public Product GetProduct(int id)
+        {
+            var stockNumbersDetail = _cache.GetObject<List<Product>>(() => Console.WriteLine("Appliance distributor requested data."));
+
+            return stockNumbersDetail.FirstOrDefault(i=>i.Id==id);
         }
 
         public void SaveStockState()
