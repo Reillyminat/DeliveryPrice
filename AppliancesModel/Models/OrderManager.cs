@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Contracts;
+using DeliveryServiceModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,31 +26,32 @@ namespace AppliancesModel.Models
         public Order CreateShoppingBasket(User person)
         {
             var ordersCache = cache.GetObject<IOrdersData>(() => Console.WriteLine("Order manager requested data."));
-            var result = ordersCache.Orders.FirstOrDefault(n => n.Name == person.Name);
-            
-            if (result != null) {
+            var result = ordersCache.Orders.FirstOrDefault(n => n.User.Name == person.Name);
+
+            if (result != null)
+            {
                 CurrentOrder = result;
                 return result;
             }
 
-            SetOrderData(person.Name, person.Address, person.Telephone);
+            SetOrderData(person.Name, person.Address, person.Phone);
 
             return CurrentOrder;
         }
 
-        public void SetOrderData(string name, string address, string telephone)
+        public void SetOrderData(string name, string address, string phone)
         {
-            dataSource.Orders.Add(new Order() { Id = dataSource.Id++, Address = address, Name = name, Telephone = telephone, Basket = new List<Appliance>(), Price = 0 });
+            dataSource.Orders.Add(new Order() { User = new User { Address = address, Name = name, Phone = phone }, Products = new List<Product>(), Price = 0 });
             CurrentOrder = dataSource.Orders.Last();
         }
 
-        public void AddItemToBasket(Appliance goods, int amount)
+        public void AddItemToBasket(Product product, int amount)
         {
             var isNew = true;
 
-            foreach (var sample in CurrentOrder.Basket)
+            foreach (var sample in CurrentOrder.Products)
             {
-                if (sample.Id == goods.Id)
+                if (sample.Id == product.Id)
                 {
                     sample.Amount += amount;
                     isNew = false;
@@ -57,13 +59,13 @@ namespace AppliancesModel.Models
                 }
             }
 
-            CurrentOrder.Price += goods.Price * amount;
+            CurrentOrder.Price += product.Price * amount;
 
             if (isNew)
             {
-                var orderedAppliance = XmlSerialization.CreateDeepCopy<Appliance>(goods);
+                var orderedAppliance = XmlSerialization.CreateDeepCopy<Product>(product);
                 orderedAppliance.Amount = amount;
-                CurrentOrder.Basket.Add(orderedAppliance);
+                CurrentOrder.Products.Add(orderedAppliance);
             }
 
         }

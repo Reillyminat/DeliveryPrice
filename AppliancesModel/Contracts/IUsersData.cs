@@ -9,6 +9,6 @@ namespace AppliancesModel.Contracts
 {
     public interface IUsersData
     {
-        ICollection<User> Users { get; set; }
+        ICollection<DeliveryServiceModel.User> Users { get; set; }
     }
 }

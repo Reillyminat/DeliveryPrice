@@ -6,13 +6,13 @@
 
         public string Address { get; set; }
 
-        public string FullName { get; set; }
+        public string Name { get; set; }
 
         public string SurName { get; set; }
 
         public string Partonimic { get; set; }
 
-        public string Telephone { get; set; }
+        public string Phone { get; set; }
 
         public int Age { get; set; }
     }

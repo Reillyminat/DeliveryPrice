@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Data;
+using DeliveryServiceModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,13 @@ namespace AppliancesModel.Contracts
 {
     public interface IAppliancesDistribution
     {
-        int RefreshStock(Appliance goods, int count);
+        int RefreshStock(Product goods, int count);
 
-        Appliance CheckGoodsExistance(string applianceName);
+        Product CheckGoodsExistance(string applianceName);
 
-        IEnumerable<Appliance> AddGoods(int inputType, int inputCount);
+        IEnumerable<Product> AddGoods(int inputType, int inputCount);
 
-        IEnumerable<Appliance> GetStock(out List<int> stockSummary);
+        IEnumerable<Product> GetStock(out List<int> stockSummary);
 
         void SaveStockState();
     }

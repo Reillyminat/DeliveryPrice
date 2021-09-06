@@ -1,39 +1,43 @@
 ﻿using AppliancesModel.Contracts;
+using DeliveryServiceModel;
+using EFCore5.Data;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AppliancesModel.Models
 {
     public class UserManager : IUserManager
     {
-        private readonly IUsersData usersData;
+        private readonly IRepository<User> userRepository;
 
         private readonly IDataSerialization dataSerializer;
 
         private readonly ICacheable cache;
 
-        public UserManager(IUsersData users, IDataSerialization serializer, ICacheable cacheProvider)
+        public UserManager(IRepository<User> userContext, IDataSerialization serializer, ICacheable cacheProvider)
         {
-            usersData = users ?? throw new ArgumentNullException(nameof(users));
             dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
+            userRepository = userContext ?? throw new ArgumentNullException(nameof(userContext));
         }
 
-        public User AddUser(string name, string address, string telephone)
+        public User AddUser(User user)
         {
-            var usersCache = cache.GetObject<IUsersData>(() => Console.WriteLine("User manager requested data."));
-            var person = GetUser(name);
+            var person = GetUser(user.Name);
 
             if (person != null)
                 return person;
 
             person = new User()
             {
-                Address = address,
-                Name = name,
-                Telephone = telephone
+                Address = user.Address,
+                Name = user.Name,
+                Phone = user.Phone,
+                Partonimic = user.Partonimic,
+                SurName = user.SurName
             };
-            usersData.Users.Add(person);
+            userRepository.Create(person);
 
             return person;
         }
@@ -44,20 +48,27 @@ namespace AppliancesModel.Models
             {
                 Address = address,
                 Name = name,
-                Telephone = telephone
+                Phone = telephone
             };
         }
 
         public User GetUser(string name)
         {
-            var userCache = cache.GetObject<IUsersData>(() => Console.WriteLine("User manager requested data."));
+            var userCache = cache.GetObject<List<User>>(() => Console.WriteLine("User manager requested data."));
 
-            return userCache.Users.FirstOrDefault(u => u.Name == name);
+            return userCache.FirstOrDefault(u => u.Name == name);
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            var userCache = cache.GetObject<IEnumerable<User>>(() => Console.WriteLine("User manager requested data."));
+
+            return userCache;
         }
 
         public void SaveUsersState()
         {
-            dataSerializer.SerializeAndSave(usersData);
+            dataSerializer.SerializeAndSave(userRepository);
         }
     }
 }

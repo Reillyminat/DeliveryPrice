@@ -2,6 +2,7 @@
 using EFCore5.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EFCore5.UI
 {
@@ -15,9 +16,11 @@ namespace EFCore5.UI
         }
         public void FillTestData()
         {
+            var user = new User { Address = "г. Харьков, ул. Напольная, д. 13, кв. 2", Name = "Александр", SurName = "Корев", Partonimic = "Петрович", Phone = "380783456231" };
+
             var order = new Order
             {
-                User = new User { Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", Name = "Александр", SurName = "Нуров", Partonimic = "Александрович", Telephone = "380783423231" },
+                User = new User { Address = "г. Днепр, ул. Тарасова, д. 7, кв. 9", Name = "Александр", SurName = "Нуров", Partonimic = "Александрович", Phone = "380783423231" },
                 Products = new List<Product> { new Product
                 {
                     Amount = 14,
@@ -79,7 +82,7 @@ namespace EFCore5.UI
         public void UpdateTestData()
         {
             var user = unitOfWork.Users.Get(1);
-            user.Telephone = "380783423234";
+            user.Phone = "380783423234";
             unitOfWork.Users.Update(user);
             unitOfWork.Save();
         }
@@ -87,7 +90,7 @@ namespace EFCore5.UI
         public void GetByIdTestData()
         {
             var user = unitOfWork.Users.Get(1);
-            Console.WriteLine("UserName: {0}, address: {1}, id: {2}, telephone: {3}", user.Name + " " + user.SurName, user.Address, user.Id, user.Telephone);
+            Console.WriteLine("UserName: {0}, address: {1}, id: {2}, telephone: {3}", user.Name + " " + user.SurName, user.Address, user.Id, user.Phone);
         }
 
         public void GetAllTestData()
@@ -98,7 +101,7 @@ namespace EFCore5.UI
 
             foreach (var user in users)
             {
-                Console.WriteLine("User: {0}, telephone: {1}", user.Name + " " + user.SurName, user.Telephone);
+                Console.WriteLine("User: {0}, telephone: {1}", user.Name + " " + user.SurName, user.Phone);
             }
         }
 
@@ -111,9 +114,9 @@ namespace EFCore5.UI
 
         public void GetAndUpdateTestDataWithNoTracking()
         {
-            var users = unitOfWork.Users.GetAll(delegate (string x) { return true; });
+            var users = unitOfWork.Users.GetAllMatchingTheFilter(delegate (string x) { return true; });
             var testUser = users.FirstOrDefault();
-            testUser.FullName = "Веселов Андрей Павлович";
+            testUser.Name = "Веселов Андрей Павлович";
             unitOfWork.Users.Update(testUser);
             unitOfWork.Save();
         }

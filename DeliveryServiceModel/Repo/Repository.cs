@@ -168,8 +168,8 @@ namespace DeliveryServiceModel.Repo
             {
                 UserId = order.User.Id,
                 Address = order.User.Address,
-                FullName = order.User.FullName,
-                Telephone = order.User.Telephone
+                FullName = order.User.Name,
+                Telephone = order.User.Phone
             });
 
             return order.Id;

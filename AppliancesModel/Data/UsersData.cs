@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Contracts;
+using DeliveryServiceModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

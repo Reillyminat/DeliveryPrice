@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Models;
+using DeliveryServiceModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,9 @@ namespace AppliancesModel.Contracts
     {
         User GetUser(string name);
 
-        User AddUser(string name, string address, string telephone);
+        IEnumerable<User> GetAllUsers();
+
+        User AddUser(User user);
 
         User SetGuestUser(string name, string address, string telephone);
 

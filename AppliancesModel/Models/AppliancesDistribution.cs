@@ -1,5 +1,6 @@
 ﻿using AppliancesModel.Contracts;
-using AppliancesModel.Models;
+using DeliveryServiceModel;
+using EFCore5.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,27 +10,27 @@ namespace AppliancesModel
 {
     public class AppliancesDistribution : IAppliancesDistribution
     {
+        private readonly IUnitOfWork unitOfWorkContext;
+
         private readonly IAppliances stockContext;
 
         private readonly IDataSerialization dataSerializer;
 
         private readonly ICacheable cache;
 
-        private readonly CancellationToken cancellationToken;
-
-        public AppliancesDistribution(IAppliances stock, IDataSerialization serializer, ICacheable cacheProvider, IConverterService converterProvider, CancellationToken cancellationToken)
+        public AppliancesDistribution(IAppliances stockContext, IUnitOfWork unitOfWork, IDataSerialization serializer, ICacheable cacheProvider, IConverterService converterProvider, CancellationToken cancellationToken)
         {
-            stockContext = stock ?? throw new ArgumentNullException(nameof(stock));
-            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));            
+            unitOfWorkContext = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            dataSerializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             cache = cacheProvider ?? throw new ArgumentNullException(nameof(cacheProvider));
             converterProvider.GetExchengesRateAsync(cancellationToken);
         }
 
-        public int RefreshStock(Appliance goods, int count)
+        public int RefreshStock(Product goods, int count)
         {
             if (goods.Amount == count)
             {
-                stockContext.Stock.Remove(goods);
+                unitOfWorkContext.Products.Delete(goods.Id);
                 return goods.Amount;
             }
             else
@@ -39,48 +40,39 @@ namespace AppliancesModel
             }
         }
 
-        public Appliance CheckGoodsExistance(string applianceName)
+        public Product CheckGoodsExistance(string applianceName)
         {
-            return stockContext.Stock.FirstOrDefault(x => x.Name == applianceName);
+            return unitOfWorkContext.Products.GetAll().FirstOrDefault(x => x.Name == applianceName);
         }
 
-        public IEnumerable<Appliance> AddGoods(int inputType, int inputCount)
+        public IEnumerable<Product> AddGoods(int inputType, int inputCount)
         {
+            var addedProducts = new List<Product>();
             for (int i = 0; i < inputCount; i++)
             {
-                switch (inputType)
-                {
-                    case 1:
-                        stockContext.Stock.Add(new Washer(stockContext.Id++));
-                        break;
-                    case 2:
-                        stockContext.Stock.Add(new Refrigerator(stockContext.Id++));
-                        break;
-                    case 3:
-                        stockContext.Stock.Add(new KitchenStove(stockContext.Id++));
-                        break;
-                }
+                addedProducts.Add(new Product());
+                unitOfWorkContext.Products.Create(addedProducts[addedProducts.Count - 1]);
             }
 
-            return stockContext.Stock.Where(s => s.Id > stockContext.Id - inputCount - 1);
+            return addedProducts;
         }
 
-        public IEnumerable<Appliance> GetStock(out List<int> stockSummary)
+        public IEnumerable<Product> GetStock(out List<int> stockSummary)
         {
-            var stockNumbersDetail = cache.GetObject<IAppliances>(() => Console.WriteLine("Appliance distributor requested data.")).Stock;
+            var stockNumbersDetail = cache.GetObject<List<Product>>(() => Console.WriteLine("Appliance distributor requested data."));
             stockSummary = new List<int>() { 0, 0, 0 };
 
             foreach (var item in stockNumbersDetail)
             {
-                switch (item.Type)
+                switch (item.CategoryId)
                 {
-                    case AppliancesStock.Washer:
+                    case Category.Washer:
                         stockSummary[0]++;
                         break;
-                    case AppliancesStock.Refrigerator:
+                    case Category.Refrigerator:
                         stockSummary[1]++;
                         break;
-                    case AppliancesStock.KitchenStove:
+                    case Category.KitchenStove:
                         stockSummary[2]++;
                         break;
                 }
@@ -91,7 +83,7 @@ namespace AppliancesModel
 
         public void SaveStockState()
         {
-            dataSerializer.SerializeAndSave(stockContext);
+            dataSerializer.SerializeAndSave(unitOfWorkContext);
         }
     }
 }
