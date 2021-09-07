@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace DeliveryService.API.Controllers
 {
     [Route("api/[controller]")]
@@ -24,21 +22,18 @@ namespace DeliveryService.API.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        // GET: api/<OrderController>
         [HttpGet]
         public IEnumerable<Order> Get()
         {
             return _orderManager.GetOrders();
         }
 
-        // GET api/<OrderController>/5
         [HttpGet("{id}")]
         public Order Get(int id)
         {
             return _orderManager.GetOrder(id);
         }
 
-        // POST api/<OrderController>
         [HttpPost]
         public void Post([FromBody] Order order)
         {
@@ -46,7 +41,6 @@ namespace DeliveryService.API.Controllers
             _unitOfWork.Save();
         }
 
-        // PUT api/<OrderController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Order order)
         {
@@ -54,7 +48,6 @@ namespace DeliveryService.API.Controllers
             _unitOfWork.Save();
         }
 
-        // DELETE api/<OrderController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
