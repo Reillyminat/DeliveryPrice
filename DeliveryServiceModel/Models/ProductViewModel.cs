@@ -1,14 +1,16 @@
-﻿using DeliveryServiceModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace DeliveryService.API.Models
+namespace DeliveryServiceModel.Models
 {
     public class ProductViewModel
     {
+        public int Id { get; set; }
+
         public Category CategoryId { get; set; }
 
         [Required(ErrorMessage = "Не указано имя")]

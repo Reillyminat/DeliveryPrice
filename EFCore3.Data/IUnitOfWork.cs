@@ -1,4 +1,5 @@
 ﻿using DeliveryServiceModel;
+using DeliveryServiceModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace EFCore5.Data
         IRepository<Tariff> Tariffs { get; }
         IRepository<Carrier> Carriers { get; }
         IRepository<Product> Products { get; }
+
+        Product ConvertViewModel(ProductViewModel product);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AppliancesModel.Contracts;
-using DeliveryService.API.Models;
 using DeliveryServiceModel;
+using DeliveryServiceModel.Models;
 using EFCore5.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -11,12 +11,10 @@ namespace DeliveryService.API.Controllers
     public class HomeController : Controller
     {
         private readonly IAppliancesDistribution _productManager;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(IAppliancesDistribution productManager, IUnitOfWork unitOfWork)
+        public HomeController(IAppliancesDistribution productManager)
         {
             _productManager = productManager;
-            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -56,8 +54,7 @@ namespace DeliveryService.API.Controllers
                 return StatusCode(400);
             }
 
-            _productManager.AddGoods(new List<Product> { ConvertViewModel(product) });
-            _unitOfWork.Save();
+            _productManager.AddGoods(new List<ProductViewModel> { product });
             return View();
         }
 
@@ -70,7 +67,6 @@ namespace DeliveryService.API.Controllers
             }
 
             _productManager.RefreshStock(product);
-            _unitOfWork.Save();
             return View(product);
         }
 
@@ -79,25 +75,7 @@ namespace DeliveryService.API.Controllers
         public IActionResult Delete(int id)
         {
             _productManager.DeleteProduct(id);
-            _unitOfWork.Save();
             return Index();
-        }
-
-        private Product ConvertViewModel(ProductViewModel product)
-        {
-            var convertedProduct = new Product
-            {
-                Name = product.Name,
-                CategoryId = product.CategoryId,
-                GuaranteeInMonths = product.GuaranteeInMonths,
-                WidthInMeters = product.WidthInMeters,
-                DepthInMeters = product.DepthInMeters,
-                HeightInMeters = product.HeightInMeters,
-                Amount = product.Amount,
-                Price = product.Price,
-                ProducingCountry = product.ProducingCountry
-            };
-            return convertedProduct;
         }
     }
 }

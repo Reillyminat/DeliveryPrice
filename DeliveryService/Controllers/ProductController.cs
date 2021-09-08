@@ -1,5 +1,6 @@
 ﻿using AppliancesModel.Contracts;
 using DeliveryServiceModel;
+using DeliveryServiceModel.Models;
 using EFCore5.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -36,7 +37,7 @@ namespace DeliveryService.API.Controllers
         }
 
         [HttpPost]
-        public void Post(IEnumerable<Product> products)
+        public void Post(IEnumerable<ProductViewModel> products)
         {
             _productManager.AddGoods(products);
             _unitOfWork.Save();

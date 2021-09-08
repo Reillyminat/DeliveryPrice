@@ -15,4 +15,8 @@
     <ProjectReference Include="..\EFCore3.Data\DeliveryService.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>
