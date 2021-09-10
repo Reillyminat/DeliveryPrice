@@ -12,7 +12,7 @@
 
         public string Partonimic { get; set; }
 
-        public string Telephone { get; set; }
+        public string Phone { get; set; }
 
         public int Age { get; set; }
     }

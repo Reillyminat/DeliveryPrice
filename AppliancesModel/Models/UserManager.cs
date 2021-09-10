@@ -59,7 +59,7 @@ namespace AppliancesModel.Models
             {
                 Address = address,
                 Name = name,
-                Telephone = telephone
+                Phone = telephone
             };
         }
 

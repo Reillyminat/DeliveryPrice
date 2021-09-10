@@ -55,19 +55,22 @@ namespace DeliveryService.Controllers
 
         /* User endpoints
          * GET/User
+         * GET/User/Id
          * PUT/User
          * POST/User
-         * DELETE/User
+         * DELETE/User/Id
          * 
          * Order endpoints
          * GET/Order
-         * PUT/Order
+         * GET/Order/Id
+         * PUT/Order/Id
          * POST/Order
-         * DELETE/Order
+         * DELETE/Order/Id
          * 
          * Product endpoints
          * GET/Product
-         * PUT/Product
+         * GET/Product/Id
+         * PUT/Product/Id
          * POST/Product
          */
     }
