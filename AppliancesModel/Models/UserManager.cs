@@ -40,7 +40,7 @@ namespace AppliancesModel.Models
             var foundedUser = _userRepository.Get(user.Id);
             foundedUser.Address = user.Address;
             foundedUser.Name = user.Name;
-            foundedUser.Telephone = user.Telephone;
+            foundedUser.Phone = user.Phone;
             foundedUser.Partonimic = user.Partonimic;
             foundedUser.SurName = user.SurName;
             _userRepository.Update(foundedUser);
