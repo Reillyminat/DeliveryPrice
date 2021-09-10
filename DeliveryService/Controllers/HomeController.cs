@@ -1,9 +1,12 @@
 ﻿using AppliancesModel.Contracts;
+using DeliveryService.API.Filters;
 using DeliveryServiceModel;
 using DeliveryServiceModel.Models;
-using EFCore5.Data;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace DeliveryService.API.Controllers
 {
@@ -25,6 +28,7 @@ namespace DeliveryService.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [TypeFilter(typeof(CustomExceptionAttribute))]
         public IActionResult Get(int id)
         {
             var product = _productManager.GetProduct(id);
@@ -37,6 +41,7 @@ namespace DeliveryService.API.Controllers
                 return View("Error", id);
             }
         }
+
 
         [HttpGet]
         [Route("Create")]
@@ -59,6 +64,7 @@ namespace DeliveryService.API.Controllers
         }
 
         [HttpPost]
+        [TypeFilter(typeof(CustomActionAttribute))]
         public IActionResult Edit(Product product)
         {
             if (!ModelState.IsValid)

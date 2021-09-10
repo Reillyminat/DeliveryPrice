@@ -2,8 +2,13 @@
 
 namespace DeliveryServiceModel
 {
-    public class AppliancesComparer : IEqualityComparer<Product>
+    public class AppliancesComparer : IEqualityComparer<Product>,IComparer<Product>
     {
+        public int Compare(Product x, Product y)
+        {
+            return x.Name.CompareTo(y.Name);
+        }
+
         public bool Equals(Product x, Product y)
         {
             if (x.Name == y.Name && x.CategoryId == y.CategoryId)

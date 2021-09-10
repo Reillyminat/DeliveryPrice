@@ -1,6 +1,7 @@
 using AppliancesModel;
 using AppliancesModel.Contracts;
 using AppliancesModel.Models;
+using DeliveryService.API.Filters;
 using DeliveryService.BLL.Contracts;
 using DeliveryServiceModel;
 using EFCore5.Data;
@@ -23,7 +24,6 @@ namespace DeliveryService
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IDataSerialization, DataSerialization>();
@@ -49,6 +49,14 @@ namespace DeliveryService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeliveryService", Version = "v1" });
             });
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            services.AddSingleton<CustomExceptionAttribute>();
+            services.AddTransient<CustomActionAttribute>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

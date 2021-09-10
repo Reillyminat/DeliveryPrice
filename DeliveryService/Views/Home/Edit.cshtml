@@ -29,10 +29,9 @@
 
 <br />
 <h2>Изменить этот продукт</h2>
-@using (Html.BeginForm("Edit", "Home"))
+@using (Html.BeginForm("Edit", "Home", Model))
 {
     @await Html.PartialAsync("InputProductPartial")
 }
-
 
 @Html.ActionLink("Вернуться к списку продуктов", "Index", "Home")
