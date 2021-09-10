@@ -17,7 +17,7 @@ namespace EFCore5.Data
 
         public IEnumerable<User> GetAllMatchingTheFilter(Predicate<string> predicate)
         {
-            return ((IEnumerable<User>)db.Users).Where(x => predicate(x.Telephone));
+            return ((IEnumerable<User>)db.Users).Where(x => predicate(x.Phone));
         }
 
         public IEnumerable<User> GetAll()

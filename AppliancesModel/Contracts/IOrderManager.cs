@@ -1,4 +1,4 @@
-﻿using AppliancesModel.Models;
+using AppliancesModel.Models;
 using DeliveryServiceModel;
 using System.Collections.Generic;
 
