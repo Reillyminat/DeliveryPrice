@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using System;
+using System.IO;
+using System.Text;
 
 namespace DeliveryService.API.Filters
 {
@@ -11,7 +13,11 @@ namespace DeliveryService.API.Filters
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            Console.WriteLine("QueryString: {0}", context.HttpContext.Request.QueryString.Value);
+            var bodyStr = "";
+            var requestBody = context.HttpContext.Request.Body;
+            using var reader = new StreamReader(requestBody, Encoding.UTF8, true, 1024, true);
+            bodyStr = reader.ReadToEnd();
+            Console.WriteLine("Request body: {0}", bodyStr);
         }
     }
 }
