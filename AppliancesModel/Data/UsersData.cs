@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Contracts;
+using DeliveryServiceModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace AppliancesModel.Models
 {
     public class UsersData:IUsersData
     {
-        public UsersData(ICollection<DeliveryServiceModel.User> usersInfo)
+        public UsersData(ICollection<User> usersInfo)
         {
             Users = usersInfo;
         }
         
-        public ICollection<DeliveryServiceModel.User> Users { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }
