@@ -1,4 +1,4 @@
-﻿using AppliancesModel.Contracts;
+using AppliancesModel.Contracts;
 using DeliveryServiceModel;
 using EFCore5.Data;
 using System;
@@ -40,7 +40,7 @@ namespace AppliancesModel.Models
             var foundedUser = _userRepository.Get(user.Id);
             foundedUser.Address = user.Address;
             foundedUser.Name = user.Name;
-            foundedUser.Telephone = user.Telephone;
+            foundedUser.Phone = user.Phone;
             foundedUser.Partonimic = user.Partonimic;
             foundedUser.SurName = user.SurName;
             _userRepository.Update(foundedUser);
@@ -59,7 +59,7 @@ namespace AppliancesModel.Models
             {
                 Address = address,
                 Name = name,
-                Telephone = telephone
+                Phone = telephone
             };
         }
 
