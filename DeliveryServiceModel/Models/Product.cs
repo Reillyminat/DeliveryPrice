@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace DeliveryServiceModel
 {
@@ -36,6 +38,6 @@ namespace DeliveryServiceModel
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Длина строки должна быть от 2 до 50 символов")]
         public string ProducingCountry { get; set; }
 
-        public ICollection<Supplier> Suppliers { get; set; }
+        public ICollection<Supplier> Suppliers { get; set; } = new List<Supplier>();
     }
 }

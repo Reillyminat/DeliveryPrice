@@ -4,7 +4,14 @@
     }
 </style>
 @model Product
-
+@{ 
+    string suppliers = string.Empty;
+    foreach (var supplier in Model.Suppliers)
+    {
+        suppliers += supplier.Name + " ";
+    }
+    ViewBag.SupplierNames = suppliers;
+}
 <h2>Подробно о продукте</h2>
 <table style="width:100%">
     <tr>
@@ -14,6 +21,7 @@
         <th>Amount</th>
         <th>Producing country</th>
         <th>Warranty in months</th>
+        <th>Suppliers</th>
     </tr>
     <tr>
         <td>@Model.Id</td>
@@ -22,6 +30,7 @@
         <td>@Model.Amount</td>
         <td>@Model.ProducingCountry</td>
         <td>@Model.GuaranteeInMonths</td>
+        <td>@ViewBag.SupplierNames</td>
     </tr>
 </table>
 <br />

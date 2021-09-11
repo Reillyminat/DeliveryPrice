@@ -9,7 +9,6 @@ namespace DeliveryServiceModel.Models
 {
     public class ProductViewModel
     {
-        public int Id { get; set; }
 
         public Category CategoryId { get; set; }
 
@@ -40,6 +39,6 @@ namespace DeliveryServiceModel.Models
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Длина строки должна быть от 2 до 50 символов")]
         public string ProducingCountry { get; set; }
 
-        public ICollection<int> Suppliers { get; set; }
+        public ICollection<Supplier> Suppliers { get; set; }
     }
 }

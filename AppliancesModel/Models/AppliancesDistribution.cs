@@ -79,7 +79,7 @@ namespace AppliancesModel
         {
             var stockNumbersDetail = _cache.GetObject<List<Product>>(() => Console.WriteLine("Appliance distributor requested data."));
 
-            return stockNumbersDetail.FirstOrDefault(i=>i.Id==id);
+            return stockNumbersDetail.FirstOrDefault(i => i.Id == id);
         }
 
         public void SaveStockState()

@@ -2,15 +2,18 @@ using AppliancesModel;
 using AppliancesModel.Contracts;
 using AppliancesModel.Models;
 using DeliveryService.BLL.Contracts;
+using DeliveryService.BLL.Models;
 using DeliveryServiceModel;
 using EFCore5.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 namespace DeliveryService
 {
@@ -43,11 +46,16 @@ namespace DeliveryService
             services.AddScoped<IConverterService, ConverterService>();
             services.AddScoped<IAppliancesDistribution, AppliancesDistribution>();
             services.AddScoped<IOrderManager, OrderManager>();
+            services.AddScoped<ISupplierManager, SupplierManager>();
 
             services.AddControllersWithViews();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeliveryService", Version = "v1" });
+            }); 
+            services.PostConfigure<MvcNewtonsoftJsonOptions>(o =>
+            {
+                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
         }
 
