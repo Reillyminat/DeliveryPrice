@@ -13,13 +13,11 @@ namespace DeliveryService.API.Controllers
     {
         private readonly ILogger<OrderController> _logger;
         private readonly IOrderManager _orderManager;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public OrderController(ILogger<OrderController> logger, IOrderManager orderManager, IUnitOfWork unitOfWork)
+        public OrderController(ILogger<OrderController> logger, IOrderManager orderManager)
         {
             _logger = logger;
             _orderManager = orderManager;
-            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -38,21 +36,18 @@ namespace DeliveryService.API.Controllers
         public void Post([FromBody] Order order)
         {
             _orderManager.CreateOrder(order);
-            _unitOfWork.Save();
         }
 
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Order order)
         {
             _orderManager.UpdateOrder(order);
-            _unitOfWork.Save();
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
             _orderManager.DeleteOrder(id);
-            _unitOfWork.Save();
         }
     }
 }

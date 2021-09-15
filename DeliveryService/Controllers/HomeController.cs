@@ -1,13 +1,10 @@
 ﻿using AppliancesModel.Contracts;
 using DeliveryService.API.Filters;
+using DeliveryService.BLL.Contracts;
 using DeliveryServiceModel;
 using DeliveryServiceModel.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using DeliveryService.BLL.Contracts;
 using System.Linq;
 
 namespace DeliveryService.API.Controllers
@@ -18,7 +15,7 @@ namespace DeliveryService.API.Controllers
         private readonly IAppliancesDistribution _productManager;
 
         private readonly ISupplierManager _supplierManager;
-        
+
         public HomeController(IAppliancesDistribution productManager, ISupplierManager supplierManager)
         {
             _productManager = productManager;
@@ -95,3 +92,4 @@ namespace DeliveryService.API.Controllers
             return Index();
         }
     }
+}
