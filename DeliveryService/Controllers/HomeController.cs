@@ -42,7 +42,6 @@ namespace DeliveryService.API.Controllers
             }
         }
 
-
         [HttpGet]
         [Route("Create")]
         public IActionResult Create()

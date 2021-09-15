@@ -13,7 +13,7 @@ namespace DeliveryService.API.Filters
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var bodyStr = "";
+            var bodyStr = string.Empty;
             var requestBody = context.HttpContext.Request.Body;
             using var reader = new StreamReader(requestBody, Encoding.UTF8, true, 1024, true);
             bodyStr = reader.ReadToEnd();

@@ -16,6 +16,5 @@ namespace DeliveryService.API.Filters
         {
             _logger.LogError("LogError {0}, stack trace: {1}", context.Exception.Message, context.Exception.StackTrace);
         }
-
     }
 }

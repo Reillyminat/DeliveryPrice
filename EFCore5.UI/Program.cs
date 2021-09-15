@@ -23,7 +23,6 @@ namespace EFCore5.UI
             consoleIO.GetByIdTestData();
             consoleIO.UpdateTestData();
             consoleIO.GetAndUpdateTestDataWithNoTracking();
-            //consoleIO.DeleteByIdTestData();
         }
     }
 }
