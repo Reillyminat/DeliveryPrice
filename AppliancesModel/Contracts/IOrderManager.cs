@@ -1,16 +1,20 @@
-﻿using DeliveryServiceModel;
+using AppliancesModel.Models;
+using DeliveryServiceModel;
+using System.Collections.Generic;
 
 namespace AppliancesModel.Contracts
 {
     public interface IOrderManager
     {
-        Order CurrentOrder { get; set; }
+        void CreateOrder(Order order);
 
-        Order CreateShoppingBasket(User person);
+        void UpdateOrder(Order order);
 
-        void AddItemToBasket(Product product, int amount);
+        Order GetOrder(int id);
 
-        void SetOrderData(string name, string address, string phone);
+        IEnumerable<Order> GetOrders();
+
+        void DeleteOrder(int id);
 
         void SaveOrdersState();
     }

@@ -10,13 +10,15 @@ namespace AppliancesModel.Contracts
 {
     public interface IAppliancesDistribution
     {
-        int RefreshStock(Product goods, int count);
+        Product RefreshStock(Product goods);
 
         Product CheckGoodsExistance(string applianceName);
 
-        IEnumerable<Product> AddGoods(int inputType, int inputCount);
+        void AddGoods(IEnumerable<Product> products);
 
-        IEnumerable<Product> GetStock(out List<int> stockSummary);
+        void DeleteProduct(Product product);
+
+        IEnumerable<Product> GetStock();
 
         void SaveStockState();
     }
