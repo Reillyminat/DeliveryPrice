@@ -41,7 +41,7 @@ namespace EFCore5.Data
 
         public IEnumerable<Supplier> GetAll()
         {
-            return db.Suppliers.AsNoTracking();
+            return db.Suppliers;
         }
 
         public void Update(Supplier item)

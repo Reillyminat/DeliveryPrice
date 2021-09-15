@@ -1,4 +1,4 @@
-﻿using AppliancesModel.Contracts;
+using AppliancesModel.Contracts;
 using DeliveryServiceModel;
 using EFCore5.Data;
 using System;

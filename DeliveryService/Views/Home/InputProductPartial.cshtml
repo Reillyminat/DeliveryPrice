@@ -1,7 +1,7 @@
 ﻿@model Product
 
 <fieldset>
-    @Html.HiddenFor(m=>m.Id)
+    @Html.HiddenFor(m => m.Id)
     <p>
         @Html.LabelFor(m => m.Name, "Название")
         <br />
@@ -49,6 +49,18 @@
         @Html.LabelFor(m => m.GuaranteeInMonths, "Гарантия в месяцах")
         <br />
         @Html.EditorFor(m => m.GuaranteeInMonths)
+    </p>
+    <p>
+        <label for="SuppliersChoose">Выберите доступных поставщиков:</label><br />
+        @{
+            List<Supplier> suppliers = ViewBag.Suppliers;
+
+            foreach (var supplier in suppliers)
+            {
+                <input type="checkbox" name="selectedSuppliers" value="@supplier.Id"
+                       @(Model!=null&&Model.Suppliers.Contains(supplier) ? "checked=\"checked\"" : "") />@supplier.Name <br />
+            }
+        }
     </p>
     <p><input type="submit" value="Отправить" /></p>
 </fieldset>

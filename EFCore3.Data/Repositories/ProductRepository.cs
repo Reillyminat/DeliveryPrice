@@ -41,7 +41,7 @@ namespace EFCore5.Data
 
         public IEnumerable<Product> GetAll()
         {
-            return db.Products;
+            return db.Products.Include(s => s.Suppliers);
         }
 
         public void Update(Product item)
