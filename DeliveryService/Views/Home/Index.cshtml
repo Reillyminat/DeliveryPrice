@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Product>
+
+@foreach (var product in Model)
+{
+    <span>@product.Id</span> @Html.ActionLink(@product.Name, "Get", "Home", new { id = product.Id })
+    <br />
+}
+
+@Html.ActionLink("Добавить", "Create")

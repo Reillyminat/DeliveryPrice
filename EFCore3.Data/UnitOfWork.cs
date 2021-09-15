@@ -1,4 +1,5 @@
 ﻿using DeliveryServiceModel;
+using DeliveryServiceModel.Models;
 using System;
 
 namespace EFCore5.Data
@@ -100,6 +101,24 @@ namespace EFCore5.Data
                 }
                 return productRepository;
             }
+        }
+
+        public Product ConvertViewModel(ProductViewModel product)
+        {
+            var convertedProduct = new Product
+            {
+                Name = product.Name,
+                CategoryId = product.CategoryId,
+                GuaranteeInMonths = product.GuaranteeInMonths,
+                WidthInMeters = product.WidthInMeters,
+                DepthInMeters = product.DepthInMeters,
+                HeightInMeters = product.HeightInMeters,
+                Amount = product.Amount,
+                Price = product.Price,
+                ProducingCountry = product.ProducingCountry,
+                Suppliers=product.Suppliers
+            };
+            return convertedProduct;
         }
 
         public void Save()

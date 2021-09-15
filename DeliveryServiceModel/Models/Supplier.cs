@@ -17,6 +17,6 @@ namespace DeliveryServiceModel
 
         public string Region { get; set; }
 
-        public ICollection<Product> Stock { get; set; }
+        public ICollection<Product> Stock { get; set; } = new List<Product>();
     }
 }

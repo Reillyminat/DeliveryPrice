@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DeliveryServiceModel
+namespace DeliveryServiceModel.Models
 {
-    public class Product
+    public class ProductViewModel
     {
-        public int Id { get; set; }
 
         public Category CategoryId { get; set; }
 
@@ -38,6 +39,6 @@ namespace DeliveryServiceModel
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Длина строки должна быть от 2 до 50 символов")]
         public string ProducingCountry { get; set; }
 
-        public ICollection<Supplier> Suppliers { get; set; } = new List<Supplier>();
+        public ICollection<Supplier> Suppliers { get; set; }
     }
 }

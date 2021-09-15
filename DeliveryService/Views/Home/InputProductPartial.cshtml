@@ -1,0 +1,66 @@
+﻿@model Product
+
+<fieldset>
+    @Html.HiddenFor(m => m.Id)
+    <p>
+        @Html.LabelFor(m => m.Name, "Название")
+        <br />
+        @Html.EditorFor(m => m.Name)
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </p>
+    <p>
+        @Html.LabelFor(m => m.Amount, "Количество")
+        <br />
+        @Html.EditorFor(m => m.Amount)
+        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+    </p>
+    <p>
+        @Html.LabelFor(m => m.Price, "Цена")
+        <br />
+        @Html.EditorFor(m => m.Price)
+        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+    </p>
+    <p>
+        @Html.LabelFor(m => m.CategoryId, "Категория")
+        <br />
+        @Html.EditorFor(m => m.CategoryId)
+    </p>
+    <p>
+        @Html.LabelFor(m => m.DepthInMeters, "Длина, м")
+        <br />
+        @Html.EditorFor(m => m.DepthInMeters)
+    </p>
+    <p>
+        @Html.LabelFor(m => m.WidthInMeters, "Ширина, м")
+        <br />
+        @Html.EditorFor(m => m.WidthInMeters)
+    </p>
+    <p>
+        @Html.LabelFor(m => m.HeightInMeters, "Высота, м")
+        <br />
+        @Html.EditorFor(m => m.HeightInMeters)
+    </p>
+    <p>
+        @Html.LabelFor(m => m.ProducingCountry, "Страна производства")
+        <br />
+        @Html.EditorFor(m => m.ProducingCountry)
+    </p>
+    <p>
+        @Html.LabelFor(m => m.GuaranteeInMonths, "Гарантия в месяцах")
+        <br />
+        @Html.EditorFor(m => m.GuaranteeInMonths)
+    </p>
+    <p>
+        <label for="phones">Выберите доступных поставщиков:</label><br />
+        @{
+            List<Supplier> suppliers = ViewBag.Suppliers;
+
+            foreach (var supplier in suppliers)
+            {
+                <input type="checkbox" name="selectedSuppliers" value="@supplier.Id"
+                       @(Model!=null&&Model.Suppliers.Contains(supplier) ? "checked=\"checked\"" : "") />@supplier.Name <br />
+            }
+        }
+    </p>
+    <p><input type="submit" value="Отправить" /></p>
+</fieldset>

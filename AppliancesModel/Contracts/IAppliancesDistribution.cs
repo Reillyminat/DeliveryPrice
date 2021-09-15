@@ -1,5 +1,6 @@
 ﻿using AppliancesModel.Data;
 using DeliveryServiceModel;
+using DeliveryServiceModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,13 @@ namespace AppliancesModel.Contracts
 
         Product CheckGoodsExistance(string applianceName);
 
-        void AddGoods(IEnumerable<Product> products);
+        void AddGoods(IEnumerable<ProductViewModel> products);
 
-        void DeleteProduct(Product product);
+        void DeleteProduct(int id);
 
         IEnumerable<Product> GetStock();
+
+        Product GetProduct(int id);
 
         void SaveStockState();
     }

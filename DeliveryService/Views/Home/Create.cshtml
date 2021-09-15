@@ -1,0 +1,7 @@
+﻿<h2>Добавить продукт</h2>
+@using (Html.BeginForm("Create", "Home"))
+{
+    @await Html.PartialAsync("InputProductPartial")
+}
+
+@Html.ActionLink("Вернуться к списку продуктов", "Index", "Home")
