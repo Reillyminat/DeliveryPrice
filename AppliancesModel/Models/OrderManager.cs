@@ -45,7 +45,7 @@ namespace AppliancesModel.Models
             _orderRepository.Update(order);
         }
 
-        public IEnumerable<Order> GetOrders()
+        public IEnumerable<Order> GetOrders()       
         {
             var ordersCache = _cache.GetObject<IEnumerable<Order>>(() => Console.WriteLine("Order manager requested data."));
 

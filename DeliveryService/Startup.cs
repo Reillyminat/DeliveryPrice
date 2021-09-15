@@ -33,7 +33,6 @@ namespace DeliveryService
             services.AddDbContext<DataContext>(
                 options => options.UseSqlServer("Data Source=.; Integrated Security=True; Initial Catalog = DeliveryServiceEFData"));
             services.AddScoped<IRepository<User>, UserRepository>();
-
             services.AddScoped<IRepository<Order>, OrderRepository>();
             services.AddScoped<IRepository<Carrier>, CarrierRepository>();
             services.AddScoped<IRepository<Product>, ProductRepository>();

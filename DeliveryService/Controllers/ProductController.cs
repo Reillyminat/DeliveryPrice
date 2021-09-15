@@ -38,6 +38,7 @@ namespace DeliveryService.API.Controllers
 
         [HttpPost]
         public void Post(IEnumerable<ProductViewModel> products)
+
         {
             _productManager.AddGoods(products);
             _unitOfWork.Save();
