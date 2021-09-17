@@ -27,6 +27,5 @@ namespace DeliveryService.API.Filters
                 _logger.LogError("LogError {0}", context.Exception.Message);
             }
         }
-
     }
 }
