@@ -1,12 +1,11 @@
 ﻿using AppliancesModel.Contracts;
 using DeliveryService.API.Filters;
+using DeliveryService.BLL.Contracts;
 using DeliveryServiceModel;
 using DeliveryServiceModel.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using System.Linq;
 
 namespace DeliveryService.API.Controllers
 {
@@ -15,9 +14,12 @@ namespace DeliveryService.API.Controllers
     {
         private readonly IAppliancesDistribution _productManager;
 
-        public HomeController(IAppliancesDistribution productManager)
+        private readonly ISupplierManager _supplierManager;
+
+        public HomeController(IAppliancesDistribution productManager, ISupplierManager supplierManager)
         {
             _productManager = productManager;
+            _supplierManager = supplierManager;
         }
 
         [HttpGet]
@@ -33,7 +35,8 @@ namespace DeliveryService.API.Controllers
         public IActionResult Get(int id)
         {
             var product = _productManager.GetProduct(id);
-            throw new ArgumentNullException();
+            ViewBag.Suppliers = _supplierManager.GetSuppliers().ToList();
+
             if (product is not null)
             {
                 return View("Edit", product);
@@ -44,36 +47,40 @@ namespace DeliveryService.API.Controllers
             }
         }
 
-
         [HttpGet]
         [Route("Create")]
         public IActionResult Create()
         {
+            ViewBag.Suppliers = _supplierManager.GetSuppliers().ToList();
             return View();
         }
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult Create(ProductViewModel product)
+        public IActionResult Create(ProductViewModel product, int[] selectedSuppliers)
         {
             if (!ModelState.IsValid)
             {
                 return StatusCode(400);
             }
 
+            ViewBag.Suppliers = _supplierManager.GetSuppliers().ToList();
+            product.Suppliers = _supplierManager.GetSuppliersByIds(selectedSuppliers);
             _productManager.AddGoods(new List<ProductViewModel> { product });
             return View();
         }
 
         [HttpPost]
         [TypeFilter(typeof(CustomActionAttribute))]
-        public IActionResult Edit(Product product)
+        public IActionResult Edit(Product product, int[] selectedSuppliers)
         {
             if (!ModelState.IsValid)
             {
                 return StatusCode(400);
             }
 
+            ViewBag.Suppliers = _supplierManager.GetSuppliers().ToList();
+            product.Suppliers = _supplierManager.GetSuppliersByIds(selectedSuppliers);
             _productManager.RefreshStock(product);
             return View(product);
         }

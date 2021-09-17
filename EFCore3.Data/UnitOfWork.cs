@@ -115,7 +115,8 @@ namespace EFCore5.Data
                 HeightInMeters = product.HeightInMeters,
                 Amount = product.Amount,
                 Price = product.Price,
-                ProducingCountry = product.ProducingCountry
+                ProducingCountry = product.ProducingCountry,
+                Suppliers = product.Suppliers
             };
             return convertedProduct;
         }

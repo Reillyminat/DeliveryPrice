@@ -2,7 +2,7 @@
 
 namespace DeliveryServiceModel
 {
-    public class AppliancesComparer : IEqualityComparer<Product>,IComparer<Product>
+    public class AppliancesComparer : IEqualityComparer<Product>, IComparer<Product>
     {
         public int Compare(Product x, Product y)
         {
