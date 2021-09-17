@@ -1,7 +1,5 @@
 ﻿using AppliancesModel.Contracts;
-using AppliancesModel.Models;
 using DeliveryServiceModel;
-using EFCore5.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -14,13 +12,11 @@ namespace DeliveryService.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IUserManager _userManager;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public UserController(ILogger<UserController> logger,IUserManager userManager, IUnitOfWork unitOfWork)
+        public UserController(ILogger<UserController> logger, IUserManager userManager)
         {
             _logger = logger;
             _userManager = userManager;
-            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -33,14 +29,12 @@ namespace DeliveryService.Controllers
         public void Put(User user)
         {
             _userManager.EditUser(user);
-            _unitOfWork.Save();
         }
 
         [HttpPost]
         public User Post(User user)
         {
             _userManager.AddUser(user);
-            _unitOfWork.Save();
             return _userManager.GetUser(user);
         }
 
@@ -48,7 +42,6 @@ namespace DeliveryService.Controllers
         public void Delete(User user)
         {
             _userManager.DeleteUser(user);
-            _unitOfWork.Save();
         }
 
         /* User endpoints

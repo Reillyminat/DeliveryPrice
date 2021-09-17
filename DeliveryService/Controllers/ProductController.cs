@@ -1,7 +1,6 @@
 ﻿using AppliancesModel.Contracts;
 using DeliveryServiceModel;
 using DeliveryServiceModel.Models;
-using EFCore5.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -14,13 +13,11 @@ namespace DeliveryService.API.Controllers
     {
         private readonly ILogger<ProductController> _logger;
         private readonly IAppliancesDistribution _productManager;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public ProductController(ILogger<ProductController> logger, IAppliancesDistribution productManager, IUnitOfWork unitOfWork)
+        public ProductController(ILogger<ProductController> logger, IAppliancesDistribution productManager)
         {
             _logger = logger;
             _productManager = productManager;
-            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -33,22 +30,18 @@ namespace DeliveryService.API.Controllers
         public void Put(Product product)
         {
             _productManager.RefreshStock(product);
-            _unitOfWork.Save();
         }
 
         [HttpPost]
         public void Post(IEnumerable<ProductViewModel> products)
-
         {
             _productManager.AddGoods(products);
-            _unitOfWork.Save();
         }
 
         [HttpDelete]
         public void Delete(int id)
         {
             _productManager.DeleteProduct(id);
-            _unitOfWork.Save();
         }
     }
 }

@@ -4,6 +4,7 @@
     }
 </style>
 @model Product
+
 @{ 
     string suppliers = string.Empty;
     foreach (var supplier in Model.Suppliers)
@@ -42,6 +43,5 @@
 {
     @await Html.PartialAsync("InputProductPartial")
 }
-
 
 @Html.ActionLink("Вернуться к списку продуктов", "Index", "Home")

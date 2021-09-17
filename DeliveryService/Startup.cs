@@ -1,12 +1,14 @@
 using AppliancesModel;
 using AppliancesModel.Contracts;
 using AppliancesModel.Models;
+using DeliveryService.API.Filters;
 using DeliveryService.BLL.Contracts;
 using DeliveryService.BLL.Models;
 using DeliveryServiceModel;
 using EFCore5.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,7 +47,7 @@ namespace DeliveryService
             services.AddScoped<IAppliancesDistribution, AppliancesDistribution>();
             services.AddScoped<IOrderManager, OrderManager>();
             services.AddScoped<ISupplierManager, SupplierManager>();
-
+          
             services.AddControllersWithViews();
             services.AddSwaggerGen(c =>
             {
@@ -55,6 +57,14 @@ namespace DeliveryService
             {
                 o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
+
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            services.AddSingleton<CustomExceptionAttribute>();
+            services.AddTransient<CustomActionAttribute>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -71,6 +81,12 @@ namespace DeliveryService
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.Use(next => context =>
+            {
+                context.Request.EnableBuffering();
+                return next(context);
+            });
 
             app.UseEndpoints(endpoints =>
             {

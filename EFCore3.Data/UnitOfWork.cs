@@ -116,7 +116,7 @@ namespace EFCore5.Data
                 Amount = product.Amount,
                 Price = product.Price,
                 ProducingCountry = product.ProducingCountry,
-                Suppliers=product.Suppliers
+                Suppliers = product.Suppliers
             };
             return convertedProduct;
         }

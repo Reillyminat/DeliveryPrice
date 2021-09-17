@@ -1,4 +1,5 @@
 ﻿using AppliancesModel.Contracts;
+using DeliveryService.API.Filters;
 using DeliveryService.BLL.Contracts;
 using DeliveryServiceModel;
 using DeliveryServiceModel.Models;
@@ -12,6 +13,7 @@ namespace DeliveryService.API.Controllers
     public class HomeController : Controller
     {
         private readonly IAppliancesDistribution _productManager;
+
         private readonly ISupplierManager _supplierManager;
 
         public HomeController(IAppliancesDistribution productManager, ISupplierManager supplierManager)
@@ -28,6 +30,7 @@ namespace DeliveryService.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [TypeFilter(typeof(CustomExceptionAttribute))]
         public IActionResult Get(int id)
         {
             var product = _productManager.GetProduct(id);
@@ -67,6 +70,7 @@ namespace DeliveryService.API.Controllers
         }
 
         [HttpPost]
+        [TypeFilter(typeof(CustomActionAttribute))]
         public IActionResult Edit(Product product, int[] selectedSuppliers)
         {
             if (!ModelState.IsValid)

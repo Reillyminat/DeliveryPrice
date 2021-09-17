@@ -9,6 +9,7 @@ namespace DeliveryServiceModel.Models
 {
     public class ProductViewModel
     {
+        public int Id { get; set; }
 
         public Category CategoryId { get; set; }
 
