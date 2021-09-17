@@ -31,6 +31,7 @@ namespace DeliveryService.API.Controllers
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(CustomExceptionAttribute))]
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 180)]
         public IActionResult Get(int id)
         {
             var product = _productManager.GetProduct(id);

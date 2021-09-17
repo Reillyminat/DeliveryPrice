@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 using Newtonsoft.Json;
 
 namespace DeliveryService
@@ -30,10 +31,14 @@ namespace DeliveryService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var configuration = new ConfigurationBuilder()
+               .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+               .AddJsonFile("appsettings.json")
+               .Build();
+
             services.AddScoped<IDataSerialization, DataSerialization>();
             services.AddScoped<ICacheable, Cache>();
-            services.AddDbContext<DataContext>(
-                options => options.UseSqlServer("Data Source=.; Integrated Security=True; Initial Catalog = DeliveryServiceEFData"));
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IRepository<User>, UserRepository>();
             services.AddScoped<IRepository<Order>, OrderRepository>();
             services.AddScoped<IRepository<Carrier>, CarrierRepository>();
